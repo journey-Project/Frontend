@@ -1,23 +1,27 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import BaseButton from './components/base/BaseButton.vue'
+import BaseInput from './components/base/BaseInput.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
   <RouterView />
+  <BaseButton
+    _w="6.3125"
+    _h="2.625"
+    _r:="1.25"
+    _text="확인"
+    _style="fill"
+    _textSize="1"
+  ></BaseButton>
+  <br />
+  <BaseInput _type="text" _ph="입력하세요" _w="10" _style="fill"></BaseInput>
+  <BaseInput _type="text" _ph="입력하세요" _w="10" _style="borderline"></BaseInput>
+  <BaseInput _type="text" _ph="입력하세요" _w="10" _style="halfline"></BaseInput>
+
+  <BaseInput _type="text" _ph="입력하세요" _w="10"></BaseInput>
+
+  <BaseInput _type="date" _ph="입력하세요" _w="10"></BaseInput>
 </template>
 
 <style scoped>
