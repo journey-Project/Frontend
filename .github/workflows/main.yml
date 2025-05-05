@@ -2,7 +2,7 @@ name: AWS_CICD
 
 on:
   push:
-    branches: [ci/githubactions]
+    branches: [main]
 
 jobs:
   build:
