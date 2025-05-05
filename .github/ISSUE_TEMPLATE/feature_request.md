@@ -1,7 +1,7 @@
 ---
 name: ✨ 기능 추가 요청
 about: 새로운 기능 개발 또는 페이지 추가 요청 시 사용
-title: "[Feature] "
+title: "[Feat] "
 labels: ["feature"]
 assignees: ""
 ---
