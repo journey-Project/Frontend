@@ -33,7 +33,7 @@ const styles = ref('')
 const typeClass = ref('')
 
 watchEffect(() => {
-  if (props._isActive === false) {
+  if (props._isActive === 'false') {
     isActive.value = false
   } else {
     isActive.value = true
@@ -78,7 +78,7 @@ button {
 
 button[disabled] {
   background-color: ghostwhite;
-  margin: 0;
+  margin: 0 1rem;
   border: solid gray 0.001rem;
 }
 
