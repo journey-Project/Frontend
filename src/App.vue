@@ -36,9 +36,6 @@ import BaseInput from './components/base/BaseInput.vue'
   <BaseInput _type="text" _ph="입력하세요" _w="10" _style="fill"></BaseInput>
   <BaseInput _type="text" _ph="입력하세요" _w="10" _style="borderline"></BaseInput>
   <BaseInput _type="text" _ph="입력하세요" _w="10" _style="halfline"></BaseInput>
-
-  <BaseInput _type="text" _ph="입력하세요" _w="10"></BaseInput>
-
   <BaseInput _type="date" _ph="입력하세요" _w="10"></BaseInput>
 </template>
 

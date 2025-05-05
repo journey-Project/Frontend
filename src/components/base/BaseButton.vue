@@ -83,7 +83,7 @@ button[disabled] {
 }
 
 .btn-fill {
-  color: white;
+  color: #f9f7f7;
   background-color: #3f72af;
 }
 

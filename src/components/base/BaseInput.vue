@@ -57,7 +57,7 @@ watchEffect(() => {
     typeClass.value = 'input-fill'
   } else if (props._style == 'borderline') {
     typeClass.value = 'input-borderline'
-  } else if (props.style == 'halfline') {
+  } else if (props._style == 'halfline') {
     typeClass.value = 'input-half-borderline'
   } else {
     typeClass.value = 'input-fill'
@@ -72,15 +72,15 @@ input {
 }
 
 .input-fill::placeholder {
-  color: #6c757d; /* 좀 더 진한 회색 */
+  color: #112d4e80 50%;
 }
 
 .input-borderline::placeholder {
-  color: #adb5bd;
+  color: #112d4e80 50%;
 }
 
 .input-half-borderline::placeholder {
-  color: #495057;
+  color: #112d4e80 50%;
 }
 
 .input-fill:focus::placeholder,
@@ -126,5 +126,6 @@ input {
   border-bottom: 0.0625rem #3f72af solid;
   box-shadow: none;
   background-color: white;
+  border-radius: 0;
 }
 </style>
