@@ -14,16 +14,17 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, computed } from 'vue'
+import { ref, watchEffect } from 'vue'
+//import { rem } from '@/styles/mixins'
 
 const props = defineProps({
   _isActive: { type: String, required: true },
   _text: { type: String, required: true },
-  _textSize: { type: String, required: false },
-  _w: { type: String, required: false },
-  _h: { type: String, required: false },
+  _textSize: { type: String, required: false, default: '1.8' }, // default 1.8rem
+  _w: { type: String, required: false, default: '10' }, // default 10rem
+  _h: { type: String, required: false, default: '4' }, // default 4rem
   _style: { type: String, required: true },
-  _mp: { type: String, required: false },
+  _mp: { type: String, required: false, default: '' },
 })
 
 const emit = defineEmits(['click'])
@@ -33,29 +34,21 @@ const styles = ref('')
 const typeClass = ref('')
 
 watchEffect(() => {
-  if (props._isActive === 'false') {
-    isActive.value = false
-  } else {
-    isActive.value = true
-  }
+  isActive.value = props._isActive !== 'false'
 })
 
 watchEffect(() => {
-  let _width = parseFloat(props._w)
-  let _height = parseFloat(props._h)
-  if (props._h < 2) {
-    props._h = 2
-  }
+  const _width = `${parseFloat(props._w)}rem`
+  const _height = `${Math.max(parseFloat(props._h), 2)}rem`
+  const _fontSize = `${parseFloat(props._textSize)}rem`
 
-  let temp = parseFloat(props._textSize)
-  let textSize = `${temp}rem`
-  styles.value = `width:${_width}rem; height:${_height}rem; font-size:${textSize}`
+  styles.value = `width:${_width}; height:${_height}; font-size:${_fontSize}`
 })
 
 watchEffect(() => {
-  if (props._style == 'fill') {
+  if (props._style === 'fill') {
     typeClass.value = 'btn-fill'
-  } else if (props._style == 'borderline') {
+  } else if (props._style === 'borderline') {
     typeClass.value = 'btn-borderline'
   } else {
     typeClass.value = 'btn-fill'
@@ -63,33 +56,39 @@ watchEffect(() => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/styles/mixins' as m;
+@use '@/styles/variables' as v;
+
 button {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
   text-align: center;
   padding: 0;
-  margin: 0 1rem;
+  margin: 0 m.rem(10);
   border: none;
-  border-radius: 1.25rem;
+  border-radius: m.rem(12.5);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 button[disabled] {
-  background-color: ghostwhite;
-  margin: 0 1rem;
-  border: solid gray 0.001rem;
+  background-color: #f0f0f0;
+  color: gray;
+  border: solid gray m.rem(0.1);
+  cursor: not-allowed;
 }
 
 .btn-fill {
-  color: #f9f7f7;
-  background-color: #3f72af;
+  color: white;
+  background-color: v.$color-accent;
 }
 
 .btn-borderline {
   background-color: white;
-  color: #3f72af;
-  border: solid #3f72af 0.01rem;
+  color: v.$color-accent;
+  border: m.rem(1) solid v.$color-accent;
 }
 </style>

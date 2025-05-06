@@ -65,22 +65,25 @@ watchEffect(() => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/styles/mixins' as m;
+@use '@/styles/variables' as v;
+
 input {
   margin: 1rem;
   border-radius: 1.25rem;
 }
 
 .input-fill::placeholder {
-  color: #112d4e80 50%;
+  color: v.$color-dark 50%;
 }
 
 .input-borderline::placeholder {
-  color: #112d4e80 50%;
+  color: v.$color-dark 50%;
 }
 
 .input-half-borderline::placeholder {
-  color: #112d4e80 50%;
+  color: v.$color-dark 50%;
 }
 
 .input-fill:focus::placeholder,
@@ -106,14 +109,14 @@ input {
 
 .input-fill,
 .input-fill:focus {
-  background-color: #dbe2ef;
+  background-color: v.$color-primary;
   border: none;
   box-shadow: none;
 }
 
 .input-borderline,
 .input-borderline:focus {
-  border: 0.0625rem #3f72af solid;
+  border: 0.0625rem v.$color-accent solid;
   box-shadow: none;
   background-color: white;
 }
@@ -123,7 +126,7 @@ input {
   border-top: none;
   border-right: none;
   border-left: none;
-  border-bottom: 0.0625rem #3f72af solid;
+  border-bottom: 0.0625rem v.$color-accent solid;
   box-shadow: none;
   background-color: white;
   border-radius: 0;
