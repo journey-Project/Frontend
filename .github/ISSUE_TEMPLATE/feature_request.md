@@ -16,7 +16,7 @@ assignees: ""
 - [ ] 예외 처리
 
 ## 🖼 참고 자료
-- 디자인: [Figma 링크](https://figma.com)
+- 디자인: 사진 또는 피그마 링크(https://www.figma.com/design/oQFNYCoAE6Zr7qapSMC1O5/%EC%97%AC%EC%A0%95?node-id=0-1&p=f&t=qGUPYrOyMHTLyk7A-0)
 - API 문서: `/auth/login`
 
 ## 📁 작업 위치
