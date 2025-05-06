@@ -30,9 +30,32 @@
   <BaseInput _type="text" _ph="입력하세요" _w="10" _style="borderline"></BaseInput>
   <BaseInput _type="text" _ph="입력하세요" _w="10" _style="halfline"></BaseInput>
   <BaseInput _type="date" _w="10"></BaseInput>
+
+  <BaseSelect
+    v-model="selectedValue"
+    :options="[
+      { label: 'Option 1', value: '1' },
+      { label: 'Option 2', value: '2' },
+    ]"
+    _ph="선택하세요"
+    _style="borderline"
+    _w="10"
+    _h="2.5"
+  />
+  <BaseSelect
+    v-model="selectedValue"
+    :options="[
+      { label: 'Option 1', value: '1' },
+      { label: 'Option 2', value: '2' },
+    ]"
+    _ph="선택하세요"
+    _style="fill"
+    _w="10"
+    _h="2.5"
+  />
 </template>
 <script setup>
-import BaseButton from './components/base/BaseButton.vue'
-import BaseInput from './components/base/BaseInput.vue'
-import BaseSelect from './components/base/BaseSelect.vue'
+import BaseButton from './components/Base/BaseButton.vue'
+import BaseInput from './components/Base/BaseInput.vue'
+import BaseSelect from './components/Base/BaseSelect.vue'
 </script>
