@@ -34,4 +34,5 @@
 <script setup>
 import BaseButton from './components/base/BaseButton.vue'
 import BaseInput from './components/base/BaseInput.vue'
+import BaseSelect from './components/base/BaseSelect.vue'
 </script>
