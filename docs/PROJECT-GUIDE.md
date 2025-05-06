@@ -100,54 +100,119 @@ Prettier + ESLint `--fix` 로 포맷 자동 적용.
 
 ---
 
-## 폴더 구조 (제안)
-```
-journey-frontend/
-├─ public/
-│   └─ index.html               # 앱 진입점임
-├─ src/
-│   ├─ assets/                     # 이미지나 폰트 들어갈 예정
-│   ├─ components/
-│   │   ├─ Base/                 # 버튼, 모달, 인풋 등 공통 UI 컴포넌트
-│   │   ├─ Layout/             # Header, Footer, Sidebar, AuthGuard(페이지 전체 감싸는 부분 구현)
-│   │   ├─ Auth/                 # LoginForm, SignUpForm, SocialBtn(로그인/회원가입 관련 컴포넌트들)
-│   │   ├─ Board/               # PostList, PostItem, CommentList, Editor(게시판 관련 컴포넌트들 - 글 목록, 댓글 목록)
-│   │   ├─ Home/               # HeroCarousel, SearchBar(홈 화면 전용 컴포넌트 (배너, 검색 등))
-│   │   └─ Profile/              # AvatarUpload, ProfileForm(프로필 전용 UI (아바타 업로드, 프로필 수정 폼 등))
-│   ├─ pages/                      # 라우트 진입 컴포넌트
-│   │   ├─ HomePage.vue   # 홈화면
-│   │   ├─ LoginPage.vue        # 로그인화면
-│   │   ├─ SignUpPage.vue         # 회원가입화면
-│   │   ├─ CompanionBoardPage.vue        # /companions (동행자 모집 게시판)
-│   │   ├─ CommunityBoardPage.vue        # /community/:country (국가별 커뮤니티 게시판)
-│   │   ├─ PostDetailPage.vue                      # /boards/:type/:id (게시글 상세 페이지)
-│   │   └─ ProfilePage.vue # 마이페이지 (닉네임, 프로필 수정 등)
-│   ├─ router/
-│   │   ├─ index.js      # 라우터 & 가드
-│   │   └─ routes.js       # 경로 정의 모음
-│   ├─ stores/      # Pinia
-│   │   ├─ useAuthStore.js  # 로그인 상태, 토큰
-│   │   ├─ useUserStore.js    # 사용자 정보 (이름, 이메일 등)
-│   │   └─ useBoardStore.js     # 게시판 글 목록, 선택된 게시글 등
-│   ├─ services/                  # API 래퍼
-│   │   ├─ api.js                 # Axios 인스턴스 + 인터셉터
-│   │   └─ authService.js         # 로그인, 회원가입, 소셜 로그인 API 함수들 정리
-│   ├─ utils/
-│   │   ├─ validators.js  # 이메일 형식 검사 같은 함수들
-│   │   └─ constants.js  # 게시판 종류, 국가 리스트 같은 고정 데이터 상수
-│   ├─ styles/
-│   │   ├─ _variables.scss        # 색상, 폰트 크기, mixin 등을 변수로 저장
-│   │   └─ main.scss                  # 논의 필요
-│   ├─ App.vue
-│   └─ main.js
-├─ tests/                         # Vitest + Vue Test Utils(필요할지 모르겠음)
-│   ├─ components/
-│   └─ stores/
-├─ .env.local.example
-├─ vite.config.js
-└─ package.json
+## 폴더 구조 
 
 ```
+
+src/
+├── assets/                          # 이미지, 폰트, 스타일 등 정적 리소스
+│
+├── components/
+│   ├── Base/                        # 공통 UI 컴포넌트 (Button, Modal 등)
+│   │   ├── BaseButton.vue
+│   │   ├── BaseModal.vue
+│   │   ├── BaseInput.vue
+│   │   └── Pagination.vue
+│
+│   ├── Layout/                      # 전체 레이아웃 관련 컴포넌트
+│   │   ├── Header.vue
+│   │   ├── Footer.vue
+│   │   ├── SideBar.vue
+│   │   └── AuthGuard.vue
+│
+│   ├── Auth/                        # 로그인, 회원가입 등 인증 관련
+│   │   ├── LoginForm.vue
+│   │   ├── SignUpForm.vue
+│   │   ├── EmailSelector.vue
+│   │   ├── FindAccountForm.vue
+│   │   └── SocialLoginButtons.vue
+│
+│   ├── Community/                   # 일반 커뮤니티 게시판 관련
+│   │   ├── BoardFilter.vue         # 날짜, 검색 필터
+│   │   ├── BoardTypeTab.vue        # 커뮤니티 / 동행자 탭
+│   │   ├── CategorySelect.vue      # 게시판 선택 드롭다운
+│   │   ├── CategoryTab.vue         # 국내/해외 탭
+│   │   ├── CommentList.vue         # 댓글 목록
+│   │   ├── CommentItem.vue         # 댓글 단일 항목
+│   │   ├── CommentForm.vue         # 댓글 입력창
+│   │   ├── CommunityEditor.vue     # 일반 게시글 에디터
+│   │   ├── CountrySelectBar.vue    # 국가 필터 버튼 리스트
+│   │   ├── HotPostList.vue         # HOT 게시글 리스트
+│   │   ├── HotPostItem.vue         # HOT 게시글 카드
+│   │   ├── PostTable.vue           # 게시글 목록 테이블
+│   │   ├── PostRow.vue             # 게시글 단일 행
+│   │   ├── PostContent.vue         # 게시글 상세 내용
+│   │   ├── PostActions.vue         # 수정/삭제 드롭다운
+│   │   ├── StoryCarousel.vue       # 유저 스토리 슬라이더
+│   │   └── TagChip.vue             # [프랑스] 같은 태그 UI
+│
+│   ├── Companion/                   # 동행자 모집 게시판 관련
+│   │   ├── CompanionCard.vue       # 동행자 카드
+│   │   ├── CompanionFilter.vue     # 동행자 목록 필터
+│   │   ├── CompanionWriteForm.vue  # 모집글 작성폼
+│   │   ├── CompanionContent.vue    # 상세페이지 본문
+│   │   ├── CompanionEditor.vue     # 에디터 + 여행정보 통합
+│   │   ├── DateRangePicker.vue     # 여행 기간 선택
+│   │   ├── HeadCountSelect.vue     # 희망 인원수 선택
+│   │   ├── ImageUploader.vue       # 커버 이미지 등록
+│   │   └── CompanionPreview.vue    # 홈에서 3개만 미리보기
+│
+│   ├── Home/                        # 메인 페이지 전용
+│   │   ├── HeroBanner.vue          # 상단 이미지 배너
+│   │   ├── SearchBar.vue           # 여행지 검색창
+│   │   ├── PopularDestination.vue  # 인기 여행지 카드
+│   │   ├── TravelPackageCard.vue   # 추천 여행 상품
+│   │   └── DividerImage.vue        # 디자인용 배너
+│   │
+│   └── Profile/                     # 프로필 관련
+│       ├── Avatar.vue              # 유저 이미지 or 이니셜
+│       ├── HashtagManager.vue      # 해시태그 추가/삭제
+│       ├── ProfileSideMenu.vue     # 왼쪽 사이드 메뉴
+│       ├── ScheduleCalendar.vue    # 오른쪽 달력 캘린더
+│       ├── scheduleCard.vue        # 여행 일정 카드
+│       └── UserCard.vue            # 유저 정보 카드 (프로필 + 자기소개)
+│
+├── pages/
+│   ├── HomePage.vue               # 메인 랜딩 페이지 (/)
+│   ├── CommunityHome.vue          # 커뮤니티 대시보드
+│   ├── CommunityBoard.vue         # 커뮤니티 게시판 목록
+│   ├── CommunityDetail.vue        # 커뮤니티 게시글 상세
+│   ├── CommunityWrite.vue         # 커뮤니티 게시글 작성
+│   ├── CompanionBoard.vue         # 동행자 모집 게시글 목록
+│   ├── CompanionDetail.vue        # 모집 게시글 상세
+│   ├── CompanionWrite.vue         # 모집 게시글 작성
+│   ├── LoginPage.vue              # 로그인 페이지
+│   ├── ProfilePage.vue            # 프로필 페이지
+│   └── SignUpPage.vue             # 회원가입 페이지
+│
+├── api/                            # API 모듈 모음
+│   ├── authApi.js
+│   ├── commentApi.js
+│   ├── communityApi.js
+│   ├── companionApi.js
+│   ├── packageApi.js
+│   ├── postApi.js
+│   ├── searchApi.js 
+│   └── storyApi.js
+│
+├── store/                          # Pinia 상태 관리
+│   ├── useAuthStore.js
+│   ├── usePostStore.js
+│   └── useCompanionStore.js
+│
+├── router/                         # 라우팅 설정
+│   └── index.js
+│
+├── styles/                         # SCSS 변수, 전역 스타일
+│   ├── _mixins.scss                # rem 변환 함수, 반응형 정의
+│   ├── _variables.scss             # 컬러, 폰트 등 변수 정의
+│   └── main.scss                   # 전역 스타일 import
+│
+└── main.js                         # 앱 엔트리 포인트
+
+
+```
+
 
 ---
 
