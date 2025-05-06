@@ -1,14 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+
+import BaseButton from './components/Base/BaseButton.vue'
+import BaseInput from './components/Base/BaseInput.vue'
+import BaseSelect from './components/Base/BaseSelect.vue'
+import Footer from './components/Layout/Footer.vue'
 </script>
 
 <template>
-  <!-- <header>
-    <Header></Header>
-  </header> -->
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    
+
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
       <nav>
@@ -20,9 +22,5 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <RouterView />
 </template>
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
 
-import Footer from './components/layout/Footer.vue'
-</script>
 <style scoped></style>
