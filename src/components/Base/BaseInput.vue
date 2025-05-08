@@ -19,16 +19,7 @@
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   />
-  <input
-    v-else-if="_type === 'date'"
-    type="date"
-    class="form-control"
-    :class="typeClass"
-    :placeholder="_ph"
-    :style="styles"
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-  />
+  <!-- date type 삭제, BaseDatePicker로 분리-->
 </template>
 
 <script setup>
@@ -93,19 +84,19 @@ input {
 }
 
 /* .input-fill {
-  background-color: #dbe2ef;
-}
-
-.input-borderline {
-  border: 0.0625rem #3f72af solid;
-}
-
-.input-half-borderline {
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  border-bottom: 0.0625rem #3f72af solid;
-} */
+    background-color: #dbe2ef;
+  }
+  
+  .input-borderline {
+    border: 0.0625rem #3f72af solid;
+  }
+  
+  .input-half-borderline {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 0.0625rem #3f72af solid;
+  } */
 
 .input-fill,
 .input-fill:focus {
