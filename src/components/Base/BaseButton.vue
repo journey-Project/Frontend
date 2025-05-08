@@ -7,9 +7,13 @@
     @click="$emit('click')"
   >
     {{ _text }}
+    <!-- 아이콘 슬롯 추가 -->
+    <slot name="icon" />
   </button>
   <button v-else disabled type="button" class="btn" :class="_mp" :style="styles">
     {{ _text }}
+    <!-- 아이콘 슬롯 추가 -->
+    <slot name="icon" />
   </button>
 </template>
 
