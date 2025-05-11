@@ -51,19 +51,28 @@ const list = ref([])
 const totalPages = ref(1)
 const loading = ref(false)
 
+import koreaFlag from '@/assets/icons/companion/flag_Korea.svg'
+import japanFlag from '@/assets/icons/companion/flag_Japan.png'
+import chinaFlag from '@/assets/icons/companion/flag_China.png'
+import germanyFlag from '@/assets/icons/companion/flag_Germany.png'
+import franceFlag from '@/assets/icons/companion/flag_France.png'
+import vietnamFlag from '@/assets/icons/companion/flag_Vietnam.png'
+import usaFlag from '@/assets/icons/companion/flag_USA.png'
+
 const countryFlagMap = {
-  국내: 'flag_Korea.svg',
-  일본: 'flag_Japan.png',
-  중국: 'flag_China.png',
-  독일: 'flag_Germany.png',
-  프랑스: 'flag_France.png',
-  베트남: 'flag_Vietnam.png',
-  미국: 'flag_USA.png',
+  국내: koreaFlag,
+  일본: japanFlag,
+  중국: chinaFlag,
+  독일: germanyFlag,
+  프랑스: franceFlag,
+  베트남: vietnamFlag,
+  미국: usaFlag,
 }
 
-const countryFlagUrl = computed(
-  () => `/src/assets/icons/companion/${countryFlagMap[country.value] || 'flag_default.png'}`,
-)
+const countryFlagUrl = computed(() => {
+  const flag = countryFlagMap[country.value]
+  return flag ?? ''  // 플래그 없으면 빈 문자열
+})
 
 function formatPeriod(start, end) {
   return `${start} ~ ${end}`
