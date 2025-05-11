@@ -16,11 +16,23 @@ const activeTab = ref('community')
 </script>
 
 <template>
-  <div>
+  <div class="layout-wrapper">
     <Header />
-    <router-view />
+    <main class="main-content">
+      <router-view />
+    </main>
     <Footer />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+</style>
