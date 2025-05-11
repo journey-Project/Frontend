@@ -52,12 +52,12 @@ const totalPages = ref(1)
 const loading = ref(false)
 
 import koreaFlag from '@/assets/icons/companion/flag_Korea.svg'
-import japanFlag from '@/assets/icons/companion/flag_Japan.png'
-import chinaFlag from '@/assets/icons/companion/flag_China.png'
-import germanyFlag from '@/assets/icons/companion/flag_Germany.png'
-import franceFlag from '@/assets/icons/companion/flag_France.png'
-import vietnamFlag from '@/assets/icons/companion/flag_Vietnam.png'
-import usaFlag from '@/assets/icons/companion/flag_USA.png'
+import japanFlag from '@/assets/icons/companion/flag_Japan.svg'
+import chinaFlag from '@/assets/icons/companion/flag_China.svg'
+import germanyFlag from '@/assets/icons/companion/flag_Germany.svg'
+import franceFlag from '@/assets/icons/companion/flag_France.svg'
+import vietnamFlag from '@/assets/icons/companion/flag_Vietnam.svg'
+import usaFlag from '@/assets/icons/companion/flag_USA.svg'
 
 const countryFlagMap = {
   국내: koreaFlag,
