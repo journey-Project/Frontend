@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import HotPostItem from '@/components/Community/HotPostItem.vue'
+import HotPostItem from './HotPostItem.vue'
 
 const props = defineProps({
   posts: {
@@ -23,7 +23,6 @@ const props = defineProps({
 <style scoped lang="scss">
 .hot-post-list {
   width: 100%;
-  margin-top: 20px;
 }
 
 table {

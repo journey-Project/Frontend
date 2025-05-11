@@ -2,6 +2,7 @@ import './assets/main.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'v-calendar/style.css'
 import './styles/main.scss'
+import 'vue3-carousel/carousel.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
