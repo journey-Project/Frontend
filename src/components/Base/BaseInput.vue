@@ -28,7 +28,7 @@ import { ref, reactive, watchEffect } from 'vue'
 const props = defineProps({
   _type: { type: String, required: true },
   _ph: { type: String, default: '' },
-  _w: { type: String, default: '100' },
+  _w: { type: String, default: '' },
   _style: { type: String },
   modelValue: [String, Number],
 })
@@ -56,9 +56,7 @@ watchEffect(() => {
 })
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
+<style scoped>
 
 input {
   margin: 1rem;
@@ -66,15 +64,15 @@ input {
 }
 
 .input-fill::placeholder {
-  color: v.$color-dark 50%;
+  color: #112d4e 50%;
 }
 
 .input-borderline::placeholder {
-  color: v.$color-dark 50%;
+  color: #112d4e 50%;
 }
 
 .input-half-borderline::placeholder {
-  color: v.$color-dark 50%;
+  color: #112d4e 50%;
 }
 
 .input-fill:focus::placeholder,
@@ -100,14 +98,14 @@ input {
 
 .input-fill,
 .input-fill:focus {
-  background-color: v.$color-primary;
+  background-color: #dbe2ef;
   border: none;
   box-shadow: none;
 }
 
 .input-borderline,
 .input-borderline:focus {
-  border: 0.0625rem v.$color-accent solid;
+  border: 0.0625rem #3f72af solid;
   box-shadow: none;
   background-color: white;
 }
@@ -117,7 +115,7 @@ input {
   border-top: none;
   border-right: none;
   border-left: none;
-  border-bottom: 0.0625rem v.$color-accent solid;
+  border-bottom: 0.0625rem #3f72af solid;
   box-shadow: none;
   background-color: white;
   border-radius: 0;

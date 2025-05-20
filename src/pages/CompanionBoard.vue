@@ -1,33 +1,47 @@
 <template>
   <div class="companion-board">
-    <div class="country-header">
-      <img :src="countryFlagUrl" :alt="country" class="flag" />
-      <h2>{{ country }}</h2>
-    </div>
+    <div class="layout-container">
+      <!-- 국가명 + 국기 -->
+      <div class="country-header">
+        <img :src="countryFlagUrl" :alt="country" class="flag" />
+        <h2>{{ country }}</h2>
+      </div>
 
-    <BoardTypeTab v-model="activeTab" class="board-type-tab" />
-    <BoardFilter
-      class="board-filter"
-      @filter-change="updateFilter"
-      @search="refresh"
-      @create="goCreate"
-    />
+      <!-- 탭 전환 -->
+      <BoardTypeTab v-model="activeTab" class="board-type-tab" />
 
-    <div class="cards-grid">
-      <PostCard
-        v-for="item in list"
-        :key="item.postId"
-        :id="item.postId"
-        :country="item.country"
-        :period="formatPeriod(item.startDate, item.endDate)"
-        :title="item.title"
-        :summary="item.destination"
-        :thumbnail="item.coverImageUrl"
-        :participants="item.max_participants"
-        @detail="openDetail"
+      <!-- 필터 -->
+      <BoardFilter
+        class="board-filter"
+        @filter-change="updateFilter"
+        @search="refresh"
+        @create="goCreate"
+      />
+
+      <!-- 카드 리스트 -->
+      <div class="cards-grid">
+        <PostCard
+          v-for="item in list"
+          :key="item.postId"
+          :id="item.postId"
+          :country="item.country"
+          :period="formatPeriod(item.startDate, item.endDate)"
+          :title="item.title"
+          :summary="item.destination"
+          :thumbnail="item.coverImageUrl"
+          :participants="item.max_participants"
+          @detail="openDetail"
+        />
+      </div>
+
+      <!-- 페이지네이션 -->
+      <Pagination
+        class="pagination"
+        :totalPages="totalPages"
+        :currentPage="page"
+        @change="changePage"
       />
     </div>
-    <Pagination :totalPages="totalPages" :currentPage="page" @change="changePage" />
   </div>
 </template>
 
@@ -40,6 +54,14 @@ import PostCard from '@/components/Common/Card/PostCard.vue'
 import Pagination from '@/components/Base/Pagination.vue'
 import * as companionApi from '@/api/companionApi'
 
+import koreaFlag from '@/assets/icons/companion/flag_Korea.svg'
+import japanFlag from '@/assets/icons/companion/flag_Japan.svg'
+import chinaFlag from '@/assets/icons/companion/flag_China.svg'
+import germanyFlag from '@/assets/icons/companion/flag_Germany.svg'
+import franceFlag from '@/assets/icons/companion/flag_France.svg'
+import vietnamFlag from '@/assets/icons/companion/flag_Vietnam.svg'
+import usaFlag from '@/assets/icons/companion/flag_USA.svg'
+
 const route = useRoute()
 const router = useRouter()
 
@@ -51,14 +73,6 @@ const list = ref([])
 const totalPages = ref(1)
 const loading = ref(false)
 
-import koreaFlag from '@/assets/icons/companion/flag_Korea.svg'
-import japanFlag from '@/assets/icons/companion/flag_Japan.svg'
-import chinaFlag from '@/assets/icons/companion/flag_China.svg'
-import germanyFlag from '@/assets/icons/companion/flag_Germany.svg'
-import franceFlag from '@/assets/icons/companion/flag_France.svg'
-import vietnamFlag from '@/assets/icons/companion/flag_Vietnam.svg'
-import usaFlag from '@/assets/icons/companion/flag_USA.svg'
-
 const countryFlagMap = {
   국내: koreaFlag,
   일본: japanFlag,
@@ -69,10 +83,7 @@ const countryFlagMap = {
   미국: usaFlag,
 }
 
-const countryFlagUrl = computed(() => {
-  const flag = countryFlagMap[country.value]
-  return flag ?? ''  // 플래그 없으면 빈 문자열
-})
+const countryFlagUrl = computed(() => countryFlagMap[country.value] ?? '')
 
 function formatPeriod(start, end) {
   return `${start} ~ ${end}`
@@ -133,61 +144,62 @@ watch(
 )
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
-
+<style scoped>
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, m.rem(355));
-  gap: m.rem(21);
-  width: calc(3 * #{m.rem(355)} + 2 * #{m.rem(67)});
-  margin: 0 auto;
-  margin-top: 60px;
+  grid-template-columns: repeat(3, 22.1875rem);
+  gap: 1.3125rem;
+  width: calc(3 * 22.1875rem + 2 * 4.1875rem);
+  margin: 60px auto 0;
   margin-right: 160px;
+}
 
-  @include m.respond('tablet') {
-    grid-template-columns: repeat(2, m.rem(355));
-    gap: m.rem(32);
-    margin-left: m.rem(24);
-    margin-right: m.rem(24);
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 22.1875rem);
+    gap: 2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
   }
+}
 
-  @include m.respond('mobile') {
-    grid-template-columns: m.rem(355);
-    gap: m.rem(24);
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 22.1875rem;
+    gap: 1.5rem;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
 .board-type-tab {
-  margin-left: m.rem(371);
-  margin-bottom: m.rem(67);
+  margin-left: 23.1875rem;
+  margin-bottom: 4.1875rem;
 }
 
 .country-header {
   display: flex;
   align-items: center;
-  gap: m.rem(10);
-  margin-left: m.rem(368);
-  margin-top: m.rem(61);
-  margin-bottom: m.rem(62);
-
-  .flag {
-    width: m.rem(68);
-    height: m.rem(51);
-    object-fit: contain;
-  }
-
-  h2 {
-    font-size: m.rem(30);
-    font-weight: bold;
-    margin-top: m.rem(8);
-    margin-left: m.rem(32);
-    color: v.$color-text;
-  }
+  gap: 0.625rem;
+  margin-left: 23rem;
+  margin-top: 3.8125rem;
+  margin-bottom: 3.875rem;
 }
+
+.country-header .flag {
+  width: 4.25rem;
+  height: 3.1875rem;
+  object-fit: contain;
+}
+
+.country-header h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  color: var(--color-text);
+}
+
 .pagination {
   margin-top: 73px;
   margin-bottom: 86px;

@@ -32,16 +32,13 @@ const goToStoryDetail = () => {
   router.push(`/`) // 추후 스토리 클릭시 이동 페이지 연결
 }
 </script>
-<style scoped lang="scss">
-@use '@/styles/_variables' as v;
-@use '@/styles/_mixins' as m;
-
+<style scoped>
 .storyCard {
   position: relative;
-  width: m.rem(200);
-  height: m.rem(246);
-  border-radius: m.rem(10);
-  box-shadow: m.rem(3) m.rem(4) m.rem(4) rgba(0, 0, 0, 0.1);
+  width: 200px;
+  height: 246px;
+  border-radius: 10px;
+  box-shadow: 3 4 4 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -53,7 +50,7 @@ const goToStoryDetail = () => {
 }
 .avatar-overlay {
   position: absolute;
-  top: m.rem(10);
-  left: m.rem(8);
+  top: 10px;
+  left: 0.5rem;
 }
 </style>

@@ -54,21 +54,18 @@ const goToProfile = () => {
   router.push(`/companion`) // 추후 프로필 페이지 이동 연결
 }
 </script>
-<style scoped lang="scss">
-@use '@/styles/_mixins' as m;
-@use '@/styles/_variables' as v;
-
+<style scoped>
 .profile-wrapper {
   display: flex;
   align-items: center;
 }
 
 .profile-user-div {
-  width: m.rem(36);
-  height: m.rem(36);
+  width: 3px;
+  height: 36px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid v.$color-text;
+  border: 2px solid var(--color-primary);
   cursor: pointer;
 }
 

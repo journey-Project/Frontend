@@ -65,24 +65,22 @@ function choose(val) {
 }
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
+<style scoped>
 
 .select {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 0 m.rem(20);
-  border-radius: m.rem(24);
+  padding: 0 20px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   cursor: pointer;
   user-select: none;
 
   .arrow {
-    width: m.rem(14);
-    height: m.rem(14);
+    width: 1rem;
+    height: 1rem;
     margin-left: auto;
     transition: transform 0.2s;
     &.up {
@@ -91,7 +89,7 @@ function choose(val) {
   }
 
   .label {
-    font-size: m.rem(16);
+    font-size: 1rem;
     font-weight: 600;
     &._ph {
       opacity: 0.55;
@@ -101,22 +99,22 @@ function choose(val) {
 
   .panel {
     position: absolute;
-    top: calc(100% + m.rem(8));
+    top: calc(100% + 0.5rem);
     left: 0;
     width: 100%;
     margin: 0;
-    padding: m.rem(24) 0;
+    padding: 1.5rem 0;
     background: inherit;
     border-radius: inherit;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: m.rem(24);
+    gap: 1.5rem;
     z-index: 100;
 
     li {
       text-align: center;
-      font-size: m.rem(16);
+      font-size: 1rem;
       cursor: pointer;
       &.selected {
         text-decoration: underline;
@@ -134,11 +132,11 @@ function choose(val) {
 }
 .borderline {
   background: #fff;
-  border: 1px solid v.$color-accent;
-  color: v.$color-accent;
+  border: 1px solid #3f72af;
+  color: #3f72af;
 }
 .open.borderline {
-  border-color: v.$color-accent;
+  border-color: #3f72af;
 }
 
 .fade-slide-enter-active,
