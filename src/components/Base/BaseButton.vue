@@ -1,98 +1,66 @@
 <template>
   <button
-    v-if="isActive"
-    type="button"
-    :class="typeClass + ' ' + _mp"
-    :style="styles"
+    :class="['base-btn', sizeClass, { disabled }]"
+    :disabled="disabled"
     @click="$emit('click')"
   >
-    {{ _text }}
-    <!-- 아이콘 슬롯 추가 -->
-    <slot name="icon" />
-  </button>
-  <button v-else disabled type="button" class="btn" :class="_mp" :style="styles">
-    {{ _text }}
-    <!-- 아이콘 슬롯 추가 -->
-    <slot name="icon" />
+    <slot />
   </button>
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
-//import { rem } from '@/styles/mixins'
+import { computed } from 'vue'
 
 const props = defineProps({
-  _isActive: { type: String, required: true },
-  _text: { type: String, required: true },
-  _textSize: { type: String, required: false, default: '1.8' }, // default 1.8rem
-  _w: { type: String, required: false, default: '10' }, // default 10rem
-  _h: { type: String, required: false, default: '4' }, // default 4rem
-  _style: { type: String, required: true },
-  _mp: { type: String, required: false, default: '' },
+  size: { type: String, default: 'md', validator: (v) => ['sm', 'md', 'lg'].includes(v) },
+  disabled: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['click'])
-
-const isActive = ref(true)
-const styles = ref('')
-const typeClass = ref('')
-
-watchEffect(() => {
-  isActive.value = props._isActive !== 'false'
-})
-
-watchEffect(() => {
-  const _width = `${parseFloat(props._w)}rem`
-  const _height = `${Math.max(parseFloat(props._h), 2)}rem`
-  const _fontSize = `${parseFloat(props._textSize)}rem`
-
-  styles.value = `width:${_width}; height:${_height}; font-size:${_fontSize}`
-})
-
-watchEffect(() => {
-  if (props._style === 'fill') {
-    typeClass.value = 'btn-fill'
-  } else if (props._style === 'borderline') {
-    typeClass.value = 'btn-borderline'
-  } else {
-    typeClass.value = 'btn-fill'
-  }
-})
+const sizeClass = computed(
+  () =>
+    ({
+      sm: 'btn-sm',
+      md: 'btn-md',
+      lg: 'btn-lg',
+    })[props.size],
+)
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
-
-button {
-  display: flex;
+<style scoped>
+.base-btn {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 0;
-  margin: 0 m.rem(10);
+  gap: var(--btn-gap);
+  width: max-content;
+  height: var(--btn-height);
+  padding-inline: var(--space-md);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
-  border-radius: m.rem(12.5);
-  font-family: inherit;
+  font-weight:var(--fw-semibold);
+  border-radius: var(--btn-radius);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: opacity 0.2s;
 }
 
-button[disabled] {
-  background-color: #f0f0f0;
-  color: gray;
-  border: solid gray m.rem(0.1);
+.base-btn.disabled,
+.base-btn:disabled {
+  background: var(--btn-bg-disabled);
+  color: var(--btn-text-disabled);
   cursor: not-allowed;
 }
 
-.btn-fill {
-  color: white;
-  background-color: v.$color-accent;
+.btn-sm {
+  width: var(--btn-sm);
+  font-size: var(--fs-button-sm);
 }
-
-.btn-borderline {
-  background-color: white;
-  color: v.$color-accent;
-  border: m.rem(1) solid v.$color-accent;
+.btn-md {
+  width: var(--btn-md);
+  font-size: var(--fs-button-sm);
+}
+.btn-lg {
+  width: var(--btn-lg);
+  font-size: var(--fs-button-lg);
 }
 </style>

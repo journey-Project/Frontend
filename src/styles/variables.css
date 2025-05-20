@@ -1,0 +1,64 @@
+:root {
+  /* 색상 */
+  --color-bg: #f9f7f7;
+  --color-surface: #dbe2ef;
+  --color-primary: #3f72af;
+  --color-on-primary: #f9f7f7;
+  --color-text: #666666;
+
+  /* 폰트 사이즈 */
+  --fs-title: 1.5rem; /* 24px */
+  --fs-menu: 1.25rem; /* 20px */
+  --fs-body: 1rem; /* 16px (본문 + 게시글 제목 포함) */
+  --fs-button-sm: 0.875rem; /* 14px (sm, md 공용) */
+  --fs-button-lg: 1rem; /* 16px */
+  --fs-comment: 1rem; /* 댓글 텍스트 (16px) */
+
+  /* 폰트 굵기 */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* 여백 */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 2.5rem; /* 40px */
+  --space-3xl: 3rem; /* 48px */
+
+  /* 카드 */
+  --card-gap: 3rem;
+  --card-radius: 1rem;
+
+  /* 댓글 - 필요하면 사용하시구, 필요 없으면 삭제 해주세요! */
+  --comment-gap: 1rem; /* 댓글 간 간격 */
+  --comment-indent: 2.5rem; /* 대댓글 들여쓰기 (40px) */
+  --avatar-size: 2.25rem; /* 댓글용 아바타 (36px) */
+  --avatar-size-lg: 9rem; /* 프로필용 아바타 (144px) */
+
+  /* 버튼 */
+  --btn-bg: #3f72af;
+  --btn-bg-disabled: #dbe2ef;
+  --btn-text: #dbe2ef;
+  --btn-text-disabled: #3f72af;
+  --btn-radius: 1rem;
+  --btn-height: 2rem;
+  --btn-gap: 0.25rem;
+
+  --btn-sm: 6.5rem;
+  --btn-md: 7.5rem;
+  --btn-lg: 9rem;
+
+  /* 인풋 */
+  --input-bg: #dbe2ef;
+  --input-color: #3f72af;
+  --input-height: 2rem;
+  --input-radius: 1rem;
+  --input-font-size: 1rem;
+
+  /* 레이아웃 */
+  --layout-max-width: 960px;
+}
