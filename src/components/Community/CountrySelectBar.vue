@@ -36,42 +36,39 @@ const getImagePath = (filename) => {
 }
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/_mixins' as m;
-@use '@/styles/_variables' as v;
-
+<style scoped>
 .country-button-group {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: m.rem(45);
+  gap: 45px;
 }
 
 .flag-icon {
-  width: m.rem(40);
-  height: m.rem(30);
+  width: 40px;
+  height: 30px;
 }
 
 button {
   padding: 0;
 
-  width: m.rem(131);
-  height: m.rem(71);
-  border-radius: m.rem(20);
-  background-color: v.$color-primary;
-  color: v.$color-text;
+  width: 131px;
+  height: 71px;
+  border-radius: 20px;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
   border: none;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: m.rem(17); // 국기와 텍스트 사이 간격
+  gap: 17px;
 }
 
 span {
   padding: 0;
-  //   font-size: v.$fs-body;
+  /* font-size: v.$fs-body; */
   font-weight: 700;
-  height: m.rem(21);
+  height: 21px;
   white-space: nowrap;
 }
 </style>

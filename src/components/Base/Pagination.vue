@@ -30,26 +30,23 @@ function goToPage(page) {
 }
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/variables' as v;
-@use '@/styles/mixins' as m;
-
+<style scoped>
 .pagination {
   display: flex;
   justify-content: center;
-  gap: m.rem(8);
-  font-size: m.rem(17);
+  gap: 1rem;
+  font-size: 17px;
 
   button {
-    all: unset; // 버튼 기본 스타일 제거
-    color: v.$color-accent;
-    font-size: m.rem(18);
+    all: unset;
+    color: #3f72af;
+    font-size: 18px;
     cursor: pointer;
-    padding: 0 m.rem(4);
+    padding: 0 4px;
     transition: color 0.2s ease-in-out;
 
     &:hover:not(:disabled) {
-      color: v.$color-dark; // v.$color-accent보다 조금 더 진한 색상
+      color: #112d4e;
     }
 
     &:disabled {
@@ -58,18 +55,18 @@ function goToPage(page) {
   }
 
   span {
-    color: v.$color-accent;
+    color: #3f72af;
     cursor: pointer;
     transition: color 0.2s ease-in-out;
 
     &.active {
       font-weight: bold;
-      color: v.$color-accent;
+      color: #3f72af;
       text-decoration: underline;
     }
 
     &:hover:not(.active) {
-      color: v.$color-dark;
+      color: #112d4e;
     }
   }
 }

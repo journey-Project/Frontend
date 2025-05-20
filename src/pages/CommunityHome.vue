@@ -149,73 +149,71 @@ function goToHotPosts() {
   router.push('/') //나중에 핫 게시물 페이지로 연결
 }
 </script>
-<style scoped lang="scss">
-@use '@/styles/_mixins' as m;
-@use '@/styles/_variables' as v;
+<style scoped>
 
 .container {
-  margin-bottom: m.rem(117);
+  margin-bottom: 117px;
 }
 .text {
   padding: 0;
   margin: 0;
-  font-size: v.$fs-title;
+  font-size: 24px;
   font-weight: 900;
-  color: v.$color-text;
-  height: m.rem(29);
-  line-height: m.rem(29); /* 글자 높이 맞추기 */
+  color: var(--color-primary);
+  height: 29px;
+  line-height: 29px; /* 글자 높이 맞추기 */
 }
 .text2 {
   color: #666666;
   font-size: 16px;
   padding: 0;
-  height: m.rem(19);
-  line-height: m.rem(19); /* 글자 높이 맞추기 */
-  margin-bottom: m.rem(28);
+  height: 19px;
+  line-height: 19px; /* 글자 높이 맞추기 */
+  margin-bottom: 28px;
 }
 .row1 {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  gap: m.rem(16); /* hot_icon과 text 사이의 여백을 16px로 설정 */
+  gap: 16px; /* hot_icon과 text 사이의 여백을 16px로 설정 */
 }
 #storyText {
-  margin-top: m.rem(46);
-  margin-bottom: m.rem(17);
+  margin-top: 46px;
+  margin-bottom: 17px;
 }
 #communitytext {
-  margin-top: m.rem(70);
-  margin-bottom: m.rem(30);
+  margin-top: 70px;
+  margin-bottom: 30px
 }
 #companionText {
-  margin-top: m.rem(67);
+  margin-top: 67px;
 }
 hr {
   margin: 0;
   width: 100%;
   border: 0;
-  border-top: m.rem(3) solid v.$color-text;
-  margin-top: m.rem(30);
+  border-top: 3 solid var(--color-primary);
+  margin-top: 30px;
   opacity: 1 !important;
 }
 .hot-icon {
-  width: m.rem(21);
+  width: 21px;
 }
 .arrow-icon {
   margin-left: auto; /* 오른쪽 끝으로 배치 */
-  width: m.rem(16);
+  width: 1rem;
   cursor: pointer;
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // 카드 3개를 균등하게
-  gap: m.rem(67); // 카드 사이 간격
-  width: 100%; // 전체 컨테이너 너비 차지
+  grid-template-columns: repeat(3, 1fr); /* 카드 3개를 균등하게 */
+  gap: 67px; /* 카드 사이 간격 */
+  width: 100%; /* 전체 컨테이너 너비 차지 */
   margin: 0 auto;
-  margin-top: m.rem(43);
-  margin-bottom: m.rem(139);
+  margin-top: 43px;
+  margin-bottom: 139px;
 
-  @include m.respond('tablet') {
+  /* @include m.respond('tablet') {
     grid-template-columns: repeat(2, 1fr);
     gap: m.rem(32);
     padding: 0 m.rem(24);
@@ -225,9 +223,9 @@ hr {
     grid-template-columns: 1fr;
     gap: m.rem(24);
     padding: 0 m.rem(16);
-  }
+  } */
 }
 .countrySelectBar {
-  margin-bottom: m.rem(67);
+  margin-bottom: 67px;
 }
 </style>

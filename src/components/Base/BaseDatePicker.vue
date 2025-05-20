@@ -64,62 +64,57 @@ onMounted(() => document.addEventListener('mousedown', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/variables' as v;
-@use '@/styles/mixins' as m;
-
-// 테두리 삭제
+<style scoped>
 input:focus {
   outline: none;
 }
 
 .date-wrapper {
   position: relative;
-  width: m.rem(158);
-  height: m.rem(46);
-  border-radius: m.rem(23);
-  background: rgba(v.$color-primary, 0.35);
+  width: 10rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  background: rgba(219, 226, 239, 0.35);
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  .date-icon {
-    width: m.rem(18);
-    height: m.rem(18);
-    margin-left: m.rem(12);
-  }
-
-  .date-input {
-    flex: 1;
-    height: 100%;
-    padding-left: m.rem(8);
-    border: none;
-    background: transparent;
-    font-size: m.rem(13);
-    color: v.$color-text;
-
-    &::placeholder {
-      color: v.$color-text;
-      opacity: 0.6;
-    }
-  }
 }
 
-// 달력
+.date-wrapper .date-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.75rem;
+}
+
+.date-wrapper .date-input {
+  flex: 1;
+  height: 100%;
+  padding-left: 0.5rem;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #3f72af;
+}
+
+.date-wrapper .date-input::placeholder {
+  color: #3f72af;
+  opacity: 0.6;
+}
+
 .journey-datepicker {
   position: absolute;
-  top: calc(100% + m.rem(8));
+  top: calc(100% + 0.5rem);
   left: 0;
   z-index: 9999;
-  border-radius: m.rem(24);
-  background-color: v.$color-primary;
-  padding: m.rem(24);
-  box-shadow: 0 0 m.rem(10) rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  background-color: #dbe2ef;
+  padding: 1.5rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
 
   /* v-calendar theme variables */
-  --vc-primary: v.$color-accent;
-  --vc-accent-50: rgba(v.$color-accent, 0.12);
-  --vc-content: v.$color-accent;
+  --vc-primary: #3f72af;
+  --vc-accent-50: rgba(63, 114, 175, 0.12);
+  --vc-content: #3f72af;
 
   :deep(.vc-container) {
     background: transparent;
@@ -130,76 +125,76 @@ input:focus {
   :deep(.vc-nav) {
     display: flex;
     justify-content: space-between;
-    margin-bottom: m.rem(16);
+    margin-bottom: 1rem;
   }
 
   :deep(.vc-nav-arrow) {
-    width: m.rem(30);
-    height: m.rem(30);
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background: rgba(v.$color-accent, 0.07) center/18px 18px no-repeat;
+    background: rgba(63, 114, 175, 0.07) center/18px 18px no-repeat;
+  }
 
-    &:hover {
-      background: rgba(v.$color-accent, 0.15) center/18px 18px no-repeat;
-    }
+  :deep(.vc-nav-arrow:hover) {
+    background: rgba(63, 114, 175, 0.1) center/18px 18px no-repeat;
+  }
 
-    svg {
-      display: none;
-    }
+  :deep(.vc-nav-arrow svg) {
+    display: none;
   }
 
   :deep(.vc-nav-arrow.is-prev) {
-    background-image: url(v-bind(calendarArrow));
+    background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
   }
 
   :deep(.vc-nav-arrow.is-next) {
-    background-image: url(v-bind(calendarArrow));
+    background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
     transform: scaleX(-1);
   }
 
   :deep(.vc-nav-title),
   :deep(.vc-title-button) {
-    color: v.$color-accent !important;
-    background-color: rgba(v.$color-accent, 0.07);
+    color: #3f72af !important;
+    background-color: rgba(63, 114, 175, 0.07);
     font-weight: 700;
-    font-size: m.rem(20);
-    border-radius: m.rem(6);
-    padding: 0 m.rem(12);
+    font-size: 20px;
+    border-radius: 6px;
+    padding: 0 0.75rem;
   }
 
   :deep(.vc-weekdays) {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    margin-bottom: m.rem(6);
+    margin-bottom: 6px;
   }
 
   :deep(.vc-weekday) {
     text-align: center;
     font-weight: 600;
-    font-size: m.rem(15);
-    color: v.$color-accent;
+    font-size: 15px;
+    color: #3f72af;
   }
 
   :deep(.vc-day) {
-    width: m.rem(40);
-    height: m.rem(40);
-    font-size: m.rem(16);
-    color: v.$color-accent;
-    line-height: m.rem(40);
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    color: #3f72af;
+    line-height: 40px;
+  }
 
-    &:hover:not(.is-disabled) {
-      background: rgba(v.$color-accent, 0.1);
-    }
+  :deep(.vc-day):hover:not(.is-disabled) {
+    background: rgba(63, 114, 175, 0.1);
+  }
 
-    &.is-not-current-month {
-      color: rgba(v.$color-accent, 0.35);
-    }
+  :deep(.vc-day.is-not-current-month) {
+    color: rgba(63, 114, 175, 0.35);
+  }
 
-    &.is-selected .vc-day-content {
-      background: v.$color-accent;
-      color: #fff;
-      border-radius: 50%;
-    }
+  :deep(.vc-day.is-selected .vc-day-content) {
+    background: #3f72af;
+    color: #fff;
+    border-radius: 50%;
   }
 }
 </style>

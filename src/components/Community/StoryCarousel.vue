@@ -29,15 +29,13 @@ const goToAddStory = () => {
   router.push('/') // 추후 스토리 추가 페이지로 이동 연결
 }
 </script>
-<style scoped lang="scss">
-@use '@/styles/_variables' as v;
-@use '@/styles/_mixins' as m;
+<style scoped>
 
 .addStory {
-  border: m.rem(3) solid v.$color-text;
-  width: m.rem(200);
-  height: m.rem(246);
-  border-radius: m.rem(10);
+  border: 3px solid var(--color-primary);
+  width: 200px;
+  height: 246px;
+  border-radius: 10px;
   cursor: pointer;
 
   display: flex;
@@ -46,7 +44,7 @@ const goToAddStory = () => {
 }
 .story-carousel {
   display: flex;
-  gap: 50px; // 카드 간 간격
-  overflow-x: auto; // 필요 시 스크롤
+  gap: 50px; 
+  overflow-x: auto; 
 }
 </style>

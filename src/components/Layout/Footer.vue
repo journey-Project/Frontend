@@ -26,38 +26,36 @@
   </footer>
 </template>
 
-<style scoped lang="scss">
-@use '@/styles/_variables' as v;
-@use '@/styles/_mixins' as m;
+<style scoped>
 
 footer {
-  background-color: v.$color-primary;
+  background-color: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: m.rem(56);
+  padding-bottom: 3.5rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-top: m.rem(39);
+  margin-top: 39px;
 }
 
 .logo-img {
-  width: m.rem(55);
-  height: m.rem(30);
+  width: 55px;
+  height: 30px;
 }
 
 .icons {
-  margin-top: m.rem(37);
+  margin-top: 37px;
 
   .icon-list {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: m.rem(20);
+    gap: 20px;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -65,13 +63,13 @@ footer {
 }
 
 .icon {
-  width: m.rem(28);
+  width: 28px;
 }
 
 hr {
   color: white;
   width: 95.94vw;
-  max-width: m.rem(1842);
-  margin-top: m.rem(50);
+  max-width: 1842px;
+  margin-top: 50px;
 }
 </style>

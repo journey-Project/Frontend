@@ -43,7 +43,7 @@
     <div class="search-wrapper">
       <BaseInput
         _type="text"
-        _w="23.94"
+        _w="16.5"
         _style="fill"
         v-model="local.title"
         @keyup.enter="onSearch"
@@ -57,16 +57,7 @@
     </div>
 
     <!-- 게시물 등록 버튼 -->
-    <BaseButton
-      class="flex-item base-button accent"
-      _text="게시물 등록"
-      _style="fill"
-      _isActive
-      _w="10.63"
-      _h="2.875"
-      _textSize="1.125"
-      @click="$emit('create')"
-    >
+    <BaseButton>게시물 등록
       <template #icon>
         <img src="@/assets/icons/companion/Vector.svg" alt="edit" style="width: 1.4375rem" />
       </template>
@@ -96,55 +87,30 @@ const onSearch = () => {
 }
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
-
+<style scoped>
 .filter-bar {
   display: flex;
   align-items: center;
-  gap: m.rem(13);
-  height: m.rem(46);
+  gap: 13px;
+  height: 46px;
   padding-left: 24.7vw;
   padding-right: 18.8vw;
-
-  @include m.respond('tablet') {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: m.rem(12);
-    gap: m.rem(8);
-
-    :deep(.form-control) {
-      width: 100% !important;
-    }
-
-    :deep(.base-button) {
-      width: 100% !important;
-    }
-  }
-
-  @include m.respond('mobile') {
-    flex-direction: column;
-    align-items: stretch;
-    padding: m.rem(10);
-    gap: m.rem(6);
-  }
 
   .flex-item {
     flex: 1 1 clamp(120px, 14vw, 160px);
     min-width: 0;
-    background-color: v.$color-primary;
-    color: v.$color-text;
+    background-color: #dbe2ef;
+    color: #3f72af;
 
     :deep(.form-control),
     :deep(.base-button) {
       width: 100% !important;
-      background-color: v.$color-primary !important;
-      color: v.$color-text !important;
+      background-color: #dbe2ef !important;
+      color: #3f72af !important;
     }
 
     :deep(input[type='date']) {
-      color: v.$color-text !important;
+      color: #3f72af !important;
     }
   }
 
@@ -155,20 +121,20 @@ const onSearch = () => {
     width: 100%;
 
     :deep(.form-control) {
-      height: m.rem(48);
-      font-size: m.rem(16);
-      padding-right: m.rem(40);
+      height: 3rem;
+      font-size: 1rem;
+      padding-right: 40px;
     }
   }
 }
 
 :deep(.base-button.accent) {
-  background-color: v.$color-accent !important;
+  background-color:#3f72af !important;
   color: #fff !important;
 }
 
 .tilde {
-  font-size: m.rem(21);
+  font-size: 21px;
   line-height: 1;
 }
 
@@ -185,10 +151,10 @@ const onSearch = () => {
 .search-icon {
   position: absolute;
   top: 50%;
-  right: m.rem(16);
+  right: 1rem;
   transform: translateY(-50%);
-  width: m.rem(22);
-  height: m.rem(22);
+  width: 22px;
+  height: 22px;
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s;

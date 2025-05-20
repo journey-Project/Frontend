@@ -17,12 +17,7 @@
 
       <div class="card__summary">{{ summary }}</div>
 
-      <BaseButton
-        _text="자세히 보기"
-        _style="fill"
-        class="card__button"
-        @click="$emit('detail', id)"
-      />
+      <BaseButton>자세히 보기</BaseButton>
     </div>
   </div>
 </template>
@@ -47,86 +42,81 @@ defineProps({
 defineEmits(['select', 'detail'])
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/mixins' as m;
-@use '@/styles/variables' as v;
+<style scoped>
 
 .card {
   position: relative;
-  width: m.rem(320);
+  width: 20rem;
   aspect-ratio: 320 / 394;
-  border-radius: m.rem(20);
+  border-radius: 1.25rem;
   overflow: hidden;
-  background: #f5f5f5;
+  background: var(--color-surface, #f5f5f5);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-  }
+.card:hover {
+  transform: translateY(-4px);
+}
 
-  &__thumbnail {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.card__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: m.rem(16);
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 40%, transparent);
-    color: #fff;
-  }
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 40%, transparent);
+  color: #fff;
+}
 
-  &__info {
-    margin-bottom: m.rem(8);
+.card__info {
+  margin-bottom: 0.5rem;
+}
 
-    & > div {
-      display: flex;
-      align-items: center;
-      gap: m.rem(4);
-      font-size: m.rem(16);
-    }
+.card__info > div {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--fs-body, 1rem);
+}
 
-    .card__location {
-      font-weight: 600;
-    }
+.card__location {
+  font-weight: var(--fw-semibold, 600);
+}
 
-    .card__date {
-      margin-top: m.rem(4);
-    }
+.card__date,
+.card__participants {
+  margin-top: 0.25rem;
+}
 
-    .card__participants {
-      margin-top: m.rem(4);
-    }
+.icon {
+  width: 1rem;
+  height: 1rem;
+}
 
-    .icon {
-      width: m.rem(18);
-      height: m.rem(18);
-    }
-  }
+.card__summary {
+  font-size: var(--fs-body, 1rem);
+  line-height: 1.3;
+  max-height: 2.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.75rem;
+}
 
-  &__summary {
-    font-size: m.rem(16);
-    line-height: 1.3;
-    max-height: 2.6rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: m.rem(12);
-  }
-
-  &__button {
-    width: m.rem(116) !important;
-    height: m.rem(28) !important;
-    font-size: m.rem(12) !important;
-    border-radius: m.rem(20) !important;
-    align-self: flex-start;
-    padding: 0;
-    margin: 0 !important;
-  }
+.card__button {
+  width: 116px;
+  height: 28px;
+  font-size: 12px;
+  border-radius: 20px;
+  align-self: flex-start;
+  padding: 0;
+  margin: 0;
 }
 </style>

@@ -31,26 +31,25 @@ const formatTime = (time) => {
 }
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/_mixins' as m;
-@use '@/styles/_variables' as v;
+<style scoped>
 
 .hot-post-row {
-  color: v.$color-text;
+  color: var(--color-primary);
   border-bottom: 1px solid rgba(63, 114, 175, 0.3);
   cursor: pointer;
   transition: background-color 0.2s;
 
-  //호버시 색상 줄건지, 효과줄건지 상의 필요
+  /* 호버시 색상 줄건지, 효과줄건지 상의 필요  */
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05); // 호버 시 배경색
+    background-color: rgba(0, 0, 0, 0.05); 
+    /* 호버 시 배경색 */
   }
 }
 
 td {
   padding: 12px 16px;
   text-align: left;
-  height: m.rem(70);
+  height: 70px;
 }
 
 .time-cell {
@@ -59,13 +58,13 @@ td {
 }
 
 #countryText {
-  font-size: v.$fs-menu;
+  font-size: 20px;
   font-weight: 700;
 }
 
 .time-cell,
 #titleText {
-  font-size: v.$fs-menu;
+  font-size: 20px;
   font-weight: 500;
 }
 </style>

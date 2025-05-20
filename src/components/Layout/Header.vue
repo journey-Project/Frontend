@@ -36,12 +36,10 @@
   </header>
 </template>
 
-<style scoped lang="scss">
-@use '@/styles/_variables' as v;
-@use '@/styles/_mixins' as m;
+<style scoped>
 header {
-  background-color: v.$color-primary;
-  height: m.rem(111);
+  background-color: var(--color-surface);
+  height: 111px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,14 +50,14 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: m.rem(1181);
+  max-width: 1181px;
   padding: 0;
   box-sizing: border-box;
 }
 
 .left {
-  width: m.rem(76);
-  height: m.rem(38);
+  width: 76px;
+  height: 38px;
 }
 
 .logimg {
@@ -68,13 +66,13 @@ header {
 }
 
 .center {
-  margin-left: m.rem(124);
+  margin-left: 124px;
   display: flex;
   align-items: center;
-  height: m.rem(24);
+  height: 24px;
   flex: 1;
-  max-width: m.rem(620);
-  margin-right: m.rem(111);
+  max-width: 620px;
+  margin-right: 111px;
 }
 
 .menu-nav {
@@ -98,9 +96,9 @@ header {
 }
 
 .nav-link {
-  color: v.$color-text;
+  color: var(--color-primary);
   font-weight: 700;
-  font-size: m.rem(20);
+  font-size: 20px;
   text-decoration: none;
   height: 100%;
   display: flex;
@@ -120,19 +118,19 @@ header {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: m.rem(44); // info 아이콘과 bell 아이콘 사이의 간격
+  gap: 40px;
 }
 
 .nav-item.li-center {
-  gap: m.rem(43); // bell 아이콘과 프로필 이미지 사이 간격
+  gap: 43px;
 }
 
 .profile-user-div {
-  width: m.rem(49);
-  height: m.rem(49);
+  width: 49px;
+  height: 49px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid v.$color-text;
+  border: 2px solid var(--color-primary);
 }
 
 .profile-img {
@@ -143,13 +141,13 @@ header {
 
 .notify_icon,
 .info_icon {
-  width: m.rem(28);
+  width: 28px;
   height: auto;
 }
 
 .profile_button {
-  width: m.rem(23);
-  height: m.rem(11);
+  width: 23px;
+  height: 11px
 }
 #notify_icon_a {
   height: 28px;
@@ -163,15 +161,15 @@ header {
 /* 반응형 설정 */
 @media (max-width: 1024px) {
   .center {
-    margin-left: m.rem(40);
-    margin-right: m.rem(40);
+    margin-left: 40px;
+    margin-right: 40px;
   }
 
   .nav-link {
-    font-size: m.rem(18);
+    font-size: 18px;
   }
 }
-
+/* 
 @media (max-width: 768px) {
   .menu-nav {
     display: none;
@@ -195,5 +193,5 @@ header {
     width: 100%;
     gap: m.rem(20);
   }
-}
+} */
 </style>

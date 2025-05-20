@@ -1,4 +1,9 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 :root {
+  /* 폰트 */
+  --font-family: 'Pretendard', sans-serif;
+
   /* 색상 */
   --color-bg: #f9f7f7;
   --color-surface: #dbe2ef;
