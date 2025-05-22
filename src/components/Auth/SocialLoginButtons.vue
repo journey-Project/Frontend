@@ -19,7 +19,7 @@ const buttonStyle = computed(() => ({
 }))
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .social-button {
   display: flex;
   align-items: center;
@@ -29,15 +29,15 @@ const buttonStyle = computed(() => ({
   font-family: inherit;
   transition: all 0.2s ease;
   padding: 0;
+}
 
-  &:hover {
-    opacity: 0.9;
-  }
+.social-button:hover {
+  opacity: 0.9;
+}
 
-  ::v-deep(img.icon) {
-    width: 1.2rem; // 약간 작게 조정
-    height: 1.2rem;
-    object-fit: contain;
-  }
+.social-button ::v-deep(img.icon) {
+  width: 1.2rem;
+  height: 1.2rem;
+  object-fit: contain;
 }
 </style>
