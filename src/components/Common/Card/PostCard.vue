@@ -22,7 +22,6 @@
   </div>
 </template>
 
-
 <script setup>
 import BaseButton from '@/components/Base/BaseButton.vue'
 
@@ -46,17 +45,15 @@ defineEmits(['select', 'detail'])
 
 .card {
   position: relative;
-  width: 20rem;
-  aspect-ratio: 320 / 394;
-  border-radius: 1.25rem;
+  width: 18rem;
+  height: 22rem; /* 임의로 수정X 디자인 변경 요청 */
+  border-radius: 1rem;
   overflow: hidden;
-  background: var(--color-surface, #f5f5f5);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
 }
 
 .card__thumbnail {
@@ -108,15 +105,5 @@ defineEmits(['select', 'detail'])
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0.75rem;
-}
-
-.card__button {
-  width: 116px;
-  height: 28px;
-  font-size: 12px;
-  border-radius: 20px;
-  align-self: flex-start;
-  padding: 0;
-  margin: 0;
 }
 </style>

@@ -6,7 +6,7 @@
       :class="['tab-btn', { active: modelValue === tab.value }]"
       role="tab"
       :aria-selected="modelValue === tab.value"
-      @click="$emit('update:modelValue', tab.value)"
+      @click="onTabClick(tab)"
     >
       {{ tab.label }}
     </button>
@@ -14,37 +14,47 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const props = defineProps({
   modelValue: { type: String, required: true },
 })
 const emit = defineEmits(['update:modelValue'])
 
 const tabs = [  
-  { label: '커뮤니티', value: 'community' },
-  { label: '동행자 모집', value: 'companion' },
+  { label: '커뮤니티', value: 'communityboard', route: '/community-board' },
+  { label: '동행자 모집', value: 'companion', route: '/companion-board' },
 ]
+
+function onTabClick(tab) {
+  emit('update:modelValue', tab.value)
+  router.push(tab.route)
+}
 </script>
 
 <style scoped>
 
 .board-type-tab {
   display: flex;
-  gap: 59px;
+  gap: 4rem;
 }
 
 .tab-btn {
-  padding: 8px 20px;
-  font-size: 18px;
-  font-weight: 700;
+  padding: 0.125rem 0.5rem;
+  font-size: var(--fs-menu);
+  font-weight: var(--fw-bold);
   border: none;
   background: none;
   cursor: pointer;
-  border-bottom: 3px solid transparent;
+  border-bottom: 0.25rem solid transparent;
   transition: all 0.3s ease;
-
-  &.active {
-    color: #3f72af;
-    border-bottom-color: #3f72af;
-  }
 }
+
+.tab-btn.active { 
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
 </style>
