@@ -12,7 +12,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  size: { type: String, default: 'md', validator: (v) => ['sm', 'md', 'lg'].includes(v) },
+  size: { type: String, default: 'md', validator: (v) => ['sm', 'md', 'lg', 'xl'].includes(v) },
   disabled: { type: Boolean, default: false },
 })
 
@@ -22,6 +22,7 @@ const sizeClass = computed(
       sm: 'btn-sm',
       md: 'btn-md',
       lg: 'btn-lg',
+      xl: 'btn-xl',
     })[props.size],
 )
 </script>
@@ -63,4 +64,10 @@ const sizeClass = computed(
   width: var(--btn-lg);
   font-size: var(--fs-button-lg);
 }
+.btn-xl {
+  width: var(--btn-xl);
+  font-size: var(--fs-button-xl);
+  height: var(--btn-height-xl);
+}
+
 </style>

@@ -17,6 +17,7 @@
   --fs-body: 1rem; /* 16px (본문 + 게시글 제목 포함) */
   --fs-button-sm: 0.875rem; /* 14px (sm, md 공용) */
   --fs-button-lg: 1rem; /* 16px */
+  --fs-button-xl: 0.875rem; /* 로그인 버튼에 쓰는 버튼 폰트 사이즈 */
   --fs-comment: 1rem; /* 댓글 텍스트 (16px) */
 
   /* 폰트 굵기 */
@@ -47,15 +48,19 @@
   /* 버튼 */
   --btn-bg: #3f72af;
   --btn-bg-disabled: #dbe2ef;
-  --btn-text: #dbe2ef;
+  --btn-text: #f9f7f7;
   --btn-text-disabled: #3f72af;
   --btn-radius: 1rem;
   --btn-height: 2rem;
+  --btn-height-xl: 2.5rem;
   --btn-gap: 0.25rem;
 
   --btn-sm: 6.5rem;
   --btn-md: 7.5rem;
   --btn-lg: 9rem;
+  --btn-xl: 20rem;
+  
+  
 
   /* 인풋 */
   --input-bg: #dbe2ef;
