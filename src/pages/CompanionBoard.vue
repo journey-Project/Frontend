@@ -145,59 +145,49 @@ watch(
 </script>
 
 <style scoped>
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 22.1875rem);
-  gap: 1.3125rem;
-  width: calc(3 * 22.1875rem + 2 * 4.1875rem);
-  margin: 60px auto 0;
-  margin-right: 160px;
-}
-
-@media (max-width: 1024px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 22.1875rem);
-    gap: 2rem;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .cards-grid {
-    grid-template-columns: 22.1875rem;
-    gap: 1.5rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.board-type-tab {
-  margin-left: 23.1875rem;
-  margin-bottom: 4.1875rem;
+.layout-container {
+  max-width: 60rem;
+  margin: 0 auto;
 }
 
 .country-header {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  margin-left: 23rem;
-  margin-top: 3.8125rem;
-  margin-bottom: 3.875rem;
+  gap: 2rem; /* 국기와 텍스트 사이 0.5rem */
+  margin-top: 4rem; /* 헤더와의 거리 */
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .country-header .flag {
-  width: 4.25rem;
-  height: 3.1875rem;
+  width: 4rem;
+  height: 3rem;
   object-fit: contain;
 }
 
 .country-header h2 {
-  font-size: 1.875rem;
+  font-size: 1.5rem; /* 24px */
   font-weight: bold;
-  margin-top: 0.5rem;
-  margin-left: 2rem;
-  color: var(--color-text);
+  color: #3F72AF;
+}
+
+
+.board-type-tab {
+  display: flex;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.board-filter {
+  margin-top: 3rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 18rem);
+  gap: 3rem;
+  margin: 3rem auto 0;
 }
 
 .pagination {

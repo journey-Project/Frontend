@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
+import CommunityBoard from '@/pages/CommunityBoard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,9 +20,14 @@ const router = createRouter({
       // component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/companion',
-      name: 'Companion',
+      path: '/companion-board',
+      name: 'CompanionBoardPage',
       component: CompanionBoard,
+    },
+    {
+      path: '/community-board',
+      name: 'CommmunityBoardPage',
+      component: CommunityBoard,
     },
     {
       path: '/community',
