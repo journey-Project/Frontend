@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 import BaseButton from './components/Base/BaseButton.vue'
 import BaseInput from './components/Base/BaseInput.vue'
@@ -13,15 +14,18 @@ import CompanionBoard from '@/pages/CompanionBoard.vue'
 import Pagination from './components/Base/Pagination.vue'
 
 const activeTab = ref('community')
+
+const route = useRoute()
+const hideLayout = computed(() => route.meta.hideLayout === true)
 </script>
 
 <template>
   <div class="layout-wrapper">
-    <Header />
+    <Header v-if="!hideLayout" />
     <main class="main-content">
       <router-view />
     </main>
-    <Footer />
+    <Footer v-if="!hideLayout" />
   </div>
 </template>
 

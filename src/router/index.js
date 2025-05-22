@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
+import LoginPage from '@/pages/LoginPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,12 @@ const router = createRouter({
       path: '/community',
       name: 'Community',
       component: CommunityHome,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage,
+      meta: { hideLayout: true },
     },
   ],
 })
