@@ -10,15 +10,13 @@
       {{ current }}
     </span>
 
-    <!-- ▼ / ▲ -->
     <img
-      src="@/assets/icons/companion/Polygon5.png"
+      src="@/assets/icons/companion/Polygon5.svg"
       alt="arrow"
       class="arrow"
       :class="{ up: open }"
     />
 
-    <!-- 옵션 -->
     <transition name="fade-slide">
       <ul v-if="open" class="panel">
         <li
@@ -63,89 +61,64 @@ function choose(val) {
   emit('update:modelValue', val)
   open.value = false
 }
+
 </script>
 
 <style scoped>
-
-.select {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-
-  .arrow {
-    width: 1rem;
-    height: 1rem;
-    margin-left: auto;
-    transition: transform 0.2s;
-    &.up {
-      transform: rotate(180deg);
-    }
-  }
-
-  .label {
-    font-size: 1rem;
-    font-weight: 600;
-    &._ph {
-      opacity: 0.55;
-      text-decoration: underline;
-    }
-  }
-
-  .panel {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 0;
-    width: 100%;
-    margin: 0;
-    padding: 1.5rem 0;
-    background: inherit;
-    border-radius: inherit;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    z-index: 100;
-
-    li {
-      text-align: center;
-      font-size: 1rem;
-      cursor: pointer;
-      &.selected {
-        text-decoration: underline;
-      }
-      &:hover:not(.selected) {
-        opacity: 0.8;
-      }
-    }
-  }
+.select{
+  position:relative;
+  width:100%;
+  height:100%;
+  padding-inline:var(--space-md);
+  border-radius:var(--input-radius);
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  user-select:none;
 }
 
-.fill {
-  background: rgba(#dbe2ef, 0.45);
-  color: #3f72af;
+.select .arrow{
+  width:1rem;height:1rem;
+  margin-left:auto;
+  transition:transform .2s;
 }
-.borderline {
-  background: #fff;
-  border: 1px solid #3f72af;
-  color: #3f72af;
+.select .arrow.up{ transform:rotate(180deg); }
+
+.select .label{
+  font-size:var(--fs-body);
+  font-weight:var(--fw-medium);
 }
-.open.borderline {
-  border-color: #3f72af;
+.select .label._ph{ opacity:.7; }
+
+.select .panel{
+  position:absolute; top:calc(100% + var(--space-xs)); left:0;
+  width:100%;
+  margin:0; padding:var(--space-lg) 0;
+  background:inherit; border-radius:inherit;
+  list-style:none; display:flex; flex-direction:column;
+  gap:var(--space-lg);
+  z-index:100;
 }
+.select .panel li{
+  text-align:center; font-size:var(--fs-body);
+  cursor:pointer;
+}
+
+.select .panel li:hover:not(.selected){ opacity:.8; }
+
+.fill{
+  background:color-mix(in srgb,var(--color-surface) 45%, transparent);
+  color:var(--color-primary);
+}
+.borderline{
+  background:var(--color-bg);
+  border:1px solid var(--color-primary);
+  color:var(--color-primary);
+}
+.open.borderline{ border-color:var(--color-primary); }
 
 .fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: 0.18s ease;
-}
+.fade-slide-leave-active{ transition:.18s ease; }
 .fade-slide-enter-from,
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-6px);
-}
+.fade-slide-leave-to    { opacity:0; transform:translateY(-6px); }
 </style>

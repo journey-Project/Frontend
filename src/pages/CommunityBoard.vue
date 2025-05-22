@@ -1,1 +1,8 @@
 <!-- 커뮤니티 게시글 목록 페이지 -->
+ <template
+<template>
+    
+</template>
+
+<script>
+</script>
