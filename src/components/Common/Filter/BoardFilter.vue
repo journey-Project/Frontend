@@ -1,65 +1,45 @@
 <template>
   <div class="filter-bar">
-    <!-- 시작일 -->
-    <BaseDatePicker
-      class="flex-item"
-      _type="date"
-      _w="9.875"
-      _style="borderline"
-      _ph="YYYY-MM-DD"
-      v-model="local.startDate"
-      :max="local.endDate"
-      @update:modelValue="(v) => emitFilter('startDate', v)"
-    />
-
-    <span class="tilde">~</span>
-
-    <!-- 종료일 -->
-    <BaseDatePicker
-      class="flex-item"
-      _type="date"
-      _w="9.875"
-      _style="borderline"
-      _ph="YYYY-MM-DD"
-      v-model="local.endDate"
-      :min="local.startDate"
-      @update:modelValue="(v) => emitFilter('endDate', v)"
-    />
-
-    <!-- 분류 -->
-    <BaseSelect
-      class="flex-item"
-      v-model="local.category"
-      :options="[
-        { label: '제목', value: 'title' },
-        { label: '작성자', value: 'author' },
-        { label: '번호', value: 'id' },
-      ]"
-      _ph="분류"
-      _style="fill"
-    />
-
-    <!-- 검색 -->
-    <div class="search-wrapper">
-      <BaseInput
-        _type="text"
-        _w="16.5"
-        _style="fill"
-        v-model="local.title"
-        @keyup.enter="onSearch"
+    <div class="date-group">
+      <BaseDatePicker
+        v-model="local.startDate"
+        :max="local.endDate"
+        placeholder="YYYY-MM-DD"
+        class="ctl ctl--date"
+        @update:modelValue="v => emitFilter('startDate', v)"
       />
-      <img
-        class="search-icon"
-        src="@/assets/icons/companion/search_icon.svg"
-        alt="search"
-        @click="onSearch"
+
+      <span class="tilde">~</span>
+
+      <BaseDatePicker
+        v-model="local.endDate"
+        :min="local.startDate"
+        placeholder="YYYY-MM-DD"
+        class="ctl ctl--date"
+        @update:modelValue="v => emitFilter('endDate', v)"
       />
     </div>
 
-    <!-- 게시물 등록 버튼 -->
-    <BaseButton>게시물 등록
+    <BaseSelect
+      v-model="local.category"
+      :options="options"
+      _ph="분류"
+      class="ctl ctl--select"
+    />
+
+    <div class="search-wrapper">
+      <BaseInput
+        v-model="search"
+        placeholder="게시물 검색"
+        size="md"
+        @enter="handleSearch"
+      />
+    </div>
+
+    <BaseButton class="post-btn">
+      게시물 등록
       <template #icon>
-        <img src="@/assets/icons/companion/Vector.svg" alt="edit" style="width: 1.4375rem" />
+        <img src="@/assets/icons/companion/Vector.svg" alt="edit"/>
       </template>
     </BaseButton>
   </div>
@@ -72,95 +52,112 @@ import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
 import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
 
-const emit = defineEmits(['filter-change', 'search', 'create'])
-const local = reactive({ startDate: '', endDate: '', title: '', category: '' })
+const emit = defineEmits(['filter-change', 'search'])
 
-const categories = [
-  { label: '모집', value: '모집' },
-  { label: '완료', value: '완료' },
+const local = reactive({
+  startDate: '',
+  endDate:   '',
+  title:     '',
+  category:  ''
+})
+
+const options = [
+  { label: '제목', value: 'title' },
+  { label: '작성자', value: 'author' },
+  { label: '번호', value: 'number' }
 ]
 
+
 const emitFilter = (k, v) => emit('filter-change', k, v)
-const onSearch = () => {
-  emitFilter('title', local.title)
-  emit('search')
-}
+const onSearch   = () => { emitFilter('title', local.title); emit('search') }
 </script>
 
 <style scoped>
 .filter-bar {
   display: flex;
   align-items: center;
-  gap: 13px;
-  height: 46px;
-  padding-left: 24.7vw;
-  padding-right: 18.8vw;
-
-  .flex-item {
-    flex: 1 1 clamp(120px, 14vw, 160px);
-    min-width: 0;
-    background-color: #dbe2ef;
-    color: #3f72af;
-
-    :deep(.form-control),
-    :deep(.base-button) {
-      width: 100% !important;
-      background-color: #dbe2ef !important;
-      color: #3f72af !important;
-    }
-
-    :deep(input[type='date']) {
-      color: #3f72af !important;
-    }
-  }
-
-  .search-wrapper {
-    flex: 2 1 clamp(240px, 30vw, 350px); 
-    max-width: 100%;
-    position: relative;
-    width: 100%;
-
-    :deep(.form-control) {
-      height: 3rem;
-      font-size: 1rem;
-      padding-right: 40px;
-    }
-  }
+  justify-content: flex-end;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin-left: auto;
 }
 
-:deep(.base-button.accent) {
-  background-color:#3f72af !important;
-  color: #fff !important;
+.date-group{
+  display:flex;
+  align-items:center;
+  gap:var(--space-sm);
 }
 
-.tilde {
-  font-size: 21px;
+.tilde{
+  font-size:1.125rem;
+  line-height:1;
+  color:var(--color-text);
+}
+
+.ctl{
+  flex:0 0 9rem;
+  height:var(--btn-height);
+  border-radius:var(--btn-radius);
+  background:var(--color-surface);
+  color:var(--color-primary);
+  min-width:0;
+}
+.ctl--select{ flex-basis:140px; }
+.ctl--date{  text-align:center; }
+
+.ctl--date ::v-deep(.date-wrapper) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-left: calc(var(--space-sm) + 1.5rem);
+  font-size: 0.75rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ctl--date ::v-deep(.date-icon) {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.6;
+}
+
+.ctl--date ::v-deep(.date-input) {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding-left: 1.5rem; 
+  text-align: center;
 }
 
 .search-wrapper {
   position: relative;
-  flex: 1 1 clamp(120px, 14vw, 160px);
-  min-width: 0;
-  :deep(.form-control),
-  :deep(.base-button) {
-    width: 100% !important;
-  }
+  flex: none;
+  width: 14rem;
+  max-width: 14rem;
 }
 
-.search-icon {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 1;
-  }
+.search-wrapper ::v-deep(input){
+  width:100%; height:var(--btn-height);
+  border:none; background:var(--color-surface);
+  border-radius:var(--btn-radius);
+  padding-inline:var(--space-sm) calc(var(--space-sm) + 24px);
+  font-size:var(--fs-body); color:var(--color-primary);
+  padding-left: 1rem; 
 }
+
+.post-btn{
+  background:var(--color-primary);
+  color:var(--color-on-primary);
+  gap:var(--btn-gap);
+  
+}
+
 </style>
