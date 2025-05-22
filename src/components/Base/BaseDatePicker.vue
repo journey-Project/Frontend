@@ -1,17 +1,15 @@
 <template>
   <div class="date-wrapper" ref="wrapper" @click="open = true" tabindex="0">
-    <!-- 아이콘 -->
     <img src="@/assets/icons/companion/date_icon.svg" class="date-icon" alt="calendar" />
 
     <input
       class="date-input"
-      :placeholder="_ph || 'YYYY-MM-DD'"
+      :placeholder="placeholder || 'YYYY-MM-DD'"
       :value="modelValue"
       readonly
       aria-label="날짜 선택"
     />
 
-    <!-- 달력 -->
     <div v-if="open" class="journey-datepicker" @click.stop>
       <VDatePicker
         v-model="inner"
@@ -30,16 +28,15 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-import calendarArrow from '@/assets/icons/companion/calendarPolygon3.svg?url'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
+/* ───────── props / emits ───────── */
 const props = defineProps({
   modelValue: { type: String, default: '' }, // 'YYYY-MM-DD'
-  _ph: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
   min: String,
   max: String,
 })
-
 const emit = defineEmits(['update:modelValue'])
 
 const inner = ref(props.modelValue ? new Date(props.modelValue) : null)
@@ -56,9 +53,7 @@ function onDateSelected(date) {
 }
 
 function handleClickOutside(e) {
-  if (wrapper.value && !wrapper.value.contains(e.target)) {
-    open.value = false
-  }
+  if (wrapper.value && !wrapper.value.contains(e.target)) open.value = false
 }
 onMounted(() => document.addEventListener('mousedown', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
@@ -71,130 +66,111 @@ input:focus {
 
 .date-wrapper {
   position: relative;
-  width: 10rem;
-  height: 3rem;
-  border-radius: 1.5rem;
-  background: rgba(219, 226, 239, 0.35);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  width: var(--btn-md);
+  height: var(--btn-height);
+  border-radius: var(--btn-radius);
+  background: var(--color-surface);
 }
 
-.date-wrapper .date-icon {
+.date-icon {
   width: 1rem;
   height: 1rem;
-  margin-left: 0.75rem;
+  margin-left: var(--space-sm);
 }
 
-.date-wrapper .date-input {
+/* 값/placeholder */
+.date-input {
   flex: 1;
   height: 100%;
   padding-left: 0.5rem;
   border: none;
   background: transparent;
-  font-size: 13px;
-  color: #3f72af;
+  font-size: var(--fs-body);
+  color: var(--color-primary);
+}
+.date-input::placeholder {
+  color: var(--color-primary);
+  font-weight: var(--fw-medium);
 }
 
-.date-wrapper .date-input::placeholder {
-  color: #3f72af;
-  opacity: 0.6;
-}
-
+/* ───────── popover ───────── */
 .journey-datepicker {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + var(--space-sm)); /* 아래 여백 8px */
   left: 0;
   z-index: 9999;
-  border-radius: 1.5rem;
-  background-color: #dbe2ef;
-  padding: 1.5rem;
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  border-radius: var(--input-radius);
+  padding: var(--space-lg); /* 24px */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-  /* v-calendar theme variables */
-  --vc-primary: #3f72af;
-  --vc-accent-50: rgba(63, 114, 175, 0.12);
-  --vc-content: #3f72af;
+  /* v-calendar theme 토큰 덮어쓰기 */
+  --vc-primary: var(--color-primary);
+  --vc-accent-50: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --vc-content: var(--color-primary);
+}
 
-  :deep(.vc-container) {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-  }
-
-  :deep(.vc-nav) {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  :deep(.vc-nav-arrow) {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(63, 114, 175, 0.07) center/18px 18px no-repeat;
-  }
-
-  :deep(.vc-nav-arrow:hover) {
-    background: rgba(63, 114, 175, 0.1) center/18px 18px no-repeat;
-  }
-
-  :deep(.vc-nav-arrow svg) {
-    display: none;
-  }
-
-  :deep(.vc-nav-arrow.is-prev) {
-    background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
-  }
-
-  :deep(.vc-nav-arrow.is-next) {
-    background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
-    transform: scaleX(-1);
-  }
-
-  :deep(.vc-nav-title),
-  :deep(.vc-title-button) {
-    color: #3f72af !important;
-    background-color: rgba(63, 114, 175, 0.07);
-    font-weight: 700;
-    font-size: 20px;
-    border-radius: 6px;
-    padding: 0 0.75rem;
-  }
-
-  :deep(.vc-weekdays) {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 6px;
-  }
-
-  :deep(.vc-weekday) {
-    text-align: center;
-    font-weight: 600;
-    font-size: 15px;
-    color: #3f72af;
-  }
-
-  :deep(.vc-day) {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-    color: #3f72af;
-    line-height: 40px;
-  }
-
-  :deep(.vc-day):hover:not(.is-disabled) {
-    background: rgba(63, 114, 175, 0.1);
-  }
-
-  :deep(.vc-day.is-not-current-month) {
-    color: rgba(63, 114, 175, 0.35);
-  }
-
-  :deep(.vc-day.is-selected .vc-day-content) {
-    background: #3f72af;
-    color: #fff;
-    border-radius: 50%;
-  }
+/* v-calendar override */
+.journey-datepicker ::v-deep(.vc-container) {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.journey-datepicker ::v-deep(.vc-nav) {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+.journey-datepicker ::v-deep(.vc-nav-arrow) {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 7%, transparent) center/18px 18px no-repeat;
+}
+.journey-datepicker ::v-deep(.vc-nav-arrow:hover) {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent) center/18px 18px no-repeat;
+}
+.journey-datepicker ::v-deep(.vc-nav-arrow svg) {
+  display: none;
+}
+.journey-datepicker ::v-deep(.vc-nav-arrow.is-prev) {
+  background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
+}
+.journey-datepicker ::v-deep(.vc-nav-arrow.is-next) {
+  background-image: url('@/assets/icons/companion/calendarPolygon3.svg');
+  transform: scaleX(-1);
+}
+.journey-datepicker ::v-deep(.vc-nav-title),
+.journey-datepicker ::v-deep(.vc-title-button) {
+  color: var(--color-primary) !important;
+  background: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  font-weight: var(--fw-bold);
+  font-size: 1.25rem;
+  border-radius: 6px;
+  padding: 0 var(--space-sm);
+}
+.journey-datepicker ::v-deep(.vc-weekday) {
+  text-align: center;
+  font-weight: var(--fw-semibold);
+  font-size: 0.9375rem;
+  color: var(--color-primary);
+}
+.journey-datepicker ::v-deep(.vc-day) {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  color: var(--color-primary);
+  line-height: 40px;
+}
+.journey-datepicker ::v-deep(.vc-day:hover:not(.is-disabled)) {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+.journey-datepicker ::v-deep(.vc-day.is-not-current-month) {
+  color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+.journey-datepicker ::v-deep(.vc-day.is-selected .vc-day-content) {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
 }
 </style>
