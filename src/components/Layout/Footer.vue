@@ -22,40 +22,37 @@
         </li>
       </ul>
     </div>
-    <hr />
   </footer>
 </template>
 
 <style scoped>
-
 footer {
   background-color: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 3.5rem;
+  padding-bottom: 2rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-top: 39px;
+  margin-top: var(--space-lg);
 }
 
 .logo-img {
-  width: 55px;
-  height: 30px;
+  width: 3.375rem;
 }
 
 .icons {
-  margin-top: 37px;
+  margin-top: 1.25rem;
 
   .icon-list {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -63,13 +60,6 @@ footer {
 }
 
 .icon {
-  width: 28px;
-}
-
-hr {
-  color: white;
-  width: 95.94vw;
-  max-width: 1842px;
-  margin-top: 50px;
+  width: 1.5rem;
 }
 </style>
