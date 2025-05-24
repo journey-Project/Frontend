@@ -2,13 +2,14 @@
 <template>
   <div class="country-button-group">
     <!-- 나중에 국가별 커뮤니티 페이지로 라우팅 -->
-    <button
-      v-for="(flag, name) in countryFlagMap"
-      :key="name"
-      :style="{ paddingLeft: name.length === 3 ? rem(14) : rem(20) }"
-    >
-      <img :src="getImagePath(flag)" class="flag-icon" alt="국기" />
-      <span :style="{ width: name.length === 3 ? rem(47) : rem(32) }">{{ name }}</span>
+    <button v-for="(flag, name) in countryFlagMap" :key="name">
+      <img
+        :src="getImagePath(flag)"
+        class="flag-icon"
+        alt="국기"
+        :style="{ marginRight: name.length === 3 ? rem(12) : rem(16) }"
+      />
+      <span>{{ name }}</span>
     </button>
   </div>
 </template>
@@ -38,30 +39,31 @@ const getImagePath = (filename) => {
 
 <style scoped>
 .country-button-group {
+  max-width: 60rem;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 45px;
+  gap: 1.25rem;
 }
 
 .flag-icon {
-  width: 40px;
-  height: 30px;
+  width: 2rem;
+  height: 1.5rem;
 }
 
 button {
   padding: 0;
 
-  width: 131px;
-  height: 71px;
-  border-radius: 20px;
+  padding-left: 1.25rem;
+  width: 7.5rem;
+  height: 4rem;
+  border-radius: 1rem;
   background-color: var(--color-surface);
   color: var(--color-primary);
   border: none;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 17px;
 }
 
 span {

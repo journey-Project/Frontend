@@ -9,7 +9,7 @@
         spanColor="white"
         spanFontSize="14px"
         spanFontWeight="700"
-        gap="8px"
+        gap="6px"
       />
     </div>
   </div>
@@ -35,9 +35,9 @@ const goToStoryDetail = () => {
 <style scoped>
 .storyCard {
   position: relative;
-  width: 200px;
-  height: 246px;
-  border-radius: 10px;
+  width: 10rem;
+  height: 13rem;
+  border-radius: 1rem;
   box-shadow: 3 4 4 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
@@ -50,7 +50,7 @@ const goToStoryDetail = () => {
 }
 .avatar-overlay {
   position: absolute;
-  top: 10px;
-  left: 0.5rem;
+  top: 0.5rem;
+  left: 0.375rem;
 }
 </style>
