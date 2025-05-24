@@ -61,11 +61,10 @@ const goToProfile = () => {
 }
 
 .profile-user-div {
-  width: 3px;
-  height: 36px;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--color-primary);
   cursor: pointer;
 }
 

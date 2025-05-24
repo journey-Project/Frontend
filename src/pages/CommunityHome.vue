@@ -32,7 +32,7 @@
       <div class="text">오늘의 HOT 게시물</div>
       <img src="@/assets/icons/arrow.svg" class="arrow-icon" @click="goToHotPosts" />
     </div>
-    <hr class="hot-hr" />
+    <hr />
 
     <HotPostList :posts="hotPosts" />
   </div>
@@ -150,14 +150,13 @@ function goToHotPosts() {
 }
 </script>
 <style scoped>
-
 .container {
-  margin-bottom: 117px;
+  margin-bottom: var(--space-3xl);
 }
 .text {
   padding: 0;
   margin: 0;
-  font-size: 24px;
+  font-size: var(--fs-title);
   font-weight: 900;
   color: var(--color-primary);
   height: 29px;
@@ -165,34 +164,31 @@ function goToHotPosts() {
 }
 .text2 {
   color: #666666;
-  font-size: 16px;
+  font-size: var(--fs-body);
   padding: 0;
   height: 19px;
   line-height: 19px; /* 글자 높이 맞추기 */
-  margin-bottom: 28px;
+  margin-bottom: var(--space-xl);
 }
 .row1 {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  gap: 16px; /* hot_icon과 text 사이의 여백을 16px로 설정 */
+  gap: 1rem; /* hot_icon과 text 사이의 여백을 16px로 설정 */
 }
 #storyText {
-  margin-top: 46px;
-  margin-bottom: 17px;
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-md);
 }
 #communitytext {
-  margin-top: 70px;
-  margin-bottom: 30px
-}
-#companionText {
-  margin-top: 67px;
+  margin-top: 2.25rem;
+  margin-bottom: 1.75rem;
 }
 hr {
   margin: 0;
   width: 100%;
   border: 0;
-  border-top: 3 solid var(--color-primary);
-  margin-top: 30px;
+  border-top: 3px solid var(--color-primary);
+  margin-top: var(--space-lg);
   opacity: 1 !important;
 }
 .hot-icon {
@@ -207,25 +203,14 @@ hr {
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 카드 3개를 균등하게 */
-  gap: 67px; /* 카드 사이 간격 */
+  gap: var(--space-3xl); /* 카드 사이 간격 */
   width: 100%; /* 전체 컨테이너 너비 차지 */
   margin: 0 auto;
-  margin-top: 43px;
-  margin-bottom: 139px;
-
-  /* @include m.respond('tablet') {
-    grid-template-columns: repeat(2, 1fr);
-    gap: m.rem(32);
-    padding: 0 m.rem(24);
-  }
-
-  @include m.respond('mobile') {
-    grid-template-columns: 1fr;
-    gap: m.rem(24);
-    padding: 0 m.rem(16);
-  } */
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-2xl);
 }
+
 .countrySelectBar {
-  margin-bottom: 67px;
+  margin-bottom: var(--space-2xl);
 }
 </style>

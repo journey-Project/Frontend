@@ -34,5 +34,8 @@ const activeTab = ref('community')
 
 .main-content {
   flex: 1;
+  max-width: 990px;
+  width: 100%;
+  margin: 0 auto;
 }
 </style>
