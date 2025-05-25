@@ -50,7 +50,7 @@ const router = createRouter({
     },
     {
       path: '/login/callback/naver',
-      name: 'callbackkakao',
+      name: 'callbacnaver',
       component: CallbacNaver,
     },
   ],
