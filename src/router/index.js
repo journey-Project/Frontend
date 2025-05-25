@@ -3,6 +3,8 @@ import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
 import LoginPage from '@/pages/LoginPage.vue'
 import CommunityBoard from '@/pages/CommunityBoard.vue'
+import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
+import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +42,16 @@ const router = createRouter({
       name: 'login',
       component: LoginPage,
       meta: { hideLayout: true },
+    },
+    {
+      path: '/login/callback/kakao',
+      name: 'callbackkakao',
+      component: CallbacKkakao,
+    },
+    {
+      path: '/login/callback/naver',
+      name: 'callbacnaver',
+      component: CallbacNaver,
     },
   ],
 })
