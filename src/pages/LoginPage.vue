@@ -22,12 +22,12 @@
         <IDPasswordButton text="비밀번호 찾기"></IDPasswordButton>
       </div>
       <div class="buttonBox">
-        <SocialLoginButtons _bgColor="#FEE500">
+        <SocialLoginButtons _bgColor="#FEE500" @click="doKakaoLogin">
           <template #icon>
             <img src="@/assets/icons/login/kakao-logo.svg" alt="Kakao" class="icon2" />
           </template>
         </SocialLoginButtons>
-        <SocialLoginButtons _bgColor="#03C75A">
+        <SocialLoginButtons _bgColor="#03C75A" @click="doNaverLogin">
           <template #icon>
             <img src="@/assets/icons/login/naver-logo.svg" alt="Naver" class="icon" />
           </template>
@@ -71,6 +71,28 @@ const handleLogin = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+function doKakaoLogin() {
+  const base = 'https://kauth.kakao.com/oauth/authorize'
+  const params = new URLSearchParams({
+    client_id: import.meta.env.VITE_KAKAO_REST_API_KEY,
+    redirect_uri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
+    response_type: 'code',
+  })
+
+  window.location.href = `${base}?${params.toString()}`
+}
+
+function doNaverLogin() {
+  const base = 'https://nid.naver.com/oauth2.0/authorize'
+  const params = new URLSearchParams({
+    client_id: import.meta.env.VITE_NAVER_REST_API_KEY,
+    redirect_uri: import.meta.env.VITE_NAVER_REDIRECT_URI,
+    response_type: 'code',
+  })
+
+  window.location.href = `${base}?${params.toString()}`
 }
 </script>
 

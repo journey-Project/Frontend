@@ -4,3 +4,11 @@ import api from './_instance'
 export const login = (data = {}) => {
   return api.post('/auth/login', data)
 }
+
+export const callbackkakao = (code) => {
+  return api.post(`/oauth2/kakao?code=${code}`, null, { withCredentials: true })
+}
+
+export const callbacknaver = (code) => {
+  return api.post(`/oauth2/naver?code=${code}`, null, { withCredentials: true })
+}
