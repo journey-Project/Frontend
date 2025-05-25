@@ -2,18 +2,21 @@
   <header>
     <div class="header-inner">
       <!-- 로고 -->
-      <div class="left">
+      <router-link to="/" class="left">
         <img src="@/assets/main_logo.svg" class="logimg" />
-      </div>
+      </router-link>
 
       <!-- 메뉴 -->
       <div class="center">
         <ul class="navbar-nav menu-nav">
-          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+          <!-- <li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
+          <li class="nav-item">
+            <router-link class="nav-link" to="/community">커뮤니티</router-link>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">동행자</a></li>
           <li class="nav-item"><a class="nav-link" href="#">예약</a></li>
           <li class="nav-item"><a class="nav-link" href="#">일정</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
+          <!-- <li class="nav-item"><a class="nav-link" href="#">공지사항</a></li> -->
         </ul>
       </div>
 
@@ -35,11 +38,11 @@
     </div>
   </header>
 </template>
-
+<script setup></script>
 <style scoped>
 header {
   background-color: var(--color-surface);
-  height: 111px;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,14 +53,13 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1181px;
+  max-width: 60rem;
   padding: 0;
   box-sizing: border-box;
 }
 
 .left {
-  width: 76px;
-  height: 38px;
+  width: 3.5rem;
 }
 
 .logimg {
@@ -66,16 +68,17 @@ header {
 }
 
 .center {
-  margin-left: 124px;
+  margin-left: 8rem;
   display: flex;
   align-items: center;
-  height: 24px;
+  height: 1.5rem;
   flex: 1;
-  max-width: 620px;
-  margin-right: 111px;
+  max-width: 32.5rem;
+  margin-right: 8rem;
 }
 
 .menu-nav {
+  display: flex;
   justify-content: space-between;
   width: 100%;
 }
@@ -98,7 +101,7 @@ header {
 .nav-link {
   color: var(--color-primary);
   font-weight: 700;
-  font-size: 20px;
+  font-size: var(--fs-menu);
   text-decoration: none;
   height: 100%;
   display: flex;
@@ -118,44 +121,47 @@ header {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 2rem;
 }
 
 .nav-item.li-center {
-  gap: 43px;
+  gap: 3rem;
 }
 
 .profile-user-div {
-  width: 49px;
-  height: 49px;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--color-primary);
+  /* border: 2px solid var(--color-primary); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-position: contain;
 }
 
 .notify_icon,
 .info_icon {
-  width: 28px;
+  width: 1.25rem;
   height: auto;
 }
 
 .profile_button {
-  width: 23px;
-  height: 11px
+  width: 1rem;
+  height: 0.7rem;
 }
+
 #notify_icon_a {
-  height: 28px;
-  margin-left: 44px;
-  margin-right: 43px;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 #profile_buton_a {
-  margin-left: 34px;
+  margin-left: 2rem;
 }
 
 /* 반응형 설정 */
@@ -169,7 +175,7 @@ header {
     font-size: 18px;
   }
 }
-/* 
+
 @media (max-width: 768px) {
   .menu-nav {
     display: none;
@@ -188,10 +194,10 @@ header {
   }
 
   .right {
-    margin-top: m.rem(12);
+    margin-top: 12px;
     justify-content: flex-end;
     width: 100%;
-    gap: m.rem(20);
+    gap: 20px;
   }
-} */
+}
 </style>

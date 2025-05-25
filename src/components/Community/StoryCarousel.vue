@@ -30,21 +30,44 @@ const goToAddStory = () => {
 }
 </script>
 <style scoped>
-
 .addStory {
   border: 3px solid var(--color-primary);
-  width: 200px;
-  height: 246px;
-  border-radius: 10px;
+  min-width: 10rem;
+  height: 13rem;
+  border-radius: 1rem;
   cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
+img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
 .story-carousel {
   display: flex;
-  gap: 50px; 
-  overflow-x: auto; 
+  gap: 2.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.story-carousel::-webkit-scrollbar {
+  height: 0.5rem; /* 가로 스크롤바 높이 */
+}
+
+.story-carousel::-webkit-scrollbar-track {
+  background: #f0f8ff; /* 트랙: 밝은 하늘색 */
+  border-radius: 10px;
+}
+
+.story-carousel::-webkit-scrollbar-thumb {
+  background: var(--color-surface);
+  border-radius: 10px;
+}
+
+.story-carousel::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary); /* 호버 시 색상 */
 }
 </style>
+c

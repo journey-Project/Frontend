@@ -32,7 +32,6 @@ const formatTime = (time) => {
 </script>
 
 <style scoped>
-
 .hot-post-row {
   color: var(--color-primary);
   border-bottom: 1px solid rgba(63, 114, 175, 0.3);
@@ -41,15 +40,15 @@ const formatTime = (time) => {
 
   /* 호버시 색상 줄건지, 효과줄건지 상의 필요  */
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05); 
+    background-color: rgba(0, 0, 0, 0.05);
     /* 호버 시 배경색 */
   }
 }
 
 td {
-  padding: 12px 16px;
+  padding: 1rem 1.25rem;
   text-align: left;
-  height: 70px;
+  height: 3rem;
 }
 
 .time-cell {
@@ -58,13 +57,13 @@ td {
 }
 
 #countryText {
-  font-size: 20px;
+  font-size: 1.125rem;
   font-weight: 700;
 }
 
 .time-cell,
 #titleText {
-  font-size: 20px;
+  font-size: 1.125rem;
   font-weight: 500;
 }
 </style>

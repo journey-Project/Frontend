@@ -113,7 +113,7 @@ async function fetchList() {
     })
 
     list.value = Array.isArray(data.content) ? data.content : []
-    totalPages.value = data.pagination?.totalPages ?? 1
+    totalPages.value = data.pagination?.totalPageCount ?? 1
   } catch (e) {
     console.error('API 호출 실패:', e)
     list.value = []
@@ -191,7 +191,7 @@ watch(
 }
 
 .pagination {
-  margin-top: 73px;
-  margin-bottom: 86px;
+  margin-top: 4.5rem;
+  margin-bottom: 5rem;
 }
 </style>

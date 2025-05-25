@@ -31,43 +31,39 @@ function goToPage(page) {
 </script>
 
 <style scoped>
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  font-size: 17px;
+.pagination{
+  display:flex;
+  justify-content:center;
+  gap:var(--space-md);
+  font-size:1.0625rem;
+  user-select:none;
+}
 
-  button {
-    all: unset;
-    color: #3f72af;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0 4px;
-    transition: color 0.2s ease-in-out;
+.pagination > button{
+  all:unset;
+  font-size:1.125rem;
+  color:var(--color-primary);
+  cursor:pointer;
+  padding-inline:4px;
+  transition:color .2s ease-in-out;
+}
+.pagination > button:hover:not(:disabled){
+  color:#112d4e;
+}
+.pagination > button:disabled{
+  cursor:default; opacity:.4;
+}
 
-    &:hover:not(:disabled) {
-      color: #112d4e;
-    }
-
-    &:disabled {
-      cursor: default;
-    }
-  }
-
-  span {
-    color: #3f72af;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
-
-    &.active {
-      font-weight: bold;
-      color: #3f72af;
-      text-decoration: underline;
-    }
-
-    &:hover:not(.active) {
-      color: #112d4e;
-    }
-  }
+.pagination > span{
+  color:var(--color-primary);
+  cursor:pointer;
+  transition:color .2s ease-in-out;
+}
+.pagination > span.active{
+  font-weight:var(--fw-bold);
+  text-decoration:underline;
+}
+.pagination > span:hover:not(.active){
+  color:#112d4e;
 }
 </style>
