@@ -31,12 +31,12 @@
       <BaseInput
         v-model="search"
         placeholder="게시물 검색"
-        size="md"
+        w="14rem"
         @enter="handleSearch"
       />
     </div>
 
-    <BaseButton class="post-btn">
+    <BaseButton class="post-btn" @click="handleCreatePost">
       게시물 등록
       <template #icon>
         <img src="@/assets/icons/companion/Vector.svg" alt="edit"/>
@@ -51,6 +51,10 @@ import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
 import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
 
 const emit = defineEmits(['filter-change', 'search'])
 
@@ -64,8 +68,18 @@ const local = reactive({
 const options = [
   { label: '제목', value: 'title' },
   { label: '작성자', value: 'author' },
-  { label: '번호', value: 'number' }
+  { label: '내용', value: 'content' }
 ]
+
+function handleCreatePost() {
+  if (route.path.includes('community')) {
+    router.push('/community/write')
+  } else if (route.path.includes('companion')) {
+    router.push('/companion/write')
+  } else {
+    console.warn('등록 버튼 클릭: 알 수 없는 게시판 경로입니다.')
+  }
+}
 
 
 const emitFilter = (k, v) => emit('filter-change', k, v)
