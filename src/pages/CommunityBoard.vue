@@ -124,7 +124,7 @@ function refresh() {
 }
 
 function openDetail(id) {
-  router.push(`/commuinity/${id}`)
+  router.push(`/community/${id}`)
 }
 
 function goCreate() {
