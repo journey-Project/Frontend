@@ -15,4 +15,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+  proxy: {
+    '/api': {
+      target: 'https://journeysite.site',
+      changeOrigin: true,
+      rewrite: path => path.replace(/^\/api/, '/api'), // /api 유지
+      secure: false, // HTTPS이더라도 인증서 검사 생략
+    }
+  }
+}
 })
+
