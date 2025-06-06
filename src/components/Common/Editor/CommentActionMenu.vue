@@ -1,12 +1,24 @@
 <!-- 댓글 수정하기/삭제하기 ActionMenu -->
-
 <template>
   <div class="menu">
-    <button>수정하기</button>
-    <button>삭제하기</button>
+    <button @click="onEdit">수정하기</button>
+    <button @click="onDelete">삭제하기</button>
   </div>
 </template>
+<script setup>
+const props = defineProps({
+  commentId: { type: Number, required: true },
+})
 
+const onEdit = () => {
+  emit('start-edit') // 수정 모드 진입 알림
+}
+const emit = defineEmits(['show-delete-modal', 'start-edit'])
+
+const onDelete = () => {
+  emit('show-delete-modal')
+}
+</script>
 <style scoped>
 .menu {
   width: 7.5rem;

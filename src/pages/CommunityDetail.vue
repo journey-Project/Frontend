@@ -3,72 +3,104 @@
   <div class="container">
     <PostInfo
       v-if="post"
+      :userId="post.loginId"
       :title="post.title"
       :nickname="post.nickname"
-      :userId="post.loginId"
       :createdAt="post.created_at"
-      :viewCount="post.view_count"
-      :profileImageUrl="post.profileImage"
+      :viewCount="post.viewCount"
+      :profileImageUrl="post.profileImageUrl"
+      :isMine="post.mine"
+      @edit="goToEditPage"
+      @delete="openDeleteModal"
     />
     <PostContent v-if="post" :content="post.content" />
-    <CommentList :comments="comments" />
-    <CommentForm :nickname="currentUser.nickname" :profileImageUrl="currentUser.profileImageUrl" />
+
+    <!-- 댓글 목록 -->
+    <CommentList :comments="comments" @comment-deleted="fetchComments" />
+
+    <!-- 댓글 입력 -->
+    <CommentForm
+      :nickname="currentUser.nickname"
+      :profileImageUrl="currentUser.profileImageUrl"
+      :memberId="currentUser.id"
+      @commentPosted="fetchComments"
+    />
+
+    <BaseModal v-if="showDeleteModal" @confirm="deletePost" @close="closeDeleteModal">
+      이 글을 삭제하시겠습니까?<br />
+      삭제시 복구 불가능
+    </BaseModal>
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/useAuthStore'
 import { getPostByPostId } from '@/api/postApi'
+import { getComments } from '@/api/commentApi'
+
 import PostInfo from '@/components/Common/Detail/PostInfo.vue'
 import PostContent from '@/components/Common/Detail/PostContent.vue'
 import CommentList from '@/components/Common/Editor/CommentList.vue'
-import profileImage from '@/assets/profile.jpg' //임시 프로필 사진
 import CommentForm from '@/components/Common/Editor/CommentForm.vue'
+import BaseModal from '@/components/Base/BaseModal.vue'
+import { deletePostById } from '@/api/postApi'
+
+const router = useRouter()
 const route = useRoute()
 const post = ref(null)
+const comments = ref([])
+const showDeleteModal = ref(false)
 
-const currentUser = {
-  nickname: '구름',
-  profileImageUrl: profileImage,
+//로그인 유저 정보 가져오기
+const authStore = useAuthStore()
+const currentUser = computed(() => authStore.user) // 👉 currentUser로 사용
+
+const fetchComments = async () => {
+  const postId = route.params.id
+  const res = await getComments(postId)
+  comments.value = res.data
 }
-
-//댓글 임시 데이터
-const comments = ref([
-  {
-    id: 1,
-    user_id: '커비',
-    profile_image:
-      'https://i.namu.wiki/i/wXGU6DZbHowc6IB0GYPJpcmdDkLO3TW3MHzjg63jcTJvIzaBKhYqR0l9toBMHTv2OSU4eFKfPOlfrSQpymDJlA.webp', // 임시 이미지
-    content:
-      '전 코트 입고 갔는데 괜찮았어요! 어차피 서울에서도 차로 이동해서 괜찮을 거 같더라고요ㅎㅎ',
-  },
-  {
-    id: 2,
-    user_id: 'helloWorld',
-    profile_image: 'https://via.placeholder.com/40',
-    content: '동의합니다. 많은 도움이 되었어요.',
-  },
-  {
-    id: 3,
-    user_id: 'vueDev',
-    profile_image: 'https://via.placeholder.com/40',
-    content: '질문이 있는데 댓글로 남겨도 될까요?',
-  },
-])
 
 onMounted(async () => {
   const postId = route.params.id
   try {
     const res = await getPostByPostId(postId)
     post.value = res.data
+
+    console.log('게시글 정보:', post.value)
+    await fetchComments()
   } catch (error) {
     console.error('게시글 정보를 불러오는 데 실패했습니다.', error)
   }
 })
+
+// 수정 버튼 → 수정 페이지로 이동
+const goToEditPage = () => {
+  router.push('/') //추후 작업
+}
+
+// 삭제 모달 열기/닫기
+const openDeleteModal = () => {
+  showDeleteModal.value = true
+}
+const closeDeleteModal = () => {
+  showDeleteModal.value = false
+}
+
+// 게시글 삭제 요청
+const deletePost = async () => {
+  try {
+    await deletePostById(route.params.id)
+    router.push('/community') // 삭제 후 목록 페이지로 이동 - 추후 작업
+  } catch (error) {
+    console.error('게시글 삭제 실패:', error)
+  }
+}
 </script>
 <style scoped>
 .container {
   margin-top: 4rem;
-  margin-bottom: 12.5rem;
+  margin-bottom: 27rem;
 }
 </style>

@@ -1,10 +1,12 @@
 // stores/useAuthStore.js
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import api from '@/api/_instance'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: {
+      id: '',
       loginId: '',
       name: '',
       nickname: '',
@@ -30,11 +32,12 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get('/api/members/me')
+        const res = await api.get('/members/me')
         this.user = res.data
       } catch (err) {
         this.error = err
         this.user = {
+          id: '',
           loginId: '',
           name: '',
           nickname: '',
@@ -51,6 +54,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         await axios.post('/api/auth/logout')
         this.user = {
+          id: '',
           loginId: '',
           name: '',
           nickname: '',

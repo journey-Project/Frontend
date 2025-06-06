@@ -10,19 +10,19 @@
       spanFontWeight="500"
       gap="16px"
     />
+
     <div class="infoBox">
       <div class="info-left">{{ formattedDate }} · 조회수 {{ viewCount }}</div>
       <div class="info-right" v-if="isOwner">
-        <button class="action-button">수정하기</button>
+        <button class="action-button" @click="$emit('edit')">수정하기</button>
         <span class="divider"> | </span>
-        <button class="action-button">삭제하기</button>
+        <button class="action-button" @click="$emit('delete')">삭제하기</button>
       </div>
     </div>
     <hr />
   </div>
 </template>
 <script setup>
-import { useAuthStore } from '@/stores/useAuthStore'
 import { computed } from 'vue'
 import Avatar from '@/components/Profile/Avatar.vue'
 import dayjs from 'dayjs'
@@ -34,14 +34,10 @@ const props = defineProps({
   viewCount: Number,
   profileImageUrl: String,
   userId: String,
+  isMine: Boolean,
 })
 
-const authStore = useAuthStore()
-const currentUserId = computed(() => authStore.user?.loginId)
-
-//store에 저장된 로그인 사용자 id와
-//작성자 id일치 확인
-const isOwner = computed(() => props.userId === currentUserId.value)
+const isOwner = computed(() => props.isMine)
 
 //날짜 포맷
 const formattedDate = dayjs(props.createdAt).format('YYYY.MM.DD HH:mm')

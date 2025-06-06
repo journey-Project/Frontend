@@ -15,6 +15,8 @@ import BoardTypeTab from './components/Common/Tap/BoardTypeTab.vue'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import Pagination from './components/Base/Pagination.vue'
 
+import BaseModal from './components/Base/BaseModal.vue'
+
 const activeTab = ref('community')
 
 const route = useRoute()

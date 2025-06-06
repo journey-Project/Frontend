@@ -62,7 +62,7 @@ const router = createRouter({
       component: CallbacNaver,
     },
     {
-      path: '/community/post/:id',
+      path: '/community/:id',
       name: 'CommunityDetail',
       component: CommunityDetail,
       props: true,

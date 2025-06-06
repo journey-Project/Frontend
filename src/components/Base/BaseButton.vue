@@ -1,9 +1,5 @@
 <template>
-  <button
-    :class="['base-btn', sizeClass, { disabled }]"
-    :disabled="disabled"
-    @click="$emit('click')"
-  >
+  <button :class="['base-btn', sizeClass, { disabled }]" :disabled="disabled">
     <slot />
   </button>
 </template>
