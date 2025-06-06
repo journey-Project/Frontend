@@ -41,7 +41,7 @@ const sizeClass = computed(
   background: var(--btn-bg);
   color: var(--btn-text);
   border: none;
-  font-weight:var(--fw-semibold);
+  font-weight: var(--fw-semibold);
   border-radius: var(--btn-radius);
   cursor: pointer;
   transition: opacity 0.2s;
@@ -77,5 +77,4 @@ const sizeClass = computed(
   font-size: var(--fs-button-xl);
   height: var(--btn-height-xl);
 }
-
 </style>

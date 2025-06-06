@@ -12,3 +12,7 @@ export const callbackkakao = (code) => {
 export const callbacknaver = (code) => {
   return api.post(`/oauth2/naver?code=${code}`, null, { withCredentials: true })
 }
+
+export const signup = (data = {}) => {
+  return api.post('/members/signup', data)
+}
