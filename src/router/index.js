@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
 import LoginPage from '@/pages/LoginPage.vue'
+import SignUpPage from '@/pages/SignUpPage.vue'
 import CommunityBoard from '@/pages/CommunityBoard.vue'
 import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
 import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
@@ -41,6 +42,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginPage,
+      meta: { hideLayout: true },
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUpPage,
       meta: { hideLayout: true },
     },
     {
