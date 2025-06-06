@@ -5,3 +5,8 @@ import api from './_instance'
 export const getPostByPostId = (communityPostId, params = {}) => {
   return api.get(`/community/getPostByPostId/${communityPostId}`, { params })
 }
+
+// 게시글 삭제
+export const deletePostById = (communityPostId) => {
+  return api.delete(`/community/DeletePosts/${communityPostId}`)
+}

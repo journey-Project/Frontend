@@ -4,10 +4,11 @@
     <PostInfo
       v-if="post"
       :title="post.title"
-      :nickname="post.user_id"
+      :nickname="post.nickname"
+      :userId="post.loginId"
       :createdAt="post.created_at"
       :viewCount="post.view_count"
-      :profileImageUrl="profileImage"
+      :profileImageUrl="post.profileImage"
     />
     <PostContent v-if="post" :content="post.content" />
     <CommentList :comments="comments" />
@@ -68,6 +69,6 @@ onMounted(async () => {
 <style scoped>
 .container {
   margin-top: 4rem;
-  margin-bottom: 27rem;
+  margin-bottom: 12.5rem;
 }
 </style>

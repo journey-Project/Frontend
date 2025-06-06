@@ -10,6 +10,7 @@ defineProps({
 </script>
 <style scoped>
 .content {
+  min-height: 23rem;
   margin-top: var(--space-xl);
   font-size: 1.125rem;
 
