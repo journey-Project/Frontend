@@ -20,13 +20,14 @@ const hideLayout = computed(() => route.meta.hideLayout === true)
 </script>
 
 <template>
-  <div class="layout-wrapper">
-    <Header v-if="!hideLayout" />
-    <main class="main-content">
-      <router-view />
-    </main>
-    <Footer v-if="!hideLayout" />
-  </div>
+  <Header v-if="!hideLayout" />
+
+  <main v-if="!hideLayout" class="main-content">
+    <router-view />
+  </main>
+  <router-view v-else />
+
+  <Footer v-if="!hideLayout" />
 </template>
 
 <style scoped>

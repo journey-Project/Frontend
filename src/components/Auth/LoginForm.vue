@@ -1,11 +1,11 @@
-<!-- 일반 로그인 입력 폼 --><!-- 회원가입 입력 폼 -->
 <template>
   <input
-    v-if="_type == 'text'"
+    v-if="_type === 'text'"
     type="text"
     class="form-control input-borderline"
     :value="modelValue"
     :placeholder="_ph"
+    :style="{ width: _W, height: _H }"
     @input="$emit('update:modelValue', $event.target.value)"
   />
   <input
@@ -14,9 +14,11 @@
     class="form-control input-borderline"
     :value="modelValue"
     :placeholder="_ph"
+    :style="{ width: _W, height: _H }"
     @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
+
 <script setup>
 import { ref, reactive, watchEffect } from 'vue'
 
@@ -24,6 +26,8 @@ const props = defineProps({
   _type: { type: String, required: true },
   _ph: { type: String, default: '' },
   modelValue: [String, Number],
+  _W: { type: String, default: '20rem' }, // 기본 가로 길이
+  _H: { type: String, default: '2.5rem' }, // 기본 세로 길이
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -32,12 +36,11 @@ const emit = defineEmits(['update:modelValue'])
 <style scoped>
 input {
   border-radius: 1rem;
-  width: 20rem; /* 320px */
-  height: 2.5rem; /* 40px */
+  margin: none;
 }
 
 .input-borderline::placeholder {
-  color: #112d4e 50%;
+  color: #112d4e80; /* 50% 투명도 적용된 색상 */
   font-size: var(--fs-button-sm);
 }
 .input-borderline:focus::placeholder {
