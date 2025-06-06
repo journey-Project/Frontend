@@ -35,8 +35,8 @@ const hideLayout = computed(() => route.meta.hideLayout === true)
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: var(--font-family);
 }
-
 .main-content {
   flex: 1;
   max-width: 990px;

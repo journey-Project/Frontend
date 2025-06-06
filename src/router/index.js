@@ -6,6 +6,7 @@ import SignUpPage from '@/pages/SignUpPage.vue'
 import CommunityBoard from '@/pages/CommunityBoard.vue'
 import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
 import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
+import CommunityDetail from '@/pages/CommunityDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,12 @@ const router = createRouter({
       path: '/login/callback/naver',
       name: 'callbacnaver',
       component: CallbacNaver,
+    },
+    {
+      path: '/community/post/:id',
+      name: 'CommunityDetail',
+      component: CommunityDetail,
+      props: true,
     },
   ],
 })
