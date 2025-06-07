@@ -7,6 +7,8 @@ import CommunityBoard from '@/pages/CommunityBoard.vue'
 import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
 import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
 import CommunityDetail from '@/pages/CommunityDetail.vue'
+import CompanionWrite from '@/pages/CompanionWrite.vue'
+import CommunityWrite from '@/pages/CommunityWrite.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +69,16 @@ const router = createRouter({
       component: CommunityDetail,
       props: true,
     },
+    {
+      path: '/community/write',
+      name: 'CommunityWrite',
+      component: CommunityWrite
+    },
+    {
+      path: '/companion/write',
+      name: 'CompanionWrite',
+      component: CompanionWrite
+    }
   ],
 })
 
