@@ -35,12 +35,14 @@ import BaseText from '@/components/Base/BaseText.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
 
 import { ref, watch, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/useAuthStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
+import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
-
+const auth = useAuthStore()
 const title = ref('')
 const content = ref('')
 
@@ -67,11 +69,35 @@ onMounted(() => {
   }
 })
 
-function submitPost() {
-  console.log('게시판:', selectedBoard.value)
-  console.log('제목:', title.value)
-  console.log('내용:', content.value)
-  // 실제 제출 로직 추가 예정
+async function submitPost() {
+  if (!title.value.trim() || !content.value.trim()) {
+    alert('제목과 내용을 입력해 주세요')
+    return
+  }
+
+  try {
+    const payload = {
+      memberId: auth.user.id,
+      country  : '국내',
+      title: title.value,
+      content: content.value,
+    }
+
+    const fd = new FormData()
+    fd.append('data', JSON.stringify(payload))
+    /* 이미지 파일은 이미 업로드돼 URL 로 본문에 포함됐으므로 fd.append('images', …) 생략 */
+
+    await axios.post('https://journeysite.site/api/community/save', fd, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+
+    alert('게시글이 등록되었습니다')
+    console.log('제출 직전 content:', content.value)
+    router.push(selectedBoard.value === 'companion' ? '/companion' : '/community-board')
+  } catch (e) {
+    console.error(e)
+    alert('등록 실패')
+  }
 }
 </script>
 

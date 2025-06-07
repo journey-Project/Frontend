@@ -27,7 +27,12 @@
         @click="$emit('open', p.communityPostId)"
       >
         <td class="num">{{ total - ((page - 1) * size + i) }}</td>
-        <td class="title">{{ p.title }}</td>
+        <td class="title">
+          {{ p.title }}
+          <span v-if="Number(p.commentCount) > 0" class="comment-count">
+            ({{ p.commentCount }})
+          </span>
+        </td>
         <td class="author">{{ p.nickname }}</td>
         <td class="date">{{ formatDate(p.createdAt) }}</td>
       </tr>
@@ -61,13 +66,13 @@ console.log(posts)
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem; /* 14px 정도 */
-  table-layout: fixed;     /* colgroup을 쓴다면 주석 해제 */
+  table-layout: fixed; /* colgroup을 쓴다면 주석 해제 */
 }
 
 th,
 td {
   padding: var(--space-md) var(--space-sm); /* 16px 상하 여백, 8px 좌우 여백 */
-  font-size: var(--fs-body);                /* 16px (기본 본문 폰트) */
+  font-size: var(--fs-body); /* 16px (기본 본문 폰트) */
   font-weight: var(--fw-medium);
   color: var(--color-primary);
   text-align: left;
@@ -120,5 +125,11 @@ tbody .row:hover {
 .date {
   width: 20%;
   text-align: center;
+}
+
+.comment-count{
+  margin-left: .1rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
 }
 </style>
