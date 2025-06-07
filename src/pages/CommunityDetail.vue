@@ -16,13 +16,21 @@
     <PostContent v-if="post" :content="post.content" />
 
     <!-- 댓글 목록 -->
-    <CommentList :comments="comments" @comment-deleted="fetchComments" />
+    <CommentList
+      :comments="comments"
+      :deleteCommentApi="deleteComment"
+      :postCommentApi="postComment"
+      :updateCommentApi="updateComment"
+      @comment-deleted="fetchComments"
+    />
 
     <!-- 댓글 입력 -->
     <CommentForm
       :nickname="currentUser.nickname"
       :profileImageUrl="currentUser.profileImageUrl"
       :memberId="currentUser.id"
+      :postCommentApi="postComment"
+      :updateCommentApi="updateComment"
       @commentPosted="fetchComments"
     />
 
@@ -45,6 +53,9 @@ import CommentList from '@/components/Common/Editor/CommentList.vue'
 import CommentForm from '@/components/Common/Editor/CommentForm.vue'
 import BaseModal from '@/components/Base/BaseModal.vue'
 import { deletePostById } from '@/api/postApi'
+import { postComment } from '@/api/commentApi'
+import { updateComment } from '@/api/commentApi'
+import { deleteComment } from '@/api/commentApi'
 
 const router = useRouter()
 const route = useRoute()
@@ -68,7 +79,6 @@ onMounted(async () => {
     const res = await getPostByPostId(postId)
     post.value = res.data
 
-    console.log('게시글 정보:', post.value)
     await fetchComments()
   } catch (error) {
     console.error('게시글 정보를 불러오는 데 실패했습니다.', error)

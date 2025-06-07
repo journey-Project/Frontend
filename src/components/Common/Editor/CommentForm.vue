@@ -24,9 +24,8 @@
 import { defineProps, ref } from 'vue'
 import Avatar from '@/components/Profile/Avatar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
-import { postComment } from '@/api/commentApi'
 import { useRoute } from 'vue-router'
-import { updateComment } from '@/api/commentApi'
+
 const props = defineProps({
   nickname: String,
   profileImageUrl: String,
@@ -47,23 +46,34 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  postCommentApi: {
+    type: Function,
+    required: true,
+  },
+  updateCommentApi: {
+    type: Function,
+    required: true,
+  },
 })
 
 const content = ref(props.initialContent)
-const route = useRoute()
 
 // 상위 컴포넌트에서 댓글 새로고침을 위한 emit
-const emit = defineEmits(['commentPosted', 'cancelEdit'])
+const emit = defineEmits(['submit', 'commentPosted', 'cancelEdit'])
 
+const route = useRoute()
+
+// 댓글 등록/수정 API 호출 시 props로 받은 함수를 사용
 const handleSubmit = async () => {
   if (!content.value.trim()) return
 
   try {
     const postId = route.params.id
     if (props.commentId !== null) {
-      await updateComment(props.commentId, { content: content.value })
+      await props.updateCommentApi(props.commentId, { content: content.value })
     } else {
-      await postComment(postId, {
+      console.log(typeof props.updateCommentApi)
+      await props.postCommentApi(postId, {
         memberId: props.memberId,
         content: content.value,
         parentCommentId: props.parentCommentId,
@@ -84,7 +94,6 @@ form {
   padding: var(--space-md);
   gap: 0.8rem;
   align-items: flex-start;
-  /* background-color: var(--color-surface); */
   border-radius: 0.9rem;
   width: 100%;
   height: 14rem;

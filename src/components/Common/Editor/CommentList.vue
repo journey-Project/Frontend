@@ -11,6 +11,9 @@
         :openedMenuId="menuCommentId"
         :openedEditingId="editingCommentId"
         :openedReplyingId="replyingCommentId"
+        :deleteCommentApi="props.deleteCommentApi"
+        :postCommentApi="props.postCommentApi"
+        :updateCommentApi="props.updateCommentApi"
         @toggle-reply="handleToggleReplyingForm"
         @toggle-edit="handleToggleEditingForm"
         @toggle-menu="handleToggleMenu"
@@ -29,6 +32,9 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  deleteCommentApi: Function,
+  postCommentApi: Function,
+  updateCommentApi: Function,
 })
 
 const emit = defineEmits(['comment-deleted'])
