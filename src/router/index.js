@@ -9,6 +9,7 @@ import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
 import CommunityDetail from '@/pages/CommunityDetail.vue'
 import CompanionWrite from '@/pages/CompanionWrite.vue'
 import CommunityWrite from '@/pages/CommunityWrite.vue'
+import CompanionDetail from '@/pages/CompanionDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,13 +73,19 @@ const router = createRouter({
     {
       path: '/community/write',
       name: 'CommunityWrite',
-      component: CommunityWrite
+      component: CommunityWrite,
     },
     {
       path: '/companion/write',
       name: 'CompanionWrite',
-      component: CompanionWrite
-    }
+      component: CompanionWrite,
+    },
+    {
+      path: '/companion/:id',
+      name: 'CompanionDetail',
+      component: CompanionDetail,
+      props: true,
+    },
   ],
 })
 

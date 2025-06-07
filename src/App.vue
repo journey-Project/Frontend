@@ -31,14 +31,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Header v-if="!hideLayout" />
+  <div class="layout-wrapper">
+    <Header v-if="!hideLayout" />
 
-  <main v-if="!hideLayout" class="main-content">
-    <router-view />
-  </main>
-  <router-view v-else />
+    <main v-if="!hideLayout" class="main-content">
+      <router-view />
+    </main>
+    <router-view v-else />
 
-  <Footer v-if="!hideLayout" />
+    <Footer v-if="!hideLayout" />
+  </div>
 </template>
 
 <style scoped>
@@ -48,6 +50,7 @@ onMounted(async () => {
   min-height: 100vh;
   font-family: var(--font-family);
 }
+
 .main-content {
   flex: 1;
   max-width: 990px;

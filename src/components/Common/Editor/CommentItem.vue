@@ -61,6 +61,8 @@
           :initialContent="props.comment.content"
           :commentId="props.comment.commentId"
           :isEditMode="true"
+          :updateCommentApi="props.updateCommentApi"
+          :postCommentApi="props.postCommentApi"
           @commentPosted="handleEditFinished"
           @cancelEdit="emit('toggle-edit', null)"
         />
@@ -83,6 +85,8 @@
         :profileImageUrl="currentUser.profileImage"
         :memberId="currentUser.id"
         :parentCommentId="props.comment.commentId"
+        :updateCommentApi="props.updateCommentApi"
+        :postCommentApi="props.postCommentApi"
         @commentPosted="handleEditFinished"
       />
       <hr />
@@ -97,6 +101,9 @@
       :openedMenuId="props.openedMenuId"
       :openedEditingId="props.openedEditingId"
       :openedReplyingId="props.openedReplyingId"
+      :updateCommentApi="props.updateCommentApi"
+      :postCommentApi="props.postCommentApi"
+      :deleteCommentApi="props.deleteCommentApi"
       @toggle-menu="emit('toggle-menu', $event)"
       @toggle-edit="emit('toggle-edit', $event)"
       @toggle-reply="emit('toggle-reply', $event)"
@@ -129,6 +136,9 @@ const props = defineProps({
   openedMenuId: Number, //전달받은 openedMenuId
   openedEditingId: Number,
   openedReplyingId: Number,
+  deleteCommentApi: Function,
+  postCommentApi: Function,
+  updateCommentApi: Function,
 })
 
 const authStore = useAuthStore()
@@ -155,10 +165,6 @@ const emit = defineEmits(['comment-deleted', 'toggle-menu'])
 
 //수정/삭제 메뉴 토글
 const toggleMenu = () => {
-  // event.stopPropagation()
-  // menuVisible.value = !menuVisible.value
-
-  console.log('item에서 보내는 id' + props.comment.commentId)
   emit('toggle-menu', props.comment.commentId)
 }
 
@@ -166,7 +172,6 @@ const toggleMenu = () => {
 const handleClickOutside = (event) => {
   if (menuRef.value && !menuRef.value.contains(event.target)) {
     emit('toggle-menu', null)
-    // menuVisible.value = false
   }
 }
 
@@ -178,7 +183,6 @@ function onShowDeleteModal() {
 //댓글 수정시
 //수정폼 보이기 + 수정 폼의 초기값을 원래 내용으로 전달
 const startEdit = () => {
-  // isEditing.value = true
   emit('toggle-edit', props.comment.commentId)
   editedContent.value = props.comment.content
 }
@@ -186,7 +190,7 @@ const startEdit = () => {
 //댓글 삭제
 const handleDeleteConfirm = async () => {
   try {
-    await deleteComment(props.comment.commentId)
+    await props.deleteCommentApi(props.comment.commentId)
     emit('comment-deleted', props.comment.commentId)
     showDeleteModal.value = false
   } catch (e) {
@@ -201,13 +205,14 @@ const handleModalClose = () => {
 
 //수정 끝났으면 수정 폼 닫기 + 상위 컴포넌트에게 전달
 const handleEditFinished = () => {
-  //isEditing.value = false
   emit('toggle-edit', null)
+  emit('toggle-reply', null)
   emit('comment-deleted') // 상위에서 다시 fetchComments 실행
 }
 
 //액션 메뉴 바깥 영역 클릭시 닫기 처리
 onMounted(() => {
+  console.log('CommentItem updateComment' + typeof updateCommentApi)
   document.addEventListener('click', handleClickOutside)
 })
 
