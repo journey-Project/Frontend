@@ -33,6 +33,7 @@
 <script setup>
 import { watch, ref, onMounted, nextTick } from 'vue'
 import Editor from '@toast-ui/editor'
+import axios from 'axios'
 import '@toast-ui/editor/dist/toastui-editor.css'
 
 const props = defineProps({ modelValue: { type: String, default: '' } })
@@ -74,6 +75,23 @@ onMounted(async () => {
         emit('update:modelValue', html)
         previewHtml.value = html
         checkEditorEmpty()
+      },
+      addImageBlobHook: async (blob, callback) => {
+        try {
+          const fd = new FormData()
+          fd.append('file', blob)
+
+          const { data } = await axios.post(
+            'https://journeysite.site/api/s3/application',
+            fd,
+            { headers: { 'Content-Type': 'multipart/form-data' } },
+          )
+
+          callback(data, blob.name)
+        } catch (e) {
+          alert('이미지 업로드 실패')
+          console.error(e)
+        }
       },
     },
   })
@@ -314,7 +332,7 @@ defineExpose({ getContent })
 }
 
 .preview-container {
-    height: auto;
+  height: auto;
   min-height: 600px;
   /* padding: 1.5rem; */
   font-size: 1rem;
@@ -435,5 +453,4 @@ defineExpose({ getContent })
   max-width: 100%;
   height: auto;
 }
-
 </style>

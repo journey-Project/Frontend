@@ -1,6 +1,6 @@
 <!-- 게시글 상세 본문-->
 <template>
-  <div class="content">{{ content }}</div>
+  <div class="content" v-html="content" />
   <hr />
 </template>
 <script setup>
