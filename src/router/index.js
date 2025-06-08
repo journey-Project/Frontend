@@ -6,6 +6,10 @@ import SignUpPage from '@/pages/SignUpPage.vue'
 import CommunityBoard from '@/pages/CommunityBoard.vue'
 import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
 import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
+import CommunityDetail from '@/pages/CommunityDetail.vue'
+import CompanionWrite from '@/pages/CompanionWrite.vue'
+import CommunityWrite from '@/pages/CommunityWrite.vue'
+import CompanionDetail from '@/pages/CompanionDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,12 +28,13 @@ const router = createRouter({
       // component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/companion-board',
-      name: 'CompanionBoardPage',
+      path: '/companion-board/:country',
+      name: 'CompanionBoard',
       component: CompanionBoard,
+      props: true,
     },
     {
-      path: '/community-board',
+      path: '/community-board/:country',
       name: 'CommmunityBoardPage',
       component: CommunityBoard,
     },
@@ -59,6 +64,28 @@ const router = createRouter({
       path: '/login/callback/naver',
       name: 'callbacnaver',
       component: CallbacNaver,
+    },
+    {
+      path: '/community/write/:country',
+      name: 'CommunityWrite',
+      component: CommunityWrite,
+    },
+    {
+      path: '/community/:id',
+      name: 'CommunityDetail',
+      component: CommunityDetail,
+      props: true,
+    },
+    {
+      path: '/companion/write/:country',
+      name: 'CompanionWrite',
+      component: CompanionWrite,
+    },
+    {
+      path: '/companion/:id',
+      name: 'CompanionDetail',
+      component: CompanionDetail,
+      props: true,
     },
   ],
 })

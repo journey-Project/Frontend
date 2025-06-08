@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { onMounted } from 'vue'
 
 import BaseButton from './components/Base/BaseButton.vue'
 import BaseInput from './components/Base/BaseInput.vue'
@@ -13,21 +15,32 @@ import BoardTypeTab from './components/Common/Tap/BoardTypeTab.vue'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import Pagination from './components/Base/Pagination.vue'
 
+import BaseModal from './components/Base/BaseModal.vue'
+
 const activeTab = ref('community')
 
 const route = useRoute()
 const hideLayout = computed(() => route.meta.hideLayout === true)
+
+const auth = useAuthStore()
+// onMounted 시 유저 정보 가져오기
+onMounted(async () => {
+  await auth.fetchUser()
+  console.log('🔐 현재 로그인 유저 정보:', auth.user)
+})
 </script>
 
 <template>
-  <Header v-if="!hideLayout" />
+  <div class="layout-wrapper">
+    <Header v-if="!hideLayout" />
 
-  <main v-if="!hideLayout" class="main-content">
-    <router-view />
-  </main>
-  <router-view v-else />
+    <main v-if="!hideLayout" class="main-content">
+      <router-view />
+    </main>
+    <router-view v-else />
 
-  <Footer v-if="!hideLayout" />
+    <Footer v-if="!hideLayout" />
+  </div>
 </template>
 
 <style scoped>
@@ -35,6 +48,7 @@ const hideLayout = computed(() => route.meta.hideLayout === true)
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: var(--font-family);
 }
 
 .main-content {

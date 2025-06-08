@@ -55,6 +55,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
+const country = route.params.country
 
 const emit = defineEmits(['filter-change', 'search'])
 
@@ -72,10 +73,12 @@ const options = [
 ]
 
 function handleCreatePost() {
+  const encodedCountry = encodeURIComponent(route.params.country || '국내')
+
   if (route.path.includes('community')) {
-    router.push('/community/write')
+    router.push(`/community/write/${encodedCountry}`)
   } else if (route.path.includes('companion')) {
-    router.push('/companion/write')
+    router.push(`/companion/write/${encodedCountry}`)
   } else {
     console.warn('등록 버튼 클릭: 알 수 없는 게시판 경로입니다.')
   }
