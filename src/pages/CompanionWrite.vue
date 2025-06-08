@@ -56,22 +56,41 @@
       </div>
 
       <div class="location-row">
-        <input
-          v-model="location"
-          type="text"
-          class="location-input padded"
-          placeholder="여행지 입력"
-        />
-        <div class="location-search-btn">
-          <BaseButton size="lg" class="padded">여행지 검색</BaseButton>
+        <BaseText tag="label" size="--fs-body" bold class="location-label">여행지</BaseText>
+
+        <div class="location-field">
+          <div class="input-button-wrapper">
+            <input
+              v-model="location"
+              type="text"
+              class="location-input"
+              placeholder="여행지 입력"
+              readonly
+            />
+            <BaseButton size="lg" @click="showLocationPopup = !showLocationPopup"
+              >여행지 검색</BaseButton
+            >
+          </div>
+          <div v-if="showLocationPopup" class="location-popup-wrapper">
+            <LocationSearchPopup
+              @select="handleLocationSelect"
+              @close="showLocationPopup = false"
+            />
+          </div>
         </div>
       </div>
 
       <div class="image-row">
         <BaseText tag="label" size="--fs-body" bold>커버 이미지</BaseText>
-        <div class="img-btn">
-          <BaseButton size="lg" class="padded">이미지 등록</BaseButton>
-        </div>
+        <input
+          ref="coverInput"
+          type="file"
+          accept="image/*"
+          class="file-hidden"
+          @change="onCoverChange"
+        />
+        <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()"> 이미지 선택 </BaseButton>
+        <span v-if="coverFile" class="file-ok"> ✔ {{ coverFile.name }} 선택됨 </span>
       </div>
     </div>
 
@@ -85,8 +104,9 @@ import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseText from '@/components/Base/BaseText.vue'
 import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
-
-import { ref, watch, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/useAuthStore'
+import axios from 'axios'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 
@@ -94,12 +114,23 @@ const router = useRouter()
 const route = useRoute()
 const title = ref('')
 const content = ref('')
-const startDate = ref('')
-const endDate = ref('')
+const startDate = ref(null)
+const endDate = ref(null)
 const people = ref('')
 const location = ref('')
+const auth = useAuthStore()
+const coverInput = ref(null)
+const coverFile = ref(null)
 
 const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
+import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
+
+const showLocationPopup = ref(false)
+
+const handleLocationSelect = (selected) => {
+  location.value = selected
+  showLocationPopup.value = false
+}
 
 const boardOptions = [
   { label: '커뮤니티', value: 'community' },
@@ -127,13 +158,68 @@ watch(selectedBoard, (newVal) => {
   }
 })
 
-function submitPost() {
-  console.log('게시판:', selectedBoard.value)
-  console.log('제목:', title.value)
-  console.log('여행 기간:', startDate.value, '~', endDate.value)
-  console.log('인원수:', people.value)
-  console.log('여행지:', location.value)
-  console.log('내용:', content.value)
+const submitPost = async () => {
+  if (!title.value.trim() || !content.value.trim()) {
+    alert('제목과 내용을 입력해 주세요')
+    return
+  }
+
+  const countryFromLocation = location.value?.split(',')[0].trim() || '국내'
+
+  const common = {
+    memberId: auth.user.id,
+    country: countryFromLocation,
+    title: title.value,
+    content: content.value,
+    startDate: startDate.value,
+    endDate: endDate.value,
+  }
+  console.log('📦  to-server =', common)
+
+  const fd = new FormData()
+  let url = ''
+
+  if (selectedBoard.value === 'community') {
+    fd.append('data', JSON.stringify(common))
+    url = 'https://journeysite.site/api/community/save'
+  } else {
+    fd.append(
+      'post',
+      JSON.stringify({
+        ...common,
+        participants: Number(people.value),
+        destination: location.value,
+      }),
+    )
+
+    if (!coverFile.value) {
+      alert('커버 이미지를 선택해 주세요')
+      return
+    }
+    fd.append('coverImage', coverFile.value)
+    url = 'https://journeysite.site/api/posts/save'
+  }
+
+  try {
+    await axios.post(url, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+    alert('게시글이 등록되었습니다')
+    const countryFromLocation = location.value?.split(',')[0].trim() || '국내'
+
+    router.push(
+      selectedBoard.value === 'companion'
+        ? `/companion-board/${countryFromLocation}`
+        : '/community-board',
+    )
+  } catch (e) {
+    console.error(e.response?.data || e)
+    alert('등록 실패: ' + (e.response?.data?.message || '서버 오류'))
+  }
+}
+
+function onCoverChange(e) {
+  const file = e.target.files && e.target.files[0]
+  if (!file) return
+  coverFile.value = file
 }
 </script>
 
@@ -259,8 +345,8 @@ function submitPost() {
   padding: 0.5rem;
   border: 1px solid var(--color-surface);
   border-radius: 1rem;
-  font-size: 0.875rem; /* ↓ 줄임 */
-  background: var(--color-surface); /* white → 일관된 배경색 */
+  font-size: 0.875rem;
+  background: var(--color-surface);
   color: var(--color-primary);
 }
 
@@ -273,10 +359,6 @@ function submitPost() {
   padding-left: 1rem;
 }
 
-.location-row {
-  padding-left: 6.5rem;
-}
-
 .img-btn {
   padding-left: 1rem;
 }
@@ -287,5 +369,60 @@ function submitPost() {
 
 .location-search-btn {
   padding-left: 1rem;
+}
+.location-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.location-label {
+  width: 4rem;
+  white-space: nowrap;
+}
+
+.location-field {
+  position: relative;
+  flex: 1;
+}
+
+.input-button-wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1.5rem;
+}
+
+.location-input {
+  height: 2rem;
+  padding: 0 1rem;
+  border: 1px solid var(--color-surface);
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.location-popup-wrapper {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 20000;
+}
+
+.file-hidden {
+  display: none;
+}
+
+.image-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.file-ok {
+  font-size: 0.875rem;
+  margin-left: 0.75rem;
+  color: var(--color-primary);
+  white-space: nowrap;
 }
 </style>
