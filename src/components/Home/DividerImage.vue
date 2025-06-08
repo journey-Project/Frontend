@@ -18,10 +18,10 @@ const divBannerUrl = ref('')
 onMounted(async () => {
   try {
     const res = await fetchBanner()
-    bannerUrl.value = res.data.imageUrl // 예시: API에서 imageUrl 받아옴
+    divBannerUrl.value = res.data.imageUrl // 예시: API에서 imageUrl 받아옴
   } catch (err) {
     console.error('배너 불러오기 실패:', err)
-    bannerUrl.value = require('@/assets/icons/main/event_banner.svg') // fallback
+    divBannerUrl.value = require('@/assets/icons/main/event_banner.svg') // fallback
   }
 })
 */
