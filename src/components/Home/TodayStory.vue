@@ -40,9 +40,6 @@ onMounted(async () => {
       ...post,
       time: post.createdAt ? new Date(post.createdAt) : new Date(),
     }))
-    if (hotPosts.value.length > 0) {
-      each.value = hotPosts.value[0]
-    }
   } catch (error) {
     console.error('HOT 게시물 불러오기 실패:', error)
   }
