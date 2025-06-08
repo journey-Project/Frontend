@@ -14,3 +14,8 @@ export const list = (params = {}) => {
 export async function searchPosts(params) {
   return axios.get('/api/community/search', { params }) // 이 경로가 정확한지 확인
 }
+
+//메인 핫 게시물 조회
+export const mainHot = (params = {}) => {
+  return api.get('/community/main-hot-posts', { params })
+}

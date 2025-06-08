@@ -15,6 +15,7 @@
   /* 폰트 사이즈 */
   --fs-title: 1.5rem; /* 24px */
   --fs-menu: 1.25rem; /* 20px */
+  --fs-subtitle: 1.125rem; /*18px*/
   --fs-body: 1rem; /* 16px (본문 + 게시글 제목 포함) */
   --fs-button-sm: 0.875rem; /* 14px (sm, md 공용) */
   --fs-button-lg: 1rem; /* 16px */
@@ -31,6 +32,7 @@
   --space-xs: 0.25rem; /* 4px */
   --space-sm: 0.5rem; /* 8px */
   --space-md: 1rem; /* 16px */
+  --space-md2: 1.25rem;
   --space-lg: 1.5rem; /* 24px */
   --space-xl: 2rem; /* 32px */
   --space-2xl: 2.5rem; /* 40px */
@@ -39,6 +41,7 @@
   /* 카드 */
   --card-gap: 3rem;
   --card-radius: 1rem;
+  --card-radius-lg: 1.25rem;
 
   /* 댓글 - 필요하면 사용하시구, 필요 없으면 삭제 해주세요! */
   --comment-gap: 1rem; /* 댓글 간 간격 */
@@ -60,8 +63,6 @@
   --btn-md: 7.5rem;
   --btn-lg: 9rem;
   --btn-xl: 20rem;
-  
-  
 
   /* 인풋 */
   --input-bg: #dbe2ef;
