@@ -5,7 +5,8 @@
 
     <div class="box">
       <div class="title">
-        <BaseText bold size="--fs-title">OO님, 이런 여행지는 어떠세요?</BaseText
+        <BaseText bold size="--fs-title"
+          >{{ auth.userNickname }}님, 이런 여행지는 어떠세요?</BaseText
         ><BaseText color="--color-text" size="--fs-body" class="sub_title"
           >사용자님이 기록한 여행을 토대로 <span class="point">여정</span>에서 다음 여행지를
           추천해드려요</BaseText
@@ -72,12 +73,14 @@ import FranceImage from '@/assets/icons/main/France.svg'
 import TravelPackageImage from '@/assets/icons/main/TravelPackageImage.svg'
 import TravelPackageCard from '@/components/Home/TravelPackageCard.vue'
 import TodayStory from '@/components/Home/TodayStory.vue'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 const router = useRouter()
 
 const hotPosts = ref([])
 const list = ref([])
 const loading = ref(false)
+const auth = useAuthStore()
 
 // hot 게시물 불러오기
 onMounted(async () => {
@@ -85,7 +88,6 @@ onMounted(async () => {
     const response = await fetchHotPosts({ page: 1, size: 3 })
     hotPosts.value = response.data.posts.map((post) => ({
       ...post,
-      time: new Date(post.createdAt),
     }))
   } catch (error) {
     console.error('HOT 게시물 불러오기 실패:', error)
