@@ -1,6 +1,6 @@
 <template>
   <div class="popular-container">
-    <div v-for="(item, index) in banner" :key="index" class="banner-item">
+    <div v-for="(item, index) in banner.slice(0, 3)" :key="index" class="banner-item">
       <div class="banner-image">
         <img :src="item.image" alt="배너 이미지" />
       </div>
@@ -36,6 +36,11 @@ defineProps({
   width: 288px;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.banner-item:hover {
+  transform: translateY(-0.25rem);
 }
 
 /* 이미지 채우기 */
