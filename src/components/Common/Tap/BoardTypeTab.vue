@@ -14,24 +14,29 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-
+import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue'
+const route = useRoute()
 const router = useRouter()
 
 const props = defineProps({
   modelValue: { type: String, required: true },
 })
 const emit = defineEmits(['update:modelValue'])
+const activeTab = ref('community')
 
 const tabs = [  
-  { label: '커뮤니티', value: 'communityboard', route: '/community-board' },
-  { label: '동행자 모집', value: 'companion', route: '/companion-board' },
+  { label: '커뮤니티', value: 'community', route: 'community-board' },
+  { label: '동행자 모집', value: 'companion', route: 'companion-board' },
 ]
+
+const country = route.params.country
 
 function onTabClick(tab) {
   emit('update:modelValue', tab.value)
-  router.push(tab.route)
+  router.push(`/${tab.route}/${country}`)
 }
+
 </script>
 
 <style scoped>

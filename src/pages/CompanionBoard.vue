@@ -66,7 +66,8 @@ const route = useRoute()
 const router = useRouter()
 
 const activeTab = ref('companion')
-const country = computed(() => decodeURIComponent(route.params.country || '국내'))
+const country = computed(() => countryMap[routeCountry.value] || '국내')
+
 const page = ref(Number(route.query.page || 1))
 const filters = reactive({ startDate: '', endDate: '', category: '', title: '' })
 const list = ref([])
@@ -83,6 +84,17 @@ const countryFlagMap = {
   미국: usaFlag,
 }
 
+const countryMap = {
+  '국내': '국내',
+  '일본': '일본',
+  '중국': '중국',
+  '독일': '독일',
+  '프랑스': '프랑스',
+  '베트남': '베트남',
+  '미국': '미국',
+}
+
+const routeCountry = computed(() => decodeURIComponent(route.params.country))
 const countryFlagUrl = computed(() => countryFlagMap[country.value] ?? '')
 
 function formatPeriod(start, end) {
@@ -103,13 +115,12 @@ async function fetchList() {
   loading.value = true
   try {
     const { data } = await companionApi.list({
-      startDate: filters.startDate || null,
-      endDate: filters.endDate || null,
-      title: filters.title || null,
-      category: filters.category || null,
+      country: country.value,
       page: page.value,
       size: 6,
-      country: country.value,
+      title: filters.title || null,
+      startDate: filters.startDate || null,
+      endDate: filters.endDate || null,
     })
 
     list.value = Array.isArray(data.content) ? data.content : []
@@ -122,6 +133,7 @@ async function fetchList() {
     loading.value = false
   }
 }
+
 
 function refresh() {
   page.value = 1

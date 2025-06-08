@@ -28,12 +28,13 @@ const router = createRouter({
       // component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/companion-board',
-      name: 'CompanionBoardPage',
+      path: '/companion-board/:country',
+      name: 'CompanionBoard',
       component: CompanionBoard,
+      props: true,
     },
     {
-      path: '/community-board',
+      path: '/community-board/:country',
       name: 'CommmunityBoardPage',
       component: CommunityBoard,
     },
@@ -65,18 +66,18 @@ const router = createRouter({
       component: CallbacNaver,
     },
     {
+      path: '/community/write/:country',
+      name: 'CommunityWrite',
+      component: CommunityWrite,
+    },
+    {
       path: '/community/:id',
       name: 'CommunityDetail',
       component: CommunityDetail,
       props: true,
     },
     {
-      path: '/community/write',
-      name: 'CommunityWrite',
-      component: CommunityWrite,
-    },
-    {
-      path: '/companion/write',
+      path: '/companion/write/:country',
       name: 'CompanionWrite',
       component: CompanionWrite,
     },
