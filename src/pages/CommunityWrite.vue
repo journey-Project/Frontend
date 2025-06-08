@@ -45,7 +45,7 @@ const router = useRouter()
 const auth = useAuthStore()
 const title = ref('')
 const content = ref('')
-
+const country = ref(decodeURIComponent(route.params.country || '국내'))
 const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
 
 const boardOptions = [
@@ -78,7 +78,7 @@ async function submitPost() {
   try {
     const payload = {
       memberId: auth.user.id,
-      country  : '국내',
+      country: country.value,
       title: title.value,
       content: content.value,
     }
@@ -93,7 +93,11 @@ async function submitPost() {
 
     alert('게시글이 등록되었습니다')
     console.log('제출 직전 content:', content.value)
-    router.push(selectedBoard.value === 'companion' ? '/companion' : '/community-board')
+    router.push(
+      selectedBoard.value === 'companion'
+        ? `/companion-board/${encodeURIComponent(payload.country)}`
+        : `/community-board/${encodeURIComponent(payload.country)}`,
+    )
   } catch (e) {
     console.error(e)
     alert('등록 실패')

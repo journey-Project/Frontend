@@ -51,7 +51,7 @@ import usaFlag from '@/assets/icons/companion/flag_USA.svg'
 const route = useRoute()
 const router = useRouter()
 
-const activeTab = ref('communityboard')
+const activeTab = ref('community')
 const country = computed(() => decodeURIComponent(route.params.country || '국내'))
 const page = ref(Number(route.query.page || 1))
 const filters = reactive({
@@ -128,9 +128,12 @@ function openDetail(id) {
 }
 
 function goCreate() {
-  router.push('/community/write')
-}
+  const path = activeTab.value === 'companion'
+    ? `/companion/write/${country.value}`
+    : `/community/write/${country.value}`
 
+  router.push(path)
+}
 onMounted(fetchList)
 
 watch(
