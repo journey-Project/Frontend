@@ -66,9 +66,6 @@ function handleClickOutside(e) {
 }
 onMounted(() => document.addEventListener('mousedown', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
-
-
-
 </script>
 
 <style scoped>
@@ -78,7 +75,7 @@ input:focus {
 
 .date-wrapper {
   position: relative;
-  width: var(--btn-md);
+  width: 9rem;
   height: var(--btn-height);
   border-radius: var(--btn-radius);
   background: var(--color-surface);
@@ -87,19 +84,27 @@ input:focus {
 }
 
 .date-icon {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
+  margin-left: 0.5rem;
 }
 
 .date-input {
-  flex: 1 1 auto;
-  height: 100%;
-  padding-left:calc(var(--space-sm) + 1.25rem);
-  border: none;
-  background: transparent;
-  font-size: var(--fs-body);
+  font-size: 0.75rem;
   color: var(--color-primary);
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-top: 0.2rem;
+  text-align: center;
+  flex: 1 1 auto;
 }
+
 .date-input::placeholder {
   color: var(--color-primary);
   font-weight: var(--fw-medium);
