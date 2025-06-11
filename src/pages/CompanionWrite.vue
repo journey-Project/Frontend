@@ -89,7 +89,9 @@
           class="file-hidden"
           @change="onCoverChange"
         />
-        <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()"> 이미지 선택 </BaseButton>
+        <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()">
+          이미지 선택
+        </BaseButton>
         <span v-if="coverFile" class="file-ok"> ✔ {{ coverFile.name }} 선택됨 </span>
       </div>
     </div>
@@ -102,7 +104,7 @@
 import BaseSelector from '@/components/Base/BaseSelect.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseText from '@/components/Base/BaseText.vue'
-import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
+import BaseDatePicker from '@/components/Base/RangeDatePicker.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 import axios from 'axios'

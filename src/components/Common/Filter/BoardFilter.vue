@@ -6,7 +6,7 @@
         :max="local.endDate"
         placeholder="YYYY-MM-DD"
         class="ctl ctl--date"
-        @update:modelValue="v => emitFilter('startDate', v)"
+        @update:modelValue="(v) => emitFilter('startDate', v)"
       />
 
       <span class="tilde">~</span>
@@ -16,30 +16,20 @@
         :min="local.startDate"
         placeholder="YYYY-MM-DD"
         class="ctl ctl--date"
-        @update:modelValue="v => emitFilter('endDate', v)"
+        @update:modelValue="(v) => emitFilter('endDate', v)"
       />
     </div>
 
-    <BaseSelect
-      v-model="local.category"
-      :options="options"
-      _ph="분류"
-      class="ctl ctl--select"
-    />
+    <BaseSelect v-model="local.category" :options="options" _ph="분류" class="ctl ctl--select" />
 
     <div class="search-wrapper">
-      <BaseInput
-        v-model="search"
-        placeholder="게시물 검색"
-        w="14rem"
-        @enter="handleSearch"
-      />
+      <BaseInput v-model="search" placeholder="게시물 검색" w="14rem" @enter="handleSearch" />
     </div>
 
     <BaseButton class="post-btn" @click="handleCreatePost">
       게시물 등록
       <template #icon>
-        <img src="@/assets/icons/companion/Vector.svg" alt="edit"/>
+        <img src="@/assets/icons/companion/Vector.svg" alt="edit" />
       </template>
     </BaseButton>
   </div>
@@ -50,7 +40,7 @@ import { reactive } from 'vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
-import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
+import BaseDatePicker from '@/components/Base/RangeDatePicker.vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -61,15 +51,15 @@ const emit = defineEmits(['filter-change', 'search'])
 
 const local = reactive({
   startDate: '',
-  endDate:   '',
-  title:     '',
-  category:  ''
+  endDate: '',
+  title: '',
+  category: '',
 })
 
 const options = [
   { label: '제목', value: 'title' },
   { label: '작성자', value: 'author' },
-  { label: '내용', value: 'content' }
+  { label: '내용', value: 'content' },
 ]
 
 function handleCreatePost() {
@@ -84,9 +74,11 @@ function handleCreatePost() {
   }
 }
 
-
 const emitFilter = (k, v) => emit('filter-change', k, v)
-const onSearch   = () => { emitFilter('title', local.title); emit('search') }
+const onSearch = () => {
+  emitFilter('title', local.title)
+  emit('search')
+}
 </script>
 
 <style scoped>
@@ -100,28 +92,32 @@ const onSearch   = () => { emitFilter('title', local.title); emit('search') }
   margin-left: auto;
 }
 
-.date-group{
-  display:flex;
-  align-items:center;
-  gap:var(--space-sm);
+.date-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.tilde{
-  font-size:1.125rem;
-  line-height:1;
-  color:var(--color-text);
+.tilde {
+  font-size: 1.125rem;
+  line-height: 1;
+  color: var(--color-text);
 }
 
-.ctl{
-  flex:0 0 9rem;
-  height:var(--btn-height);
-  border-radius:var(--btn-radius);
-  background:var(--color-surface);
-  color:var(--color-primary);
-  min-width:0;
+.ctl {
+  flex: 0 0 9rem;
+  height: var(--btn-height);
+  border-radius: var(--btn-radius);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  min-width: 0;
 }
-.ctl--select{ flex-basis:140px; }
-.ctl--date{  text-align:center; }
+.ctl--select {
+  flex-basis: 140px;
+}
+.ctl--date {
+  text-align: center;
+}
 
 .ctl--date ::v-deep(.date-wrapper) {
   position: relative;
@@ -150,7 +146,7 @@ const onSearch   = () => { emitFilter('title', local.title); emit('search') }
   background: transparent;
   border: none;
   width: 100%;
-  padding-left: 1.5rem; 
+  padding-left: 1.5rem;
   text-align: center;
 }
 
@@ -161,20 +157,21 @@ const onSearch   = () => { emitFilter('title', local.title); emit('search') }
   max-width: 14rem;
 }
 
-.search-wrapper ::v-deep(input){
-  width:100%; height:var(--btn-height);
-  border:none; background:var(--color-surface);
-  border-radius:var(--btn-radius);
-  padding-inline:var(--space-sm) calc(var(--space-sm) + 24px);
-  font-size:var(--fs-body); color:var(--color-primary);
-  padding-left: 1rem; 
+.search-wrapper ::v-deep(input) {
+  width: 100%;
+  height: var(--btn-height);
+  border: none;
+  background: var(--color-surface);
+  border-radius: var(--btn-radius);
+  padding-inline: var(--space-sm) calc(var(--space-sm) + 24px);
+  font-size: var(--fs-body);
+  color: var(--color-primary);
+  padding-left: 1rem;
 }
 
-.post-btn{
-  background:var(--color-primary);
-  color:var(--color-on-primary);
-  gap:var(--btn-gap);
-  
+.post-btn {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  gap: var(--btn-gap);
 }
-
 </style>
