@@ -13,7 +13,7 @@
       <!-- 필터 -->
       <BoardFilter
         class="board-filter"
-        @filter-change="updateFilter"
+        @filter-change="onFilterChange"
         @search="refresh"
         @create="goCreate"
       />
@@ -120,6 +120,7 @@ async function fetchList() {
       size: 6,
       title: filters.title || null,
       startDate: filters.startDate || null,
+      nickname: filters.nickname || null, 
       endDate: filters.endDate || null,
     })
 
@@ -134,6 +135,19 @@ async function fetchList() {
   }
 }
 
+function onFilterChange(key, value) {
+  if (key === 'search') {
+    // value = { title: '여행' } or { nickname: '산책자' }
+    Object.entries(value).forEach(([k, v]) => {
+      filters[k] = v
+    })
+  } else {
+    filters[key] = value
+  }
+
+  page.value = 1
+  fetchList()
+}
 
 function refresh() {
   page.value = 1

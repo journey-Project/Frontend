@@ -23,7 +23,7 @@
     <BaseSelect v-model="local.category" :options="options" _ph="분류" class="ctl ctl--select" />
 
     <div class="search-wrapper">
-      <BaseInput v-model="search" placeholder="게시물 검색" w="14rem" @enter="handleSearch" />
+      <BaseInput v-model="local.search" placeholder="게시물 검색" w="14rem" @enter="handleSearch" />
     </div>
 
     <BaseButton class="post-btn" @click="handleCreatePost">
@@ -52,14 +52,14 @@ const emit = defineEmits(['filter-change', 'search'])
 const local = reactive({
   startDate: '',
   endDate: '',
-  title: '',
-  category: '',
+  category: 'title',
+  search: '',
 })
 
 const options = [
   { label: '제목', value: 'title' },
-  { label: '작성자', value: 'author' },
-  { label: '내용', value: 'content' },
+  { label: '작성자', value: 'nickname' },
+  // { label: '내용', value: 'content' },
 ]
 
 function handleCreatePost() {
@@ -78,6 +78,17 @@ const emitFilter = (k, v) => emit('filter-change', k, v)
 const onSearch = () => {
   emitFilter('title', local.title)
   emit('search')
+}
+function handleSearch() {
+  const type = local.category
+  const keyword = local.search?.trim()
+
+  if (!keyword) return
+
+  const query = {}
+  query[type] = keyword
+
+  emit('filter-change', 'search', query)
 }
 </script>
 
