@@ -54,10 +54,22 @@ const boardOptions = [
 ]
 
 watch(selectedBoard, (newVal) => {
-  if (newVal === 'companion' && router.currentRoute.value.path !== '/companion/write') {
-    router.push('/companion/write')
-  } else if (newVal === 'community' && router.currentRoute.value.path !== '/community/write') {
-    router.push('/community/write')
+  let currentCountry = '국내'
+
+  if (location.value) {
+    currentCountry = location.value.split(',')[0]?.trim()
+  } else if (
+    route.params.country &&
+    route.params.country !== 'write' &&
+    route.params.country !== 'undefined'
+  ) {
+    currentCountry = route.params.country
+  }
+
+  if (newVal === 'companion') {
+    router.push(`/companion/write/${currentCountry}`)
+  } else if (newVal === 'community') {
+    router.push(`/community/write/${currentCountry}`)
   }
 })
 
