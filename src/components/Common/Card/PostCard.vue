@@ -17,15 +17,16 @@
 
       <div class="card__summary">{{ summary }}</div>
 
-      <BaseButton>자세히 보기</BaseButton>
+      <BaseButton @click="goToDetail">자세히 보기</BaseButton>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import BaseButton from '@/components/Base/BaseButton.vue'
 
-defineProps({
+const props = defineProps({
   id: Number,
   country: String,
   period: String,
@@ -38,7 +39,11 @@ defineProps({
   },
 })
 
-defineEmits(['select', 'detail'])
+const router = useRouter()
+
+function goToDetail() {
+  router.push(`/companion-board/${props.country}/detail/${props.id}`)
+}
 </script>
 
 <style scoped>

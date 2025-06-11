@@ -83,7 +83,7 @@ const router = createRouter({
       component: CompanionWrite,
     },
     {
-      path: '/companion/:id',
+      path: '/companion-board/:country/detail/:id',
       name: 'CompanionDetail',
       component: CompanionDetail,
       props: true,
