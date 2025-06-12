@@ -82,6 +82,7 @@ const fetchComments = async () => {
 
 onMounted(async () => {
   const postId = route.params.id
+  const country = route.params.country
   try {
     const res = await getCompanionPostByPostId(postId)
     post.value = res.data

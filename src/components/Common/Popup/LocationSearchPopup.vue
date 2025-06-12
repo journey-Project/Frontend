@@ -9,16 +9,18 @@
     <input v-model="query" class="search-input" type="text" placeholder="도시 또는 국가 입력" />
 
     <div class="result-list">
-      <div class="result-list">
-        <template v-if="filteredLocations.length">
-          <div class="result-item" v-for="item in filteredLocations" :key="item.label">
+      <template v-if="filteredLocations.length">
+        <div class="result-item" v-for="item in filteredLocations" :key="item.label">
+          <div class="info-group">
             <img :src="item.flag" alt="flag" class="flag-icon" />
             <span class="label">{{ item.label }}</span>
-            <BaseButton size="sm" @click="$emit('select', item.label)">선택</BaseButton>
           </div>
-        </template>
-        <div v-else class="no-result">검색된 여행지가 존재하지 않습니다.</div>
-      </div>
+          <BaseButton size="sm" class="select-btn" @click="$emit('select', item.label)"
+            >선택</BaseButton
+          >
+        </div>
+      </template>
+      <div v-else class="no-result">검색된 여행지가 존재하지 않습니다.</div>
     </div>
   </div>
 </template>
@@ -142,7 +144,10 @@ const filteredLocations = computed(() => {
 }
 
 .result-list {
+  position: relative;
+  width: 32rem;
   display: flex;
+  min-height: 20rem;
   flex-direction: column;
   gap: 1rem;
   max-height: 20rem;
@@ -157,10 +162,10 @@ const filteredLocations = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
   border: 1px solid #eaeaea;
   border-radius: 0.75rem;
   background-color: var(--color-bg);
+  padding: 0 1rem;
 }
 
 .no-result {
@@ -170,6 +175,7 @@ const filteredLocations = computed(() => {
   padding: 2rem 1rem;
   color: var(--color-dark);
   font-size: 1rem;
+  min-height: 20rem;
 }
 
 .flag-icon {
@@ -183,4 +189,28 @@ const filteredLocations = computed(() => {
   color: var(--color-primary);
   font-size: 1rem;
 }
+
+.result-list::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.result-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.result-list::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 0.25rem;
+}
+
+.info-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.select-btn {
+  flex-shrink: 0;
+} 
 </style>

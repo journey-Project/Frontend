@@ -89,7 +89,9 @@
           class="file-hidden"
           @change="onCoverChange"
         />
-        <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()"> 이미지 선택 </BaseButton>
+        <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()">
+          이미지 선택
+        </BaseButton>
         <span v-if="coverFile" class="file-ok"> ✔ {{ coverFile.name }} 선택됨 </span>
       </div>
     </div>
@@ -102,7 +104,7 @@
 import BaseSelector from '@/components/Base/BaseSelect.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseText from '@/components/Base/BaseText.vue'
-import BaseDatePicker from '@/components/Base/BaseDatePicker.vue'
+import BaseDatePicker from '@/components/Base/RangeDatePicker.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 import axios from 'axios'
@@ -151,10 +153,22 @@ onMounted(() => {
 })
 
 watch(selectedBoard, (newVal) => {
-  if (newVal === 'companion' && router.currentRoute.value.path !== '/companion/write') {
-    router.push('/companion/write')
-  } else if (newVal === 'community' && router.currentRoute.value.path !== '/community/write') {
-    router.push('/community/write')
+  let currentCountry = '국내'
+
+  if (location.value) {
+    currentCountry = location.value.split(',')[0]?.trim()
+  } else if (
+    route.params.country &&
+    route.params.country !== 'write' &&
+    route.params.country !== 'undefined'
+  ) {
+    currentCountry = route.params.country
+  }
+
+  if (newVal === 'companion') {
+    router.push(`/companion/write/${currentCountry}`)
+  } else if (newVal === 'community') {
+    router.push(`/community/write/${currentCountry}`)
   }
 })
 
@@ -304,38 +318,6 @@ function onCoverChange(e) {
   background: var(--color-surface);
   color: var(--color-primary);
   min-width: 0;
-  text-align: center;
-}
-
-.ctl--date ::v-deep(.date-wrapper) {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding-left: calc(var(--space-sm) + 1.5rem);
-  font-size: 0.75rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-}
-
-.ctl--date ::v-deep(.date-icon) {
-  position: absolute;
-  left: var(--space-sm);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1rem;
-  height: 1rem;
-  opacity: 0.6;
-  margin-left: 0.5rem;
-}
-
-.ctl--date ::v-deep(.date-input) {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  background: transparent;
-  border: none;
-  width: 100%;
-  padding-left: 1.5rem;
   text-align: center;
 }
 
