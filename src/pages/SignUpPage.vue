@@ -16,23 +16,25 @@
         _ph="아이디 입력 (6~20자)"
         subtitle="아이디"
         ok="사용 가능한 아이디입니다."
-        no="6자 이상 입력해주세요."
+        no="한글 제외, 6~20자의 영문 또는 숫자만 사용 가능합니다."
         required="아이디: 필수 정보입니다."
         :validator="validateId"
       />
 
       <RegisterForm
         v-model="password"
+        _type="password"
         _ph="비밀번호 입력 (문자, 숫자, 특수문자 포함 8~20자)"
         subtitle="비밀번호"
         ok="사용 가능한 비밀번호입니다."
-        no="특수문자 포함 8자 이상 입력해주세요."
+        no="한글 제외, 특수문자 포함 8~20자로 입력해주세요."
         required="비밀번호: 필수 정보입니다."
         :validator="validatePassword"
       />
 
       <RegisterForm
         v-model="passwordConfirm"
+        _type="password"
         _ph="비밀번호 입력 (문자, 숫자, 특수문자 포함 8~20자)"
         subtitle="비밀번호 확인"
         ok="비밀번호와 일치합니다."
@@ -67,13 +69,16 @@ const name = ref('')
 const email = ref('')
 
 const validateId = (val) => {
-  return val.length >= 6 && val.length <= 20
+  const hasValidLength = val.length >= 6 && val.length <= 20
+  const hasNoKorean = !/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(val) // 한글 포함 여부 검사
+  return hasValidLength && hasNoKorean
 }
 
 const validatePassword = (val) => {
   const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(val)
   const hasLength = val.length >= 8 && val.length <= 20
-  return hasSpecial && hasLength
+  const hasNoKorean = !/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(val) // 한글 포함 여부 검사
+  return hasSpecial && hasLength && hasNoKorean
 }
 
 const validatePasswordConfirm = (val) => {
@@ -81,7 +86,8 @@ const validatePasswordConfirm = (val) => {
 }
 
 const validateEmail = (val) => {
-  return val.includes('@')
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(val)
 }
 
 const handleSignUp = async () => {
