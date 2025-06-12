@@ -83,12 +83,15 @@ const router = createRouter({
       component: CompanionWrite,
     },
     {
-      path: '/companion/:id',
+      path: '/companion-board/:country/detail/:id',
       name: 'CompanionDetail',
       component: CompanionDetail,
       props: true,
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  },
 })
 
 export default router
