@@ -6,21 +6,35 @@
       <div class="title">
         <BaseText color="--color-dark" size="--fs-title">여행 커뮤니티</BaseText>
       </div>
+
       <div class="logo">
         <img src="@/assets/main_logo.svg" class="logimg" alt="여정 로고" />
       </div>
+
+      <!-- 🔴 에러 메시지 영역 -->
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+
       <div class="login-form-wrapper">
         <LoginForm v-model="userId" _type="text" _ph="아이디를 입력하세요." />
       </div>
       <div class="login-form-wrapper">
         <LoginForm v-model="password" _type="password" _ph="비밀번호를 입력하세요." />
       </div>
-      <div class="loginButton"><BaseButton @click="handleLogin" size="xl">로그인</BaseButton></div>
+
+      <div class="loginButton">
+        <BaseButton @click="handleLogin" size="xl">로그인</BaseButton>
+      </div>
+
       <div class="buttonBox">
-        <IDPasswordButton :showDivider="true" text="회원가입"></IDPasswordButton>
+        <IDPasswordButton
+          :showDivider="true"
+          text="회원가입"
+          @click="goToSignup"
+        ></IDPasswordButton>
         <IDPasswordButton :showDivider="true" text="아이디 찾기"></IDPasswordButton>
         <IDPasswordButton text="비밀번호 찾기"></IDPasswordButton>
       </div>
+
       <div class="buttonBox">
         <SocialLoginButtons _bgColor="#FEE500" @click="doKakaoLogin">
           <template #icon>
@@ -45,18 +59,21 @@ import BaseText from '@/components/Base/BaseText.vue'
 import LoginForm from '@/components/Auth/LoginForm.vue'
 import IDPasswordButton from '@/components/Auth/IDPasswordButton.vue'
 import { login } from '@/api/authApi'
+import router from '@/router'
 
 const userId = ref('')
 const password = ref('')
 const isLoading = ref(false)
+const errorMessage = ref('') // 🔴 에러 메시지 상태 추가
 
 const handleLogin = async () => {
   if (!userId.value || !password.value) {
-    alert('아이디와 비밀번호를 입력해주세요.')
+    errorMessage.value = '아이디와 비밀번호를 모두 입력해주세요.'
     return
   }
 
   isLoading.value = true
+  errorMessage.value = '' // 🔁 로그인 시도 전에 초기화
 
   try {
     const response = await login({
@@ -64,10 +81,10 @@ const handleLogin = async () => {
       password: password.value,
     })
     console.log('로그인 성공:', response.data)
-    alert('로그인 완료!')
+    router.push('/')
   } catch (error) {
     console.error('로그인 실패:', error.response?.data || error.message)
-    alert('로그인에 실패했습니다.')
+    errorMessage.value = '아이디 또는 비밀번호가 올바르지 않습니다.' // 🔴 에러 메시지 설정
   } finally {
     isLoading.value = false
   }
@@ -93,6 +110,10 @@ function doNaverLogin() {
   })
 
   window.location.href = `${base}?${params.toString()}`
+}
+
+const goToSignup = () => {
+  router.push('/signup') // 원하는 경로로 변경 가능
 }
 </script>
 
@@ -125,17 +146,7 @@ function doNaverLogin() {
   position: relative;
   z-index: 1;
   background-color: transparent;
-
-  // 가로 정렬용
   text-align: center;
-}
-
-.buttonBox {
-  margin-top: 1.68rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap; // 화면이 작을 때 줄바꿈 허용 (옵션)
 }
 
 .title {
@@ -149,27 +160,45 @@ function doNaverLogin() {
     width: 6.375rem;
     height: auto;
     display: block;
-    margin: 0 auto; // 가로 중앙 정렬
+    margin: 0 auto;
   }
 }
+
 .login-form-wrapper {
   margin-top: 2rem;
   display: flex;
-  justify-content: center; /* 가로 가운데 */
+  justify-content: center;
 }
+
 .loginButton {
   margin-top: 2rem;
 }
 
+.buttonBox {
+  margin-top: 1.68rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .socialButton {
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
-  margin: var(--space-lg) auto; /* 상하 간격 조정 */
+  justify-content: center;
+  margin: var(--space-lg) auto;
 }
+
 .icon {
   padding: 0.2rem;
 }
 .icon2 {
   padding: 0.1.5rem;
+}
+
+/* 🔴 에러 메시지 스타일 */
+.error-message {
+  color: red;
+  margin-top: 1rem;
+  font-size: 0.7rem;
 }
 </style>
