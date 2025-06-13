@@ -11,6 +11,7 @@ import CommunityDetail from '@/pages/CommunityDetail.vue'
 import CompanionWrite from '@/pages/CompanionWrite.vue'
 import CommunityWrite from '@/pages/CommunityWrite.vue'
 import CompanionDetail from '@/pages/CompanionDetail.vue'
+import NotFound from '@/pages/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,14 +20,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      // component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/companion-board/:country',
@@ -87,6 +80,12 @@ const router = createRouter({
       name: 'CompanionDetail',
       component: CompanionDetail,
       props: true,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound,
+      meta: { hideLayout: true },
     },
   ],
   scrollBehavior(to, from, savedPosition) {
