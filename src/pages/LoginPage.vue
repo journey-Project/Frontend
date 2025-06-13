@@ -60,7 +60,10 @@ import LoginForm from '@/components/Auth/LoginForm.vue'
 import IDPasswordButton from '@/components/Auth/IDPasswordButton.vue'
 import { login } from '@/api/authApi'
 import router from '@/router'
-
+import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/useAuthStore'
+const route = useRoute()
+const auth = useAuthStore()
 const userId = ref('')
 const password = ref('')
 const isLoading = ref(false)
@@ -73,7 +76,7 @@ const handleLogin = async () => {
   }
 
   isLoading.value = true
-  errorMessage.value = '' // 🔁 로그인 시도 전에 초기화
+  errorMessage.value = ''
 
   try {
     const response = await login({
@@ -81,10 +84,14 @@ const handleLogin = async () => {
       password: password.value,
     })
     console.log('로그인 성공:', response.data)
-    router.push('/')
+
+    await auth.fetchUser() // ✅ 로그인 후 사용자 정보 저장
+
+    const redirectPath = route.query.redirect || '/'
+    router.push(redirectPath) // ✅ 원래 가려던 곳으로 이동
   } catch (error) {
     console.error('로그인 실패:', error.response?.data || error.message)
-    errorMessage.value = '아이디 또는 비밀번호가 올바르지 않습니다.' // 🔴 에러 메시지 설정
+    errorMessage.value = '아이디 또는 비밀번호가 올바르지 않습니다.'
   } finally {
     isLoading.value = false
   }
