@@ -60,11 +60,13 @@ import LoginForm from '@/components/Auth/LoginForm.vue'
 import IDPasswordButton from '@/components/Auth/IDPasswordButton.vue'
 import { login } from '@/api/authApi'
 import router from '@/router'
+import { useRoute } from 'vue-router'
 
 const userId = ref('')
 const password = ref('')
 const isLoading = ref(false)
 const errorMessage = ref('') // 🔴 에러 메시지 상태 추가
+const route = useRoute()
 
 const handleLogin = async () => {
   if (!userId.value || !password.value) {
@@ -81,7 +83,8 @@ const handleLogin = async () => {
       password: password.value,
     })
     console.log('로그인 성공:', response.data)
-    router.push('/')
+    const redirectPath = route.query.redirect || '/'
+    router.push(redirectPath)
   } catch (error) {
     console.error('로그인 실패:', error.response?.data || error.message)
     errorMessage.value = '아이디 또는 비밀번호가 올바르지 않습니다.' // 🔴 에러 메시지 설정
@@ -109,7 +112,7 @@ function doNaverLogin() {
     response_type: 'code',
   })
 
-  window.location.href = `${base}?${params.toString()}`
+ window.location.href = `${base}?${params.toString()}`
 }
 
 const goToSignup = () => {
