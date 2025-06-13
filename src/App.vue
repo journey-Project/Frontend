@@ -14,8 +14,11 @@ import BoardFilter from './components/Common/Filter/BoardFilter.vue'
 import BoardTypeTab from './components/Common/Tap/BoardTypeTab.vue'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import Pagination from './components/Base/Pagination.vue'
+import HeroSection from './components/Reservation/HeroSection.vue'
 
 import BaseModal from './components/Base/BaseModal.vue'
+import SingleDatePicker from './components/Base/SingleDatePicker.vue'
+import RangeDatePicker from './components/Base/RangeDatePicker.vue'
 
 const activeTab = ref('community')
 
@@ -33,7 +36,8 @@ onMounted(async () => {
 <template>
   <div class="layout-wrapper">
     <Header v-if="!hideLayout" />
-
+    <!-- HeroSection 수정금지 -->
+    <HeroSection v-if="route.path === '/HotelReservation'" /> 
     <main v-if="!hideLayout" class="main-content">
       <router-view />
     </main>

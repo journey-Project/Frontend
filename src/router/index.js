@@ -12,6 +12,7 @@ import CompanionWrite from '@/pages/CompanionWrite.vue'
 import CommunityWrite from '@/pages/CommunityWrite.vue'
 import CompanionDetail from '@/pages/CompanionDetail.vue'
 import NotFound from '@/pages/NotFound.vue'
+import HotelReservation from '@/pages/HotelReservation.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,6 +81,11 @@ const router = createRouter({
       name: 'CompanionDetail',
       component: CompanionDetail,
       props: true,
+    },
+    {
+      path: '/HotelReservation',
+      name: 'HotelReservation',
+      component: HotelReservation,
     },
     {
       path: '/:pathMatch(.*)*',
