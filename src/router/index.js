@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/useAuthStore'
 import HomePage from '@/pages/HomePage.vue'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
@@ -13,6 +15,7 @@ import CommunityWrite from '@/pages/CommunityWrite.vue'
 import CompanionDetail from '@/pages/CompanionDetail.vue'
 import NotFound from '@/pages/NotFound.vue'
 import HotelReservation from '@/pages/HotelReservation.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,6 +100,35 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
   },
+})
+
+router.beforeEach(async (to, from, next) => {
+  const pinia = getActivePinia()
+  const auth = useAuthStore(pinia)
+
+  const protectedPathPatterns = [
+    /^\/community\/write/,
+    /^\/companion\/write/,
+  ]
+
+  const requiresAuth = protectedPathPatterns.some((regex) => regex.test(to.path))
+
+  if (!auth.isLoggedIn) {
+    await auth.fetchUser()
+  }
+
+  if (auth.isLoggedIn && to.path === '/login') {
+    return next('/')
+  }
+
+  if (requiresAuth && !auth.isLoggedIn) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath },
+    })
+  } else {
+    next()
+  }
 })
 
 export default router
