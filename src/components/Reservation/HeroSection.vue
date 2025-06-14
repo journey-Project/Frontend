@@ -52,7 +52,6 @@ const selectedTab = ref('domestic')
 .hero {
   position: relative;
   width: 100%;
-  overflow: hidden;
 }
 
 .hero-background {
@@ -192,7 +191,7 @@ const selectedTab = ref('domestic')
   background-color: var(--color-primary);
   color: var(--color-bg);
   font-weight: bold;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 }
 
 .hero-background {
