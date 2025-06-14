@@ -22,18 +22,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
 import BannerItem from './BannerItem.vue'
-import bannerImage1 from '@/assets/icons/main/Banner.svg'
+import bannerImage1 from '@/assets/icons/main/bannerImage1.jpg'
+import bannerImage2 from '@/assets/icons/main/bannerImage2.jpg'
+import bannerImage3 from '@/assets/icons/main/bannerImage3.jpg'
 
-const banners = [
-  { image: bannerImage1 },
-  { image: 'https://cdn.pixabay.com/photo/2023/06/21/16/26/warnemunde-8079731_960_720.jpg' },
-  { image: 'https://cdn.pixabay.com/photo/2021/08/13/13/51/lake-6543167_640.jpg' },
-]
-
-// 1. 복제된 슬라이드 포함
-const bannersWithClone = computed(() => [...banners, banners[0]])
+const banners = [bannerImage1, bannerImage2, bannerImage3].map((image) => ({ image }))
+const bannersWithClone = computed(() => [...banners, banners[0]]) // 마지막에 첫 번째 배너 복제
 
 const currentIndex = ref(0)
 const isTransitionDisabled = ref(false)
@@ -44,13 +40,16 @@ const trackStyle = computed(() => ({
 }))
 
 function nextSlide() {
-  currentIndex.value++
+  if (currentIndex.value < banners.length) {
+    currentIndex.value++
+  }
 }
 
 function prevSlide() {
   if (currentIndex.value === 0) {
+    // 첫 번째에서 뒤로 가려는 경우 → 복제된 마지막 배너로 이동 → 실제 마지막으로 자연스럽게 이동
     isTransitionDisabled.value = true
-    currentIndex.value = banners.length // clone 위치로
+    currentIndex.value = banners.length
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         isTransitionDisabled.value = false
@@ -63,11 +62,10 @@ function prevSlide() {
 }
 
 function handleTransitionEnd() {
-  // 마지막에서 clone으로 갔다면 진짜 첫 번째로 이동
   if (currentIndex.value === banners.length) {
+    // 마지막 복제 배너 → 진짜 첫 번째 배너로 순간 이동
     isTransitionDisabled.value = true
     currentIndex.value = 0
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         isTransitionDisabled.value = false
@@ -76,53 +74,67 @@ function handleTransitionEnd() {
   }
 }
 
-onMounted(() => {
+function startAutoSlide() {
+  clearInterval(intervalId)
   intervalId = setInterval(nextSlide, 5000)
+}
+
+function stopAutoSlide() {
+  clearInterval(intervalId)
+}
+
+function resetSlider() {
+  stopAutoSlide()
+  currentIndex.value = 0
+  isTransitionDisabled.value = true
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      isTransitionDisabled.value = false
+      startAutoSlide()
+    })
+  })
+}
+
+onMounted(() => {
+  resetSlider()
 })
 
 onBeforeUnmount(() => {
-  clearInterval(intervalId)
+  stopAutoSlide()
 })
 </script>
 
 <style scoped>
 .hero-wrapper {
   width: 100%;
-  max-width: 100%;
   position: relative;
   overflow: hidden;
 }
-
 .carousel-window {
   position: relative;
   width: 100%;
   height: 380px;
   overflow: hidden;
 }
-
 .carousel-track {
   display: flex;
   height: 100%;
   transition: transform 0.6s ease-in-out;
 }
-
 .carousel-track.no-transition {
   transition: none !important;
 }
-
 .carousel-slide {
   flex-shrink: 0;
   width: 100%;
   height: 100%;
 }
-
 .nav-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  padding: 0;
   cursor: pointer;
   z-index: 2;
 }
