@@ -1,12 +1,12 @@
-<!-- 사용자 이니셜/이미지 표시 -->
 <template>
-  <div class="profile-wrapper" :style="wrapperStyle">
-    <div class="profile-user-div">
+  <div class="profile-wrapper" :style="{ gap: gap }">
+    <div class="profile-user-div" :style="{ width: size, height: size }">
       <img :src="profileImageUrl" alt="프로필 이미지" class="profile-img" @click="goToProfile" />
     </div>
     <span :style="spanStyle">{{ nickname }}</span>
   </div>
 </template>
+
 <script setup>
 import { defineProps } from 'vue'
 import { useRouter } from 'vue-router'
@@ -22,25 +22,25 @@ const props = defineProps({
   },
   spanColor: {
     type: String,
-    default: '#333', // 기본 색상
+    default: '#333',
   },
   spanFontSize: {
     type: String,
-    default: '18px', // 기본 font-size
+    default: '1rem',
   },
   spanFontWeight: {
     type: String,
-    default: '500', // 기본 font-weight
+    default: '500',
   },
   gap: {
     type: String,
-    default: '15px', // 이미지와 텍스트 간격 기본값
+    default: '0.75rem',
+  },
+  size: {
+    type: String,
+    default: '1.75rem', // 🟡 바로 이거! 28px
   },
 })
-
-const wrapperStyle = {
-  gap: props.gap, // 이미지와 텍스트 사이 간격
-}
 
 const spanStyle = {
   color: props.spanColor,
@@ -49,11 +49,11 @@ const spanStyle = {
 }
 
 const router = useRouter()
-
 const goToProfile = () => {
-  router.push(`/companion`) // 추후 프로필 페이지 이동 연결
+  router.push(`/companion`)
 }
 </script>
+
 <style scoped>
 .profile-wrapper {
   display: flex;
@@ -61,8 +61,6 @@ const goToProfile = () => {
 }
 
 .profile-user-div {
-  width: 1.75rem;
-  height: 1.75rem;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -74,12 +72,3 @@ const goToProfile = () => {
   object-fit: cover;
 }
 </style>
-<!-- 사용 방법-->
-<!-- <Avatar
-    profileImageUrl="@/assets/profile.jpg"
-    nickname="구름"
-    :spanColor="'#ff6347'"  // 텍스트 색상
-    :spanFontSize="'20px'"  // 텍스트 크기
-    :spanFontWeight="'700'"  // 텍스트 두께
-    :gap="'20px'"  // 이미지와 텍스트 간격
-  /> -->

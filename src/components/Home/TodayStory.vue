@@ -3,7 +3,8 @@
     <div class="card" v-for="each in hotPosts" :key="each.postId">
       <div class="content">
         <div class="card_top">
-          <div class="profile_image" v-if="each.profileImageUrl != null">
+          <Avatar :profileImageUrl="each.profileImageUrl" :nickname="each.nickname" size="50px" />
+          <!-- <div class="profile_image" v-if="each.profileImageUrl != null">
             <img :src="each.profileImageUrl" alt="" />
           </div>
           <div v-else class="profile_image">
@@ -11,9 +12,9 @@
           </div>
           <div class="nickname">
             <BaseText bold size="--fs-subtitle">{{ each.nickname }}</BaseText>
-          </div>
+          </div> -->
         </div>
-        <div class="card_body">
+        <div class="card_body" @click="goCommunity(each.postId)">
           <div class="image_list" v-if="each.imageUrls && each.imageUrls.length > 0">
             <img v-for="(imgUrl, index) in each.imageUrls" :key="index" :src="imgUrl" alt="" />
           </div>
@@ -30,6 +31,8 @@
 import { onMounted, ref } from 'vue'
 import { mainHot } from '@/api/communityApi'
 import BaseText from '../Base/BaseText.vue'
+import Avatar from '../Profile/Avatar.vue'
+import { useRouter } from 'vue-router'
 
 const hotPosts = ref([])
 
@@ -44,6 +47,11 @@ onMounted(async () => {
     console.error('HOT 게시물 불러오기 실패:', error)
   }
 })
+
+const router = useRouter()
+const goCommunity = (id) => {
+  router.push(`/community/${id}`)
+}
 </script>
 
 <style scoped>
@@ -72,6 +80,10 @@ onMounted(async () => {
   gap: 8px;
   margin-bottom: var(--space-md2);
 }
+.card_body {
+  cursor: pointer;
+}
+
 .profile_image img {
   background-color: var(--color-bg);
   width: 50px;

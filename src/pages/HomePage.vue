@@ -5,9 +5,10 @@
 
     <div class="box">
       <div class="title">
-        <BaseText bold size="--fs-title"
-          >{{ auth.userNickname }}님, 이런 여행지는 어떠세요?</BaseText
-        ><BaseText color="--color-text" size="--fs-body" class="sub_title"
+        <BaseText bold size="--fs-title">
+          {{ auth.userNickname ? auth.userNickname : '익명의 여행자' }}님, 이런 여행지는 어떠세요?
+        </BaseText>
+        <BaseText color="--color-text" size="--fs-body" class="sub_title" font-weight="--fw-medium"
           >사용자님이 기록한 여행을 토대로 <span class="point">여정</span>에서 다음 여행지를
           추천해드려요</BaseText
         >
@@ -67,10 +68,10 @@ import BaseText from '@/components/Base/BaseText.vue'
 import HeroBanner from '@/components/Home/HeroBanner.vue'
 import DividerImage from '@/components/Home/DividerImage.vue'
 import PopularDestination from '@/components/Home/PopularDestination.vue'
-import JapanImage from '@/assets/icons/main/Japan.svg'
-import VietnamImage from '@/assets/icons/main/Vietnam.svg'
-import FranceImage from '@/assets/icons/main/France.svg'
-import TravelPackageImage from '@/assets/icons/main/TravelPackageImage.svg'
+import JapanImage from '@/assets/icons/main/Japan.jpg'
+import VietnamImage from '@/assets/icons/main/Vietnam.jpg'
+import FranceImage from '@/assets/icons/main/France.jpg'
+import TravelPackageImage from '@/assets/icons/main/TravelPackageImage.jpg'
 import TravelPackageCard from '@/components/Home/TravelPackageCard.vue'
 import TodayStory from '@/components/Home/TodayStory.vue'
 import { useAuthStore } from '@/stores/useAuthStore'

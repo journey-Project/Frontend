@@ -12,6 +12,7 @@ const props = defineProps({
   color: { type: String, default: '--color-primary' },
   size: { type: String, default: '--fs-body' },
   bold: { type: Boolean, default: false },
+  fontWeight: { type: String, default: '' },
   lineHeight: { type: String, default: '100%' },
   letterSpacing: { type: String, default: '0%' },
 })
@@ -19,7 +20,7 @@ const props = defineProps({
 const textStyle = computed(() => ({
   color: `var(${props.color})`,
   fontSize: `var(${props.size})`,
-  fontWeight: props.bold ? 'var(--fw-bold)' : 'var(--fw-regular)',
+  fontWeight: props.fontWeight || (props.bold ? 'var(--fw-bold)' : 'var(--fw-regular)'),
   lineHeight: props.lineHeight,
   letterSpacing: props.letterSpacing,
   fontFamily: 'var(--font-family)',
