@@ -6,7 +6,11 @@
     <div class="box">
       <div class="title">
         <BaseText bold size="--fs-title">
-          {{ auth.userNickname ? auth.userNickname : '익명의 여행자' }}님, 이런 여행지는 어떠세요?
+          {{
+            auth.userNickname
+              ? auth.userNickname + '님, 이런 여행지는 어떠세요?'
+              : '여정만의 여행지 추천'
+          }}
         </BaseText>
         <BaseText color="--color-text" size="--fs-body" class="sub_title" font-weight="--fw-medium"
           >사용자님이 기록한 여행을 토대로 <span class="point">여정</span>에서 다음 여행지를

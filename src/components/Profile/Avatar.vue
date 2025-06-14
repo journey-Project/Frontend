@@ -38,7 +38,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: '1.75rem', // 🟡 바로 이거! 28px
+    default: '1.75rem',
   },
 })
 

@@ -1,4 +1,3 @@
-<!-- HeroBanner.vue -->
 <template>
   <div class="hero-wrapper">
     <div class="carousel-window" @transitionend="handleTransitionEnd">
@@ -30,8 +29,8 @@ import bannerImage2 from '@/assets/icons/main/bannerImage2.jpg'
 import bannerImage3 from '@/assets/icons/main/bannerImage3.jpg'
 
 const banners = [bannerImage1, bannerImage2, bannerImage3].map((image) => ({ image }))
+const bannersWithClone = computed(() => [...banners, banners[0]]) // 마지막에 첫 번째 배너 복제
 
-const bannersWithClone = computed(() => [...banners, banners[0]])
 const currentIndex = ref(0)
 const isTransitionDisabled = ref(false)
 let intervalId = null
@@ -41,11 +40,14 @@ const trackStyle = computed(() => ({
 }))
 
 function nextSlide() {
-  currentIndex.value++
+  if (currentIndex.value < banners.length) {
+    currentIndex.value++
+  }
 }
 
 function prevSlide() {
   if (currentIndex.value === 0) {
+    // 첫 번째에서 뒤로 가려는 경우 → 복제된 마지막 배너로 이동 → 실제 마지막으로 자연스럽게 이동
     isTransitionDisabled.value = true
     currentIndex.value = banners.length
     requestAnimationFrame(() => {
@@ -61,6 +63,7 @@ function prevSlide() {
 
 function handleTransitionEnd() {
   if (currentIndex.value === banners.length) {
+    // 마지막 복제 배너 → 진짜 첫 번째 배너로 순간 이동
     isTransitionDisabled.value = true
     currentIndex.value = 0
     requestAnimationFrame(() => {
@@ -94,14 +97,6 @@ function resetSlider() {
 
 onMounted(() => {
   resetSlider()
-})
-
-onActivated(() => {
-  startAutoSlide()
-})
-
-onDeactivated(() => {
-  stopAutoSlide()
 })
 
 onBeforeUnmount(() => {
