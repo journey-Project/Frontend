@@ -28,8 +28,10 @@ const hideLayout = computed(() => route.meta.hideLayout === true)
 const auth = useAuthStore()
 // onMounted 시 유저 정보 가져오기
 onMounted(async () => {
-  await auth.fetchUser()
-  console.log('🔐 현재 로그인 유저 정보:', auth.user)
+  if (document.cookie.includes('JSESSIONID')) {
+    await auth.fetchUser()
+    console.log('🔐 현재 로그인 유저 정보:', auth.user)
+  }
 })
 </script>
 
@@ -37,7 +39,7 @@ onMounted(async () => {
   <div class="layout-wrapper">
     <Header v-if="!hideLayout" />
     <!-- HeroSection 수정금지 -->
-    <HeroSection v-if="route.path === '/hotelreservation'" /> 
+    <HeroSection v-if="route.path === '/hotelreservation'" />
     <main v-if="!hideLayout" class="main-content">
       <router-view />
     </main>
