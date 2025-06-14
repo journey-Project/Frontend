@@ -86,7 +86,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/HotelReservation',
+      path: '/hotelreservation',
       name: 'HotelReservation',
       component: HotelReservation,
     },
