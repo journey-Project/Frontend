@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       try {
-        await axios.post('/api/auth/logout')
+        await api.post('/auth/logout')
         this.user = {
           id: '',
           loginId: '',
@@ -62,6 +62,8 @@ export const useAuthStore = defineStore('auth', {
           profileImage: '',
           socialType: '',
         }
+
+        console.log('로그아웃 후 상태:', this.user.id)
       } catch (err) {
         console.error('로그아웃 중 오류 발생:', err)
       }
