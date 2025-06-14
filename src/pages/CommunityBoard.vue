@@ -13,7 +13,7 @@
       <!-- 필터 -->
       <BoardFilter
         class="board-filter"
-        @filter-change="updateFilter"
+        @filter-change="onFilterChange"
         @search="refresh"
         @create="goCreate"
       />
@@ -54,13 +54,7 @@ const router = useRouter()
 const activeTab = ref('community')
 const country = computed(() => decodeURIComponent(route.params.country || '국내'))
 const page = ref(Number(route.query.page || 1))
-const filters = reactive({
-  communityPostId: '',
-  title: '',
-  nickname: '',
-  startDate: '',
-  endDate: '',
-})
+const filters = reactive({ startDate: '', endDate: '', category: '', title: '' })
 const list = ref([])
 const totalPages = ref(1)
 const loading = ref(false)
@@ -127,10 +121,29 @@ function openDetail(id) {
   router.push(`/community/${id}`)
 }
 
+function onFilterChange(key, value) {
+  if (key === 'search') {
+    const mapped = {}
+
+    for (const [k, v] of Object.entries(value)) {
+      if (k === 'nickname') mapped['writer'] = v
+      else mapped[k] = v
+    }
+
+    Object.assign(filters, mapped)
+  } else {
+    filters[key] = value
+  }
+
+  page.value = 1
+  fetchList()
+}
+
 function goCreate() {
-  const path = activeTab.value === 'companion'
-    ? `/companion/write/${country.value}`
-    : `/community/write/${country.value}`
+  const path =
+    activeTab.value === 'companion'
+      ? `/companion/write/${country.value}`
+      : `/community/write/${country.value}`
 
   router.push(path)
 }
