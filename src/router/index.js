@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/useAuthStore'
 import HomePage from '@/pages/HomePage.vue'
 import CompanionBoard from '@/pages/CompanionBoard.vue'
 import CommunityHome from '@/pages/CommunityHome.vue'
@@ -11,6 +13,9 @@ import CommunityDetail from '@/pages/CommunityDetail.vue'
 import CompanionWrite from '@/pages/CompanionWrite.vue'
 import CommunityWrite from '@/pages/CommunityWrite.vue'
 import CompanionDetail from '@/pages/CompanionDetail.vue'
+import NotFound from '@/pages/NotFound.vue'
+import HotelReservation from '@/pages/HotelReservation.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,14 +24,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      // component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/companion-board/:country',
@@ -88,10 +85,50 @@ const router = createRouter({
       component: CompanionDetail,
       props: true,
     },
+    {
+      path: '/HotelReservation',
+      name: 'HotelReservation',
+      component: HotelReservation,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound,
+      meta: { hideLayout: true },
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
   },
+})
+
+router.beforeEach(async (to, from, next) => {
+  const pinia = getActivePinia()
+  const auth = useAuthStore(pinia)
+
+  const protectedPathPatterns = [
+    /^\/community\/write/,
+    /^\/companion\/write/,
+  ]
+
+  const requiresAuth = protectedPathPatterns.some((regex) => regex.test(to.path))
+
+  if (!auth.isLoggedIn) {
+    await auth.fetchUser()
+  }
+
+  if (auth.isLoggedIn && to.path === '/login') {
+    return next('/')
+  }
+
+  if (requiresAuth && !auth.isLoggedIn) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath },
+    })
+  } else {
+    next()
+  }
 })
 
 export default router
