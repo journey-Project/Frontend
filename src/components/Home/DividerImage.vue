@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import divBannerUrl from '@/assets/icons/main/divImage.jpg'
+import divBannerUrl from '@/assets/icons/main/divImage.svg'
 
 // TODO: 추후 API로 대체 예정
 /*
