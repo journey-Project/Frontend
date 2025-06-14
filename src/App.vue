@@ -37,7 +37,7 @@ onMounted(async () => {
   <div class="layout-wrapper">
     <Header v-if="!hideLayout" />
     <!-- HeroSection 수정금지 -->
-    <HeroSection v-if="route.path === '/HotelReservation'" /> 
+    <HeroSection v-if="route.path === '/hotelreservation'" /> 
     <main v-if="!hideLayout" class="main-content">
       <router-view />
     </main>
