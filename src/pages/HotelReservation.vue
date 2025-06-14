@@ -1,5 +1,6 @@
 <template>
     <div class="reservation-page">
+      <HeroSection />
       <EventSection />
       <PopularDestinations />
       <PopularHotels />
