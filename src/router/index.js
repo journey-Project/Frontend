@@ -15,7 +15,11 @@ import CommunityWrite from '@/pages/CommunityWrite.vue'
 import CompanionDetail from '@/pages/CompanionDetail.vue'
 import NotFound from '@/pages/NotFound.vue'
 import HotelReservation from '@/pages/HotelReservation.vue'
-
+import ProfilePage from '@/pages/ProfilePage.vue'
+import MyProfile from '@/pages/MyProfile.vue'
+import FollowPage from '@/pages/FollowPage.vue'
+import SettingPage from '@/pages/SettingPage.vue'
+import StoryPage from '@/pages/StoryPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -96,6 +100,33 @@ const router = createRouter({
       component: NotFound,
       meta: { hideLayout: true },
     },
+    {
+      path: '/profile',
+      name: 'ProfilePage',
+      component: ProfilePage,
+      children: [
+        {
+          path: '',
+          name: 'MyProfile',
+          component: MyProfile,
+        },
+        {
+          path: 'follow',
+          name: 'FollowPage',
+          component: FollowPage,
+        },
+        {
+          path: 'story',
+          name: 'StoryPage',
+          component: StoryPage,
+        },
+        {
+          path: 'setting',
+          name: 'SettingPage',
+          component: SettingPage,
+        },
+      ],
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 }
@@ -106,10 +137,7 @@ router.beforeEach(async (to, from, next) => {
   const pinia = getActivePinia()
   const auth = useAuthStore(pinia)
 
-  const protectedPathPatterns = [
-    /^\/community\/write/,
-    /^\/companion\/write/,
-  ]
+  const protectedPathPatterns = [/^\/community\/write/, /^\/companion\/write/]
 
   const requiresAuth = protectedPathPatterns.some((regex) => regex.test(to.path))
 

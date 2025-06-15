@@ -72,7 +72,7 @@
   </header>
 </template>
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, provide } from 'vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
@@ -97,6 +97,12 @@ const goToLogin = () => {
 const toggleProfilePopover = () => {
   showProfilePopover.value = !showProfilePopover.value
 }
+
+const closePopover = () => {
+  showProfilePopover.value = false
+}
+
+provide('closePopover', closePopover)
 
 // 바깥 클릭 시 닫기 처리
 const onClickOutside = (event) => {
@@ -206,7 +212,7 @@ header {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0rem;
 }
 
 .nav-item.li-center {

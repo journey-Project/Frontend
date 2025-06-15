@@ -13,3 +13,23 @@ export const getFollwerList = (memberId) => {
     params: { memberId },
   })
 }
+
+// 내 프로필 조회
+export const getProfileById = (memberId) => {
+  return api.get(`/members/${memberId}/profile`)
+}
+
+//여행 일정 목록
+export const getSchedulesById = (memberId) => {
+  return api.get(`/members/${memberId}/plans`)
+}
+
+//여행 일정 추가
+export const postSchedule = (memberId, payload) => {
+  return api.post(`/members/${memberId}/plans`, payload)
+}
+
+//여행 일정 삭제
+export const deleteSchedule = (planId) => {
+  return api.delete(`/members/plans/${planId}`)
+}
