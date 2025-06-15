@@ -1,51 +1,72 @@
 <template>
-    <div class="journey-datepicker">
-      <VDatePicker
-        v-model="inner"
-        locale="ko"
-        :masks="{ input: 'YYYY-MM-DD', title: 'YYYY년 M월' }"
-        :title-position="'in-header'"
-        :show-title="true"
-        :min-date="minDate"
-        :max-date="maxDate"
-        @update:model-value="onDateSelected"
-      />
-    </div>
-  </template>  
-  
-  <script setup>
-  import { ref, computed } from 'vue'
-  
-  const props = defineProps({
-    modelValue: { type: String, default: '' },
-    min: String,
-    max: String,
-  })
-  const emit = defineEmits(['update:modelValue'])
-  
-  const minDate = computed(() => props.min || null)
-  const maxDate = computed(() => props.max || null)
-  
-  function strToLocalDate(s) {
-    if (!s) return null
-    const [y, m, d] = s.split('-').map(Number)
-    return new Date(y, m - 1, d)
-  }
-  const inner = ref(strToLocalDate(props.modelValue))
-  
-  function fmtLocal(date) {
-    const pad = (n) => String(n).padStart(2, '0')
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
-  }
-  
-  function onDateSelected(date) {
-    if (!date || isNaN(date.getTime?.())) return
-    emit('update:modelValue', fmtLocal(date))
-  }
-  </script>
-  
+  <div class="journey-datepicker">
+    <VDatePicker
+      v-model="inner"
+      locale="ko"
+      :masks="{ input: 'YYYY-MM-DD', title: 'YYYY년 M월' }"
+      :title-position="'in-header'"
+      :show-title="true"
+      :min-date="minDate"
+      :max-date="maxDate"
+      :attributes="customAttributes"
+      @update:model-value="() => {}"
+    />
+  </div>
+</template>
 
-  
+<script setup>
+import { ref, computed } from 'vue'
+
+const highlightDate = computed(() => strToLocalDate(props.modelValue))
+
+const props = defineProps({
+  modelValue: { type: String, default: '' },
+  min: String,
+  max: String,
+  schedules: {
+    type: Array,
+    default: () => [],
+  },
+})
+const emit = defineEmits(['update:modelValue'])
+
+const minDate = computed(() => props.min || null)
+const maxDate = computed(() => props.max || null)
+
+function strToLocalDate(s) {
+  if (!s) return null
+  const [y, m, d] = s.split('-').map(Number)
+  return new Date(y, m - 1, d)
+}
+const inner = ref(strToLocalDate(props.modelValue))
+
+function fmtLocal(date) {
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+function onDateSelected(date) {
+  if (!date || isNaN(date.getTime?.())) return
+  emit('update:modelValue', fmtLocal(date))
+}
+
+const customAttributes = computed(() => {
+  return props.schedules
+    .map((sch, idx) => {
+      const start = strToLocalDate(sch.startDate)
+      const end = strToLocalDate(sch.endDate)
+
+      if (!start || !end) return null
+
+      return {
+        key: `highlight-${idx}`,
+        dates: { start, end },
+        highlight: true, 
+      }
+    })
+    .filter(Boolean)
+})
+</script>
 
 <style scoped>
 input:focus {
@@ -241,5 +262,14 @@ input:focus {
 .journey-datepicker ::v-deep(.vc-title-button) {
   background-color: color-mix(in srgb, var(--color-primary) 7%, transparent);
   border: none;
+}
+
+.journey-datepicker ::v-deep(.vc-day) {
+  pointer-events: none;
+  cursor: default;
+}
+.journey-datepicker ::v-deep(.vc-day .vc-day-content) {
+  pointer-events: none;
+  user-select: none;
 }
 </style>
