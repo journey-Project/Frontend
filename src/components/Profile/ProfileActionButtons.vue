@@ -10,9 +10,12 @@
 <script setup>
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useRouter } from 'vue-router'
+import { inject } from 'vue'
 
 const auth = useAuthStore()
 const router = useRouter()
+
+const closePopover = inject('closePopover')
 
 const handleLogout = async () => {
   await auth.logout()
@@ -22,10 +25,12 @@ const handleLogout = async () => {
 }
 
 const goToProfile = () => {
+  closePopover?.()
   router.push('/profile')
 }
 
 const goToFollow = () => {
+  closePopover?.()
   router.push('/profile/follow')
 }
 </script>

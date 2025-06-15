@@ -20,16 +20,16 @@
             readonly
           />
           <div class="location-search-btn">
-            <BaseButton size="lg" @click="showLocationPopup = !showLocationPopup"
-              >여행지 검색</BaseButton
-            >
+            <BaseButton size="lg" @click="toggleLocationPopup">여행지 검색</BaseButton>
           </div>
-          <div v-if="showLocationPopup" class="location-popup-wrapper">
-            <LocationSearchPopup
-              @select="handleLocationSelect"
-              @close="showLocationPopup = false"
-            />
-          </div>
+          <Teleport to="body">
+            <div v-if="showLocationPopup" class="location-popup-wrapper" :style="popupStyle">
+              <LocationSearchPopup
+                @select="handleLocationSelect"
+                @close="showLocationPopup = false"
+              />
+            </div>
+          </Teleport>
         </div>
 
         <div class="date-row">
@@ -105,6 +105,22 @@ const addSchedule = async () => {
   } catch (err) {
     console.error('일정 추가 실패:', err)
     alert('일정 추가에 실패했습니다.')
+  }
+}
+
+const popupStyle = ref({})
+
+const toggleLocationPopup = (event) => {
+  showLocationPopup.value = !showLocationPopup.value
+
+  if (showLocationPopup.value) {
+    const rect = event.target.getBoundingClientRect()
+    popupStyle.value = {
+      position: 'absolute',
+      top: `${rect.bottom + window.scrollY + 10}px`,
+      left: `${rect.left + window.scrollX - 52.5}px`,
+      zIndex: 10000,
+    }
   }
 }
 </script>
