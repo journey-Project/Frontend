@@ -1,3 +1,4 @@
+<!-- 마이페이지 나의 프로필 -->
 <template>
   <div class="profile-section">
     <UserCard :profile="profile" />

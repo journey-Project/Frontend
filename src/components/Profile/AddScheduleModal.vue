@@ -4,7 +4,7 @@
       <div class="modal" @click.stop>
         <div class="header">
           <span class="text">일정추가</span>
-          <button class="close-btn" @click="onClose">
+          <button class="close-btn" @click="closeModal">
             <img src="/src/assets/icons/cancel_icon.svg" />
           </button>
         </div>
@@ -17,9 +17,18 @@
             type="text"
             class="location-input padded"
             placeholder="여행지 입력"
+            readonly
           />
           <div class="location-search-btn">
-            <BaseButton size="lg" class="padded">여행지 검색</BaseButton>
+            <BaseButton size="lg" @click="showLocationPopup = !showLocationPopup"
+              >여행지 검색</BaseButton
+            >
+          </div>
+          <div v-if="showLocationPopup" class="location-popup-wrapper">
+            <LocationSearchPopup
+              @select="handleLocationSelect"
+              @close="showLocationPopup = false"
+            />
           </div>
         </div>
 
@@ -41,19 +50,62 @@
             />
           </div>
         </div>
+
+        <div class="button-row">
+          <BaseButton size="lg" @click="addSchedule">일정 추가</BaseButton>
+        </div>
       </div>
     </div>
   </Teleport>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import BaseDatePicker from '../Base/BaseDatePicker.vue'
 import BaseButton from '../Base/BaseButton.vue'
+import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
+import { postSchedule } from '@/api/profileApi'
+import { useAuthStore } from '@/stores/useAuthStore'
 
-const emit = defineEmits(['confirm', 'close'])
+const emit = defineEmits(['close', 'refresh'])
 
-const closeModal = () => {
-  emit('close')
+const closeModal = () => emit('close')
+
+const auth = useAuthStore()
+
+const location = ref('')
+const showLocationPopup = ref(false)
+const startDate = ref(null)
+const endDate = ref(null)
+
+const handleLocationSelect = (selected) => {
+  location.value = selected
+  showLocationPopup.value = false
+}
+
+const addSchedule = async () => {
+  if (!location.value || !startDate.value || !endDate.value) {
+    alert('모든 정보를 입력해주세요.')
+    return
+  }
+
+  const [country, city] = location.value.split(',').map((s) => s.trim())
+  const payload = {
+    country: country || '',
+    city: city || '',
+    startDate: startDate.value,
+    endDate: endDate.value,
+  }
+
+  try {
+    await postSchedule(auth.user.id, payload)
+    emit('refresh')
+
+    closeModal()
+  } catch (err) {
+    console.error('일정 추가 실패:', err)
+    alert('일정 추가에 실패했습니다.')
+  }
 }
 </script>
 
@@ -77,7 +129,7 @@ const closeModal = () => {
 
   background-color: white;
   width: 35.25rem;
-  height: 18.6rem;
+  height: 23.8rem;
   border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
@@ -113,7 +165,7 @@ hr {
 .date-row {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  /* gap: var(--space-md); */
   margin-left: 4rem;
 }
 
@@ -127,7 +179,7 @@ hr {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding-left: 2rem;
+  padding-left: 2.75rem;
 }
 
 .ctl {
@@ -187,6 +239,7 @@ hr {
   font-size: 0.875rem; /* ↓ 줄임 */
   background: var(--color-surface); /* white → 일관된 배경색 */
   color: var(--color-primary);
+  margin-left: 4rem;
 }
 
 .location-input::placeholder {
@@ -199,5 +252,19 @@ hr {
 }
 .location-search-btn {
   padding-left: 1rem;
+}
+
+.location-popup-wrapper {
+  position: fixed;
+  top: 49%;
+  left: 51%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
 }
 </style>

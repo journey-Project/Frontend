@@ -1,6 +1,6 @@
 <!--프로필 페이지 -->
 <template>
-  <div class="profile-layout" v-if="auth.user">
+  <div v-if="auth.user && auth.user.id" class="profile-layout">
     <ProfileSideMenu />
     <router-view :userId="auth.user.id" />
   </div>

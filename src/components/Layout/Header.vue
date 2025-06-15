@@ -206,7 +206,7 @@ header {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0rem;
 }
 
 .nav-item.li-center {

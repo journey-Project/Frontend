@@ -22,7 +22,11 @@
         @delete="confirmDelete(item.id)"
       />
     </div>
-    <AddScheduleModal v-if="showAddModal" @close="showAddModal = false" />
+    <AddScheduleModal
+      v-if="showAddModal"
+      @close="showAddModal = false"
+      @refresh="emit('refresh')"
+    />
     <BaseModal v-if="showDeleteModal" @close="showDeleteModal = false" @confirm="deleteSchedule">
       일정을 삭제하시겠습니까?
     </BaseModal>
