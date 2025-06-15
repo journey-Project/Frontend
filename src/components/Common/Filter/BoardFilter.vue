@@ -1,7 +1,7 @@
 <template>
   <div class="filter-bar">
     <div class="date-group">
-      <BaseDatePicker
+      <FilterDatePicker
         v-model="local.startDate"
         :max="local.endDate"
         placeholder="YYYY-MM-DD"
@@ -11,7 +11,7 @@
 
       <span class="tilde">~</span>
 
-      <BaseDatePicker
+      <FilterDatePicker
         v-model="local.endDate"
         :min="local.startDate"
         placeholder="YYYY-MM-DD"
@@ -40,8 +40,9 @@ import { reactive } from 'vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
-import BaseDatePicker from '@/components/Base/RangeDatePicker.vue'
+import RangeDatePicker from '@/components/Base/RangeDatePicker.vue'
 import { useRoute, useRouter } from 'vue-router'
+import FilterDatePicker from '@/components/Base/FilterDatePicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -130,54 +131,11 @@ function handleSearch() {
   text-align: center;
 }
 
-.ctl--date ::v-deep(.date-wrapper) {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding-left: calc(var(--space-sm) + 1.5rem);
-  font-size: 0.75rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-}
-
-.ctl--date ::v-deep(.date-icon) {
-  position: absolute;
-  left: var(--space-sm);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1rem;
-  height: 1rem;
-  opacity: 0.6;
-}
-
-.ctl--date ::v-deep(.date-input) {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  background: transparent;
-  border: none;
-  width: 100%;
-  padding-left: 1.5rem;
-  text-align: center;
-}
-
 .search-wrapper {
   position: relative;
   flex: none;
   width: 14rem;
   max-width: 14rem;
-}
-
-.search-wrapper ::v-deep(input) {
-  width: 100%;
-  height: var(--btn-height);
-  border: none;
-  background: var(--color-surface);
-  border-radius: var(--btn-radius);
-  padding-inline: var(--space-sm) calc(var(--space-sm) + 24px);
-  font-size: var(--fs-body);
-  color: var(--color-primary);
-  padding-left: 1rem;
 }
 
 .post-btn {
