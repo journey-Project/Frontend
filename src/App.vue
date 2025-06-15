@@ -1,13 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { onMounted, computed, ref } from 'vue'
+import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { onMounted } from 'vue'
+import { useAuthStore } from './stores/useAuthStore'
 
-import BaseButton from './components/Base/BaseButton.vue'
-import BaseInput from './components/Base/BaseInput.vue'
-import BaseSelect from './components/Base/BaseSelect.vue'
 import Footer from './components/Layout/Footer.vue'
 import Header from './components/Layout/Header.vue'
 import BoardFilter from './components/Common/Filter/BoardFilter.vue'
