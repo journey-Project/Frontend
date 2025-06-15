@@ -11,7 +11,7 @@
         <img src="@/assets/main_logo.svg" class="logimg" alt="여정 로고" />
       </div>
 
-      <!-- 🔴 에러 메시지 영역 -->
+      <!-- 에러 메시지 영역 -->
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
       <div class="login-form-wrapper">
@@ -67,7 +67,7 @@ const auth = useAuthStore()
 const userId = ref('')
 const password = ref('')
 const isLoading = ref(false)
-const errorMessage = ref('') // 🔴 에러 메시지 상태 추가
+const errorMessage = ref('') // 에러 메시지 상태 추가
 
 const handleLogin = async () => {
   if (!userId.value || !password.value) {
@@ -85,10 +85,10 @@ const handleLogin = async () => {
     })
     console.log('로그인 성공:', response.data)
 
-    await auth.fetchUser() // ✅ 로그인 후 사용자 정보 저장
+    await auth.fetchUser() // 로그인 후 사용자 정보 저장
 
     const redirectPath = route.query.redirect || '/'
-    router.push(redirectPath) // ✅ 원래 가려던 곳으로 이동
+    router.push(redirectPath) // 원래 가려던 곳으로 이동
   } catch (error) {
     console.error('로그인 실패:', error.response?.data || error.message)
     errorMessage.value = '아이디 또는 비밀번호가 올바르지 않습니다.'
@@ -202,7 +202,7 @@ const goToSignup = () => {
   padding: 0.1.5rem;
 }
 
-/* 🔴 에러 메시지 스타일 */
+/* 에러 메시지 스타일 */
 .error-message {
   color: red;
   margin-top: 1rem;
