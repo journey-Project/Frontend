@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from './stores/useAuthStore'
 
 import Footer from './components/Layout/Footer.vue'
 import Header from './components/Layout/Header.vue'

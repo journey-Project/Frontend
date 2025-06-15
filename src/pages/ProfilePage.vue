@@ -6,10 +6,10 @@
   </div>
 </template>
 <script setup>
-import ProfileSideMenu from '@/components/Profile/ProfileSideMenu.vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { onMounted } from 'vue'
+import ProfileSideMenu from '@/components/Profile/ProfileSideMenu.vue'
 
 const auth = useAuthStore()
 

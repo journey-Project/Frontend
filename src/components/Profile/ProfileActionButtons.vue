@@ -1,22 +1,32 @@
 <template>
   <div class="btn-wrapper">
-    <button class="custom-button">팔로잉/팔로우 관리</button>
+    <button class="custom-button" @click="goToFollow">팔로잉/팔로우 관리</button>
     <div class="button-row">
-      <button class="half-button">프로필</button>
+      <button class="half-button" @click="goToProfile">프로필</button>
       <button class="half-button" @click="handleLogout">로그아웃</button>
     </div>
   </div>
 </template>
 <script setup>
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
+const router = useRouter()
 
 const handleLogout = async () => {
   await auth.logout()
 
   console.log('로그아웃 후 상태:', auth.user)
   window.location.href = '/'
+}
+
+const goToProfile = () => {
+  router.push('/profile')
+}
+
+const goToFollow = () => {
+  router.push('/profile/follow')
 }
 </script>
 <style scoped>

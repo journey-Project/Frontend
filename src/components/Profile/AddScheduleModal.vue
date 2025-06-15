@@ -35,14 +35,14 @@
         <div class="date-row">
           <span class="text">여행 기간 </span>
           <div class="date-group">
-            <BaseDatePicker
+            <RangeDatePicker
               v-model="startDate"
               class="ctl ctl--date"
               :max="endDate"
               placeholder="YYYY-MM-DD"
             />
             <span class="tilde">~</span>
-            <BaseDatePicker
+            <RangeDatePicker
               v-model="endDate"
               class="ctl ctl--date"
               :min="startDate"
@@ -61,7 +61,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import BaseDatePicker from '../Base/BaseDatePicker.vue'
+import RangeDatePicker from '../Base/RangeDatePicker.vue'
 import BaseButton from '../Base/BaseButton.vue'
 import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
 import { postSchedule } from '@/api/profileApi'

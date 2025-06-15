@@ -14,8 +14,6 @@ export const getFollwerList = (memberId) => {
   })
 }
 
-import api from './_instance'
-
 // 내 프로필 조회
 export const getProfileById = (memberId) => {
   return api.get(`/members/${memberId}/profile`)

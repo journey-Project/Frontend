@@ -99,6 +99,8 @@ const router = createRouter({
       name: 'NotFound',
       component: NotFound,
       meta: { hideLayout: true },
+    },
+    {
       path: '/profile',
       name: 'ProfilePage',
       component: ProfilePage,
