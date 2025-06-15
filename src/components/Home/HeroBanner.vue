@@ -24,7 +24,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
 import BannerItem from './BannerItem.vue'
-import bannerImage1 from '@/assets/icons/main/bannerImage1.svg'
+import bannerImage1 from '@/assets/icons/main/bannerImage.svg'
 import bannerImage2 from '@/assets/icons/main/bannerImage2.jpg'
 import bannerImage3 from '@/assets/icons/main/bannerImage3.jpg'
 
