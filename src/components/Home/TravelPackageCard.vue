@@ -112,9 +112,10 @@ function onClick() {
 
 .desc-wrapper {
   position: relative;
-  max-height: 8em;
+  max-height: 9em;
   overflow: hidden;
   margin-top: var(--space-xl);
+  background-color: var(--color-bg);
 }
 
 .desc {
@@ -123,6 +124,7 @@ function onClick() {
 
 .paragraph {
   margin-bottom: var(--space-2xl);
+  line-height: 1.4;
 }
 
 .fade-layer {
@@ -130,13 +132,17 @@ function onClick() {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 3em;
-  background: linear-gradient(to bottom, transparent, white);
+  height: 5em; /*fade 효과 범위를 줄임 */
+  background: linear-gradient(
+    to top,
+    rgba(249, 247, 247, 0.6),
+    /* 좀 더 투명하게 */ rgba(249, 247, 247, 0)
+  );
   pointer-events: none;
   z-index: 1;
 }
 
 .more_button {
-  margin-top: 3.75rem;
+  margin-top: 3rem;
 }
 </style>
