@@ -1,81 +1,95 @@
 <!-- 댓글 1개 항목 -->
 <template>
   <div>
-    <div v-if="!isEditing" :style="{ marginLeft: `${depth * 3}rem` }">
-      <div class="header-row">
-        <!-- 아바타 + 날짜 -->
-        <div class="info-row">
-          <Avatar
-            :profileImageUrl="comment.profileImage"
-            :nickname="comment.displayName"
-            spanColor="var(--color-primary)"
-            spanFontSize="16px"
-            spanFontWeight="700"
-            gap="16px"
-          />
-          <span class="date">{{ formattedDate }}</span>
-        </div>
-
-        <!-- 수정/삭제 메뉴 -->
-        <div class="menu-container" v-if="comment.mine">
-          <div ref="menuRef" style="position: relative">
-            <img
-              src="@/assets/icons/seemore_icon.svg"
-              @click.stop="toggleMenu"
-              class="seemore-icon"
+    <template v-if="comment.active">
+      <div v-if="!isEditing" :style="{ marginLeft: `${depth * 3}rem` }">
+        <div class="header-row">
+          <!-- 아바타 + 날짜 -->
+          <div class="info-row">
+            <Avatar
+              :profileImageUrl="comment.profileImage"
+              :nickname="comment.displayName"
+              spanColor="var(--color-primary)"
+              spanFontSize="16px"
+              spanFontWeight="700"
+              gap="16px"
             />
-            <CommentActionMenu
-              v-if="menuVisible"
-              class="action-menu"
-              :commentId="comment.commentId"
-              @show-delete-modal="onShowDeleteModal"
-              @comment-deleted="handleCommentDeleted"
-              @close-menu="menuVisible = false"
-              @start-edit="startEdit"
-              style="
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                transform: translateX(-100%);
-                z-index: 1000;
-              "
-            />
+            <span class="date">{{ formattedDate }}</span>
           </div>
+
+          <!-- 수정/삭제 메뉴 -->
+          <div class="menu-container" v-if="comment.mine">
+            <div ref="menuRef" style="position: relative">
+              <img
+                src="@/assets/icons/seemore_icon.svg"
+                @click.stop="toggleMenu"
+                class="seemore-icon"
+              />
+              <CommentActionMenu
+                v-if="menuVisible"
+                class="action-menu"
+                :commentId="comment.commentId"
+                @show-delete-modal="onShowDeleteModal"
+                @comment-deleted="handleCommentDeleted"
+                @close-menu="menuVisible = false"
+                @start-edit="startEdit"
+                style="
+                  position: absolute;
+                  top: 100%;
+                  left: 50%;
+                  transform: translateX(-100%);
+                  z-index: 1000;
+                "
+              />
+            </div>
+          </div>
+
+          <!-- 댓글 삭제시 모달 -->
+          <BaseModal
+            v-if="showDeleteModal"
+            @confirm="handleDeleteConfirm"
+            @close="handleModalClose"
+          >
+            이 댓글을 삭제하시겠습니까?<br />
+            삭제시 복구 불가능
+          </BaseModal>
+        </div>
+      </div>
+
+      <!-- 댓글 수정 폼-->
+      <div class="content-box" :style="{ marginLeft: `${2.75 + depth * 3}rem` }">
+        <div v-if="isEditing">
+          <CommentForm
+            :nickname="currentUser.nickname"
+            :profileImageUrl="currentUser.profileImage"
+            :memberId="currentUser.id"
+            :initialContent="props.comment.content"
+            :commentId="props.comment.commentId"
+            :isEditMode="true"
+            :updateCommentApi="props.updateCommentApi"
+            :postCommentApi="props.postCommentApi"
+            @commentPosted="handleEditFinished"
+            @cancelEdit="emit('toggle-edit', null)"
+          />
         </div>
 
-        <!-- 댓글 삭제시 모달 -->
-        <BaseModal v-if="showDeleteModal" @confirm="handleDeleteConfirm" @close="handleModalClose">
-          이 댓글을 삭제하시겠습니까?<br />
-          삭제시 복구 불가능
-        </BaseModal>
-      </div>
-    </div>
+        <div v-else class="content">
+          {{ comment.content }}
+        </div>
 
-    <!-- 댓글 수정 폼-->
-    <div class="content-box" :style="{ marginLeft: `${2.75 + depth * 3}rem` }">
-      <div v-if="isEditing">
-        <CommentForm
-          :nickname="currentUser.nickname"
-          :profileImageUrl="currentUser.profileImage"
-          :memberId="currentUser.id"
-          :initialContent="props.comment.content"
-          :commentId="props.comment.commentId"
-          :isEditMode="true"
-          :updateCommentApi="props.updateCommentApi"
-          :postCommentApi="props.postCommentApi"
-          @commentPosted="handleEditFinished"
-          @cancelEdit="emit('toggle-edit', null)"
-        />
+        <div v-if="depth === 0 && !isEditing" class="reply-btn-wrapper">
+          <BaseButton @click="$emit('toggle-reply', comment.commentId)">답글</BaseButton>
+        </div>
       </div>
+    </template>
 
-      <div v-else class="content">
-        {{ comment.content }}
+    <!-- ❌ 삭제된 댓글: 단순 문구만 표시 -->
+    <template v-else>
+      <div class="deleted-comment-box" :style="{ marginLeft: `${depth * 3}rem` }">
+        <div class="deleted-comment">삭제된 댓글입니다.</div>
       </div>
+    </template>
 
-      <div v-if="depth === 0 && !isEditing" class="reply-btn-wrapper">
-        <BaseButton @click="$emit('toggle-reply', comment.commentId)">답글</BaseButton>
-      </div>
-    </div>
     <hr />
 
     <!-- 답글 폼-->
@@ -266,5 +280,13 @@ hr {
   font-size: var(--fs-body);
   color: var(--color-text);
   opacity: 0.6;
+}
+
+.deleted-comment {
+  /* display: flex;
+  align-items: center; */
+  color: var(--color-text);
+  opacity: 0.6;
+  height: 5rem;
 }
 </style>
