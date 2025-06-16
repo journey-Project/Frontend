@@ -1,6 +1,7 @@
 <template>
-  <div class="date-wrapper" ref="wrapper" @click="toggleDatepicker" tabindex="0">
+  <div class="date-wrapper" ref="wrapper" @click="open = true" tabindex="0">
     <img src="@/assets/icons/companion/date_icon.svg" class="date-icon" alt="calendar" />
+
     <input
       class="date-input"
       :placeholder="placeholder || 'YYYY-MM-DD'"
@@ -9,25 +10,26 @@
       aria-label="날짜 선택"
     />
 
-    <Teleport to="body">
-      <div v-if="open" class="journey-datepicker" :style="popupStyle" @click.stop>
-        <VDatePicker
-          v-model="inner"
-          locale="ko"
-          :masks="{ input: 'YYYY-MM-DD', title: 'YYYY년 M월' }"
-          :title-position="'in-header'"
-          :show-title="true"
-          :min-date="minDate"
-          :max-date="maxDate"
-          @update:model-value="onDateSelected"
-        />
-      </div>
-    </Teleport>
+    <div v-if="open" class="journey-datepicker" @click.stop>
+      <VDatePicker
+        v-model="inner"
+        locale="ko"
+        :masks="{ input: 'YYYY-MM-DD', title: 'YYYY년 M월' }"
+        :title-position="'in-header'"
+        :show-title="true"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :popover="false"
+        :teleport="false"
+        @update:model-value="onDateSelected"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { DatePicker } from 'v-calendar'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -39,20 +41,6 @@ const emit = defineEmits(['update:modelValue'])
 
 const open = ref(false)
 const wrapper = ref(null)
-const popupStyle = ref({})
-
-const toggleDatepicker = () => {
-  open.value = !open.value
-  if (open.value && wrapper.value) {
-    const rect = wrapper.value.getBoundingClientRect()
-    popupStyle.value = {
-      position: 'absolute',
-      top: `${rect.bottom + window.scrollY + 5}px`,
-      left: `${rect.left + window.scrollX}px`,
-      zIndex: 10000,
-    }
-  }
-}
 
 const minDate = computed(() => props.min || null)
 const maxDate = computed(() => props.max || null)
@@ -60,11 +48,11 @@ const maxDate = computed(() => props.max || null)
 function strToLocalDate(s) {
   if (!s) return null
   const [y, m, d] = s.split('-').map(Number)
-  return new Date(y, m - 1, d)
+  return new Date(y, m - 1, d) // 로컬 날짜 객체
 }
-
 const inner = ref(strToLocalDate(props.modelValue))
 
+// local 'YYYY-MM-DD'
 function fmtLocal(date) {
   const pad = (n) => String(n).padStart(2, '0')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
@@ -79,7 +67,6 @@ function onDateSelected(date) {
 function handleClickOutside(e) {
   if (wrapper.value && !wrapper.value.contains(e.target)) open.value = false
 }
-
 onMounted(() => document.addEventListener('mousedown', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
 </script>
@@ -130,7 +117,7 @@ input:focus {
   position: absolute;
   top: calc(100% + var(--space-sm));
   left: 0;
-  z-index: 9999;
+  z-index: 20000;
   background: var(--color-surface);
   border-radius: var(--input-radius);
   padding: var(--space-lg);

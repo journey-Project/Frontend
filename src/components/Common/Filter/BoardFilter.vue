@@ -1,7 +1,7 @@
 <template>
   <div class="filter-bar">
     <div class="date-group">
-      <FilterDatePicker
+      <RangeDatePicker
         v-model="local.startDate"
         :max="local.endDate"
         placeholder="YYYY-MM-DD"
@@ -11,7 +11,7 @@
 
       <span class="tilde">~</span>
 
-      <FilterDatePicker
+      <RangeDatePicker
         v-model="local.endDate"
         :min="local.startDate"
         placeholder="YYYY-MM-DD"
@@ -37,12 +37,11 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
 import RangeDatePicker from '@/components/Base/RangeDatePicker.vue'
-import { useRoute, useRouter } from 'vue-router'
-import FilterDatePicker from '@/components/Base/FilterDatePicker.vue'
 
 const route = useRoute()
 const router = useRouter()

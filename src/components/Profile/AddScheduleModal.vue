@@ -137,8 +137,7 @@ const toggleLocationPopup = (event) => {
 }
 
 .modal {
-  /* 화면 중앙 정렬*/
-  position: absolute;
+  overflow: visible;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
