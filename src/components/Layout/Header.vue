@@ -45,8 +45,9 @@
               basePath="/companion-board"
             />
           </li>
-          <li class="nav-item"><a class="nav-link" href="#" @mouseenter="hideSubmenu">예약</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" @mouseenter="hideSubmenu">일정</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://journeysite.site/hotelreservation" @mouseenter="hideSubmenu">예약</a></li>
+          <!-- 임시 -->
+          <li class="nav-item"><a class="nav-link" href="https://journeysite.site/profile" @mouseenter="hideSubmenu">일정</a></li>
           <!-- <li class="nav-item"><a class="nav-link" href="#">공지사항</a></li> -->
         </ul>
       </div>
