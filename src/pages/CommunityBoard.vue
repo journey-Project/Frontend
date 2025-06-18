@@ -160,6 +160,16 @@ watch(
   ],
   fetchList,
 )
+
+watch(
+  () => route.params.country,
+  (newCountry, oldCountry) => {
+    if (newCountry !== oldCountry) {
+      page.value = 1
+      fetchList()
+    }
+  }
+)
 </script>
 
 <style scoped>
