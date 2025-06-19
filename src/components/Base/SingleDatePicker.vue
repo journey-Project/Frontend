@@ -61,7 +61,7 @@ const customAttributes = computed(() => {
       return {
         key: `highlight-${idx}`,
         dates: { start, end },
-        highlight: true, 
+        highlight: true,
       }
     })
     .filter(Boolean)
@@ -105,20 +105,27 @@ input:focus {
 }
 
 .journey-datepicker {
-  position: absolute;
+  /* position: absolute; */
   top: calc(100% + var(--space-sm));
   left: 0;
-  z-index: 9999;
+  /* z-index: 9999; */
   background: var(--color-surface);
   border-radius: var(--input-radius);
-  padding: var(--space-lg);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: var(--space-md);
+
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+
+  width: 22.5rem;
 
   --vc-primary: var(--color-primary);
   --vc-accent-50: color-mix(in srgb, var(--color-primary) 12%, transparent);
   --vc-content: var(--color-primary);
 }
 
+.journey-datepicker > * {
+  width: 100%;
+  height: 100%;
+}
 .journey-datepicker ::v-deep(.vc-container) {
   background: transparent;
   border: none;

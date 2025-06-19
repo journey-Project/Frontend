@@ -21,7 +21,7 @@
   </form>
 </template>
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, watch } from 'vue'
 import Avatar from '@/components/Profile/Avatar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import { useRoute } from 'vue-router'

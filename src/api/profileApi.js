@@ -19,6 +19,11 @@ export const getProfileById = (memberId) => {
   return api.get(`/members/${memberId}/profile`)
 }
 
+//내 프로필 수정
+export const patchProfileById = (memberId, profileData) => {
+  return api.patch(`/members/${memberId}/profile`, profileData)
+}
+
 //여행 일정 목록
 export const getSchedulesById = (memberId) => {
   return api.get(`/members/${memberId}/plans`)
@@ -32,4 +37,16 @@ export const postSchedule = (memberId, payload) => {
 //여행 일정 삭제
 export const deleteSchedule = (planId) => {
   return api.delete(`/members/plans/${planId}`)
+}
+
+//프로필 이미지 업로드
+export const postProfileImage = (memberId, file) => {
+  const formData = new FormData()
+  formData.append('image', file)
+
+  return api.post(`/members/${memberId}/profile-image`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
 }

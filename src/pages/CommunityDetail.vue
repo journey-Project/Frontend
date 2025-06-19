@@ -26,8 +26,9 @@
 
     <!-- 댓글 입력 -->
     <CommentForm
+      v-if="currentUser.id"
       :nickname="currentUser.nickname"
-      :profileImageUrl="currentUser.profileImageUrl"
+      :profileImageUrl="currentUser.profileImage"
       :memberId="currentUser.id"
       :postCommentApi="postComment"
       :updateCommentApi="updateComment"
@@ -65,7 +66,7 @@ const showDeleteModal = ref(false)
 
 //로그인 유저 정보 가져오기
 const authStore = useAuthStore()
-const currentUser = computed(() => authStore.user) // 👉 currentUser로 사용
+const currentUser = computed(() => authStore.user)
 
 const fetchComments = async () => {
   const postId = route.params.id
