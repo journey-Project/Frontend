@@ -78,8 +78,14 @@
         </div>
 
         <div v-if="depth === 0 && !isEditing" class="reply-btn-wrapper">
-          <BaseButton @click="$emit('toggle-reply', comment.commentId)">답글</BaseButton>
+          <!-- <BaseButton @click="$emit('toggle-reply', comment.commentId)">답글</BaseButton> -->
+          <BaseButton @click="handleReplyClick">답글</BaseButton>
         </div>
+
+        <BaseModal v-if="showLoginModal" @confirm="goToLogin" @close="showLoginModal = false">
+          로그인이 필요한 서비스입니다.<br />
+          로그인 하시겠습니까?
+        </BaseModal>
       </div>
     </template>
 
@@ -127,16 +133,17 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue'
+import { ref, computed, onBeforeUnmount, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useRouter } from 'vue-router'
+
+import dayjs from 'dayjs'
+
 import Avatar from '@/components/Profile/Avatar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import CommentActionMenu from './CommentActionMenu.vue'
 import CommentForm from './CommentForm.vue'
-import dayjs from 'dayjs'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { deleteComment } from '@/api/commentApi'
 import BaseModal from '@/components/Base/BaseModal.vue'
-import { onMounted } from 'vue'
 
 const props = defineProps({
   comment: {
@@ -154,6 +161,9 @@ const props = defineProps({
   postCommentApi: Function,
   updateCommentApi: Function,
 })
+
+const showLoginModal = ref(false)
+const router = useRouter()
 
 const authStore = useAuthStore()
 const currentUser = computed(() => authStore.user)
@@ -176,6 +186,11 @@ const isEditing = computed(() => props.openedEditingId === props.comment.comment
 const editedContent = ref(props.comment.content)
 
 const emit = defineEmits(['comment-deleted', 'toggle-menu'])
+
+const goToLogin = () => {
+  const currentPath = router.currentRoute.value.fullPath
+  router.push({ path: '/login', query: { redirect: currentPath } }) //로그인 후 원래 페이지 돌아오기 위함
+}
 
 //수정/삭제 메뉴 토글
 const toggleMenu = () => {
@@ -224,9 +239,17 @@ const handleEditFinished = () => {
   emit('comment-deleted') // 상위에서 다시 fetchComments 실행
 }
 
+//답글 버튼 클릭 이벤트
+const handleReplyClick = () => {
+  if (!currentUser.value.id) {
+    showLoginModal.value = true
+  } else {
+    emit('toggle-reply', props.comment.commentId)
+  }
+}
+
 //액션 메뉴 바깥 영역 클릭시 닫기 처리
 onMounted(() => {
-  console.log('CommentItem updateComment' + typeof updateCommentApi)
   document.addEventListener('click', handleClickOutside)
 })
 

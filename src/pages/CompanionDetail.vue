@@ -34,7 +34,7 @@
     <!-- 댓글 입력 -->
     <CommentForm
       :nickname="currentUser.nickname"
-      :profileImageUrl="currentUser.profileImageUrl"
+      :profileImageUrl="currentUser.profileImage"
       :memberId="currentUser.id"
       :postCommentApi="postComment"
       @commentPosted="fetchComments"

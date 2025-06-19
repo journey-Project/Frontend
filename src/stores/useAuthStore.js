@@ -68,6 +68,13 @@ export const useAuthStore = defineStore('auth', {
         console.error('로그아웃 중 오류 발생:', err)
       }
     },
+    async updateUserProfile(updatedData) {
+      // updatedData: 서버에서 수정 완료된 최신 사용자 정보 객체
+      this.user = {
+        ...this.user,
+        ...updatedData,
+      }
+    },
   },
 })
 

@@ -1,8 +1,11 @@
 <!-- 마이페이지 나의 프로필 -->
 <template>
   <div class="profile-section">
-    <UserCard :profile="profile" />
-    <ScheduleManager :schedules="schedules" @refresh="fetchSchedules" />
+    <UserCard :profile="profile" @refresh="fetchProfile" />
+    <div class="schedule-row">
+      <ScheduleManager :schedules="schedules" @refresh="fetchSchedules" />
+      <SingleDatePicker :schedules="schedules" />
+    </div>
   </div>
 </template>
 
@@ -11,6 +14,7 @@ import { ref, onMounted } from 'vue'
 import { getProfileById, getSchedulesById } from '@/api/profileApi'
 import UserCard from '@/components/Profile/UserCard.vue'
 import ScheduleManager from '@/components/Profile/ScheduleManager.vue'
+import SingleDatePicker from '@/components/Base/SingleDatePicker.vue'
 
 const props = defineProps(['userId'])
 
@@ -44,5 +48,9 @@ onMounted(async () => {
   flex-direction: column; /* 세로 정렬 */
   /* gap: 2rem; /* 위아래 간격 */
   /* align-items: center; /* 가운데 정렬 (선택사항) */
+}
+.schedule-row {
+  display: flex;
+  gap: 1rem;
 }
 </style>
