@@ -186,21 +186,34 @@ const emit = defineEmits(['refresh'])
 async function saveProfile() {
   try {
     if (editableProfile.profileImageFile) {
-      const res = await postProfileImage(props.profile.memberId, editableProfile.profileImageFile)
+      const { data: urlFromServer } = await postProfileImage(
+        props.profile.memberId,
+        editableProfile.profileImageFile,
+      )
+      // const res = await postProfileImage(props.profile.memberId, editableProfile.profileImageFile)
 
-      editableProfile.profileImage = res.data
+      // editableProfile.profileImage = res.data
+      const bustedUrl = `${urlFromServer}?v=${Date.now()}`
+      editableProfile.profileImage = bustedUrl
     }
 
     const patchData = {
       ...editableProfile,
     }
 
-    await patchProfileById(props.profile.memberId, patchData)
+    // const { data: updatedProfile } = await patchProfileById(memberId, editableProfile)
+    const { data: updatedProfile } = await patchProfileById(props.profile.memberId, {
+      ...editableProfile,
+    })
+    auth.updateUserProfile(updatedProfile) // 핀아 스토어 갱신 (1줄)
+    editMode.value = false
+
+    // await patchProfileById(props.profile.memberId, patchData)
 
     // 프로필 수정 완료 후 최신 데이터를 스토어에 반영
-    auth.updateUserProfile(patchData)
+    // auth.updateUserProfile(patchData)
 
-    editMode.value = false
+    // editMode.value = false
     emit('refresh')
   } catch (e) {
     console.error('프로필 저장 실패', e)
