@@ -4,22 +4,13 @@
       <div class="content">
         <div class="card_top">
           <Avatar :profileImageUrl="each.profileImageUrl" :nickname="each.nickname" size="50px" />
-          <!-- <div class="profile_image" v-if="each.profileImageUrl != null">
-            <img :src="each.profileImageUrl" alt="" />
-          </div>
-          <div v-else class="profile_image">
-            <img src="@/assets/main_logo.svg" class="logimg" alt="여정 로고" />
-          </div>
-          <div class="nickname">
-            <BaseText bold size="--fs-subtitle">{{ each.nickname }}</BaseText>
-          </div> -->
         </div>
         <div class="card_body" @click="goCommunity(each.postId)">
           <div class="image_list" v-if="each.imageUrls && each.imageUrls.length > 0">
             <img v-for="(imgUrl, index) in each.imageUrls" :key="index" :src="imgUrl" alt="" />
           </div>
           <div :class="['text', each.imageUrls?.length === 0 ? 'full-text' : 'clamp-text']">
-            {{ each.content }}
+            <div v-html="each.content"></div>
           </div>
         </div>
       </div>
