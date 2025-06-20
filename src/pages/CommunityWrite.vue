@@ -40,6 +40,8 @@ import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
+import { getPostByPostId } from '@/api/postApi'
+
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
@@ -47,6 +49,9 @@ const title = ref('')
 const content = ref('')
 const country = ref(decodeURIComponent(route.params.country || '국내'))
 const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
+
+const postId = route.params.id
+const isEditMode = !!postId
 
 const boardOptions = [
   { label: '커뮤니티', value: 'community' },
@@ -73,11 +78,25 @@ watch(selectedBoard, (newVal) => {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   if (route.path.includes('/companion/write')) {
     selectedBoard.value = 'companion'
   } else if (route.path.includes('/community/write')) {
     selectedBoard.value = 'community'
+  }
+
+  //수정 모드일 경우 기존 게시글 불러와서 초기화
+  if (isEditMode) {
+    try {
+      const res = await getPostByPostId(postId)
+      const data = res.data
+      title.value = data.title
+      content.value = data.content
+      console.log('불러온 content:', content.value)
+      selectedBoard.value = route.path.includes('/companion') ? 'companion' : 'community'
+    } catch (e) {
+      console.error('게시글 불러오기 실패:', e)
+    }
   }
 })
 

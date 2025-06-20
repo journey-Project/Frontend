@@ -68,7 +68,7 @@ const router = createRouter({
       component: CallbacNaver,
     },
     {
-      path: '/community/write/:country',
+      path: '/community/write/:id?',
       name: 'CommunityWrite',
       component: CommunityWrite,
     },
@@ -79,7 +79,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/companion/write/:country',
+      path: '/companion/write/:id?',
       name: 'CompanionWrite',
       component: CompanionWrite,
     },

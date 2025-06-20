@@ -1,8 +1,7 @@
 <!-- 국가 버튼 탭 -->
 <template>
   <div class="country-button-group">
-    <!-- 나중에 국가별 커뮤니티 페이지로 라우팅 -->
-    <button v-for="(flag, name) in countryFlagMap" :key="name">
+    <button v-for="(flag, name) in countryFlagMap" :key="name" @click="goToCountryCommunity(name)">
       <img
         :src="getImagePath(flag)"
         class="flag-icon"
@@ -15,6 +14,10 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 // rem 계산 유틸 (m.rem 함수처럼)
 const rem = (px) => `${px / 16}rem`
 
@@ -34,6 +37,10 @@ const getImagePath = (filename) => {
     console.error('이미지 경로 에러:', filename, err)
     return ''
   }
+}
+
+const goToCountryCommunity = (countryName) => {
+  router.push(`/community-board/${countryName}`)
 }
 </script>
 

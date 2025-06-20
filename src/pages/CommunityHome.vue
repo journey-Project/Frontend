@@ -9,7 +9,6 @@
 
     <div class="row1">
       <div class="text">동행자 모집</div>
-      <img src="@/assets/icons/arrow.svg" class="arrow-icon" @click="goToHotPosts" />
     </div>
 
     <div class="cards-grid">
@@ -30,7 +29,6 @@
     <div class="row1">
       <img src="@/assets/icons/hot_icon.svg" class="hot-icon" />
       <div class="text">오늘의 HOT 게시물</div>
-      <img src="@/assets/icons/arrow.svg" class="arrow-icon" @click="goToHotPosts" />
     </div>
     <hr />
 
@@ -157,7 +155,7 @@ function goToHotPosts() {
   padding: 0;
   margin: 0;
   font-size: var(--fs-title);
-  font-weight: 900;
+  font-weight: var(--fw-bold);
   color: var(--color-primary);
   height: 29px;
   line-height: 29px; /* 글자 높이 맞추기 */

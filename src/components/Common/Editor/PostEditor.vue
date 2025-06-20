@@ -81,11 +81,9 @@ onMounted(async () => {
           const fd = new FormData()
           fd.append('file', blob)
 
-          const { data } = await axios.post(
-            'https://journeysite.site/api/s3/application',
-            fd,
-            { headers: { 'Content-Type': 'multipart/form-data' } },
-          )
+          const { data } = await axios.post('https://journeysite.site/api/s3/application', fd, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          })
 
           callback(data, blob.name)
         } catch (e) {
@@ -104,6 +102,20 @@ onMounted(async () => {
     }
   })
 })
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (editorInstance) {
+      const currentContent = editorInstance.getHTML()
+      if (newVal !== currentContent) {
+        editorInstance.setHTML(newVal || '')
+        previewHtml.value = newVal || ''
+        checkEditorEmpty()
+      }
+    }
+  },
+)
 
 function checkEditorEmpty() {
   const html = editorInstance?.getHTML()?.trim()

@@ -92,7 +92,11 @@
         <BaseButton size="lg" style="margin-left: 1rem" @click="coverInput.click()">
           이미지 선택
         </BaseButton>
-        <span v-if="coverFile" class="file-ok"> ✔ {{ coverFile.name }} 선택됨 </span>
+        <span v-if="coverFile || coverImageUrl" class="file-ok">
+          ✔
+          {{ coverFile ? coverFile.name : coverImageUrl.split('/').pop() }}
+          선택됨
+        </span>
       </div>
     </div>
 
@@ -112,6 +116,8 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 
+import { getCompanionPostByPostId } from '@/api/companionApi'
+
 const router = useRouter()
 const route = useRoute()
 const title = ref('')
@@ -123,6 +129,10 @@ const location = ref('')
 const auth = useAuthStore()
 const coverInput = ref(null)
 const coverFile = ref(null)
+const coverImageUrl = ref('')
+
+const postId = route.params.id
+const isEditMode = !!postId
 
 const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
 import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
@@ -144,11 +154,29 @@ const peopleOptions = Array.from({ length: 10 }, (_, i) => ({
   value: `${i + 1}`,
 }))
 
-onMounted(() => {
+onMounted(async () => {
   if (route.path.includes('/companion/write')) {
     selectedBoard.value = 'companion'
   } else if (route.path.includes('/community/write')) {
     selectedBoard.value = 'community'
+  }
+  //수정 모드일 경우 기존 게시글 불러와서 초기화
+  if (isEditMode) {
+    try {
+      const res = await getCompanionPostByPostId(postId)
+      const data = res.data
+      title.value = data.title
+      content.value = data.content
+      startDate.value = data.start_date
+      endDate.value = data.end_date
+      people.value = String(data.max_participants)
+      location.value = data.destination
+      coverImageUrl.value = data.coverImageUrl || ''
+
+      selectedBoard.value = route.path.includes('/companion') ? 'companion' : 'community'
+    } catch (e) {
+      console.error('게시글 불러오기 실패:', e)
+    }
   }
 })
 
@@ -234,6 +262,7 @@ function onCoverChange(e) {
   const file = e.target.files && e.target.files[0]
   if (!file) return
   coverFile.value = file
+  coverImageUrl.value = ''
 }
 </script>
 

@@ -1,6 +1,6 @@
 <!-- HOT 게시글 1개 표시 -->
 <template>
-  <tr class="hot-post-row" @click="goToDetail">
+  <tr class="hot-post-row" @click="goToDetail(post.communityPostId)">
     <td id="countryText">
       [{{ post.country }}] <span id="titleText"> {{ post.title }}</span>
     </td>
@@ -17,11 +17,11 @@ const props = defineProps({
     required: true,
   },
 })
-
+console.log(props.post)
 const router = useRouter()
 
-const goToDetail = () => {
-  router.push(`/`) // 나중에 게시글 상세 페이지와 연결 필요
+const goToDetail = (postId) => {
+  router.push(`/community/${postId}`) // 나중에 게시글 상세 페이지와 연결 필요
 }
 
 const formatTime = (time) => {

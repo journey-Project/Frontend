@@ -33,6 +33,7 @@
 
     <!-- 댓글 입력 -->
     <CommentForm
+      v-if="currentUser.id"
       :nickname="currentUser.nickname"
       :profileImageUrl="currentUser.profileImage"
       :memberId="currentUser.id"
@@ -95,7 +96,7 @@ onMounted(async () => {
 
 // 수정 버튼 → 수정 페이지로 이동
 const goToEditPage = () => {
-  router.push('/') //추후 작업
+  router.push(`/companion/write/${route.params.id}`)
 }
 
 const openDeleteModal = () => {
