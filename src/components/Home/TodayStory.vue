@@ -4,22 +4,13 @@
       <div class="content">
         <div class="card_top">
           <Avatar :profileImageUrl="each.profileImageUrl" :nickname="each.nickname" size="50px" />
-          <!-- <div class="profile_image" v-if="each.profileImageUrl != null">
-            <img :src="each.profileImageUrl" alt="" />
-          </div>
-          <div v-else class="profile_image">
-            <img src="@/assets/main_logo.svg" class="logimg" alt="여정 로고" />
-          </div>
-          <div class="nickname">
-            <BaseText bold size="--fs-subtitle">{{ each.nickname }}</BaseText>
-          </div> -->
         </div>
         <div class="card_body" @click="goCommunity(each.postId)">
-          <div class="image_list" v-if="each.imageUrls && each.imageUrls.length > 0">
-            <img v-for="(imgUrl, index) in each.imageUrls" :key="index" :src="imgUrl" alt="" />
+          <div class="image_list" v-if="each.firstImage">
+            <img :src="each.firstImage" alt="대표 이미지" />
           </div>
-          <div :class="['text', each.imageUrls?.length === 0 ? 'full-text' : 'clamp-text']">
-            {{ each.content }}
+          <div :class="['text', !each.firstImage ? 'full-text' : 'clamp-text']">
+            {{ each.plainText }}
           </div>
         </div>
       </div>
@@ -39,10 +30,25 @@ const hotPosts = ref([])
 onMounted(async () => {
   try {
     const response = await mainHot({ count: 3 })
-    hotPosts.value = response.data.map((post) => ({
-      ...post,
-      time: post.createdAt ? new Date(post.createdAt) : new Date(),
-    }))
+    console.log(response)
+    hotPosts.value = response.data.map((post) => {
+      const div = document.createElement('div')
+      div.innerHTML = post.content
+
+      // 첫 번째 이미지 추출
+      const firstImg = div.querySelector('img')?.getAttribute('src') || null
+
+      // 이미지 제거 후 텍스트 추출
+      div.querySelectorAll('img').forEach((img) => img.remove())
+      const textContent = div.textContent || ''
+
+      return {
+        ...post,
+        firstImage: firstImg,
+        plainText: textContent,
+        time: post.createdAt ? new Date(post.createdAt) : new Date(),
+      }
+    })
   } catch (error) {
     console.error('HOT 게시물 불러오기 실패:', error)
   }
@@ -81,6 +87,7 @@ const goCommunity = (id) => {
   margin-bottom: var(--space-md2);
 }
 .card_body {
+  height: 235px;
   cursor: pointer;
 }
 
