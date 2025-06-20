@@ -10,3 +10,10 @@ export const getPostByPostId = (communityPostId, params = {}) => {
 export const deletePostById = (communityPostId) => {
   return api.delete(`/community/DeletePosts/${communityPostId}`)
 }
+
+//게시글 수정
+export const updatePost = (postId, formData) => {
+  return api.put(`/posts/update/${postId}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+}

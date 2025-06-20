@@ -88,7 +88,7 @@ onMounted(async () => {
 
 // 수정 버튼 → 수정 페이지로 이동
 const goToEditPage = () => {
-  router.push('/') //추후 작업
+  router.push(`/community/write/${route.params.id}`) //추후 작업
 }
 
 // 삭제 모달 열기/닫기
