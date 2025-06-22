@@ -68,9 +68,21 @@ const router = createRouter({
       component: CallbacNaver,
     },
     {
-      path: '/community/write/:id?',
-      name: 'CommunityWrite',
+      path: '/community/write',          // 새 글 작성
+      name: 'CommunityCreate',
       component: CommunityWrite,
+    },
+    {
+      path: '/community/write/:id(\\d+)',// 수정(숫자 id만)
+      name: 'CommunityEdit',
+      component: CommunityWrite,
+      props: true,
+    },
+    {
+      path: '/community/write/:country/edit/:id',
+      name: 'CommunityEdit',
+      component: CommunityWrite,
+      props: true,
     },
     {
       path: '/community/:id',
@@ -79,15 +91,25 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/companion/write/:id?',
-      name: 'CompanionWrite',
+      path: '/companion/write',
+      name: 'CompanionCreate',
       component: CompanionWrite,
+    },
+    {
+      path: '/companion/write/:id(\\d+)',
+      name: 'CompanionEdit',
+      component: CompanionWrite,
+      props: true,
     },
     {
       path: '/companion-board/:country/detail/:id',
       name: 'CompanionDetail',
       component: CompanionDetail,
       props: true,
+    },
+    {
+      path: '/companion/write/:country/edit/:id',
+      component: CompanionWrite,
     },
     {
       path: '/hotelreservation',
