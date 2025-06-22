@@ -217,7 +217,7 @@ async function submitPost () {
     coverImageUrl: coverImageUrl.value || '',
   }
     /* ---- 수정 (PUT) ---- */
-    fd.append('post', JSON.stringify(basePayload))
+    fd.append('post', JSON.stringify(payload))
     if (coverFile.value) fd.append('newCoverImage', coverFile.value)
     url = `https://journeysite.site/api/posts/update/${postId.value}`
   } else {

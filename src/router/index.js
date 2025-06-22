@@ -73,12 +73,6 @@ const router = createRouter({
       component: CommunityWrite,
     },
     {
-      path: '/community/write/:id(\\d+)',// 수정(숫자 id만)
-      name: 'CommunityEdit',
-      component: CommunityWrite,
-      props: true,
-    },
-    {
       path: '/community/write/:country/edit/:id',
       name: 'CommunityEdit',
       component: CommunityWrite,
@@ -94,12 +88,6 @@ const router = createRouter({
       path: '/companion/write',
       name: 'CompanionCreate',
       component: CompanionWrite,
-    },
-    {
-      path: '/companion/write/:id(\\d+)',
-      name: 'CompanionEdit',
-      component: CompanionWrite,
-      props: true,
     },
     {
       path: '/companion-board/:country/detail/:id',
