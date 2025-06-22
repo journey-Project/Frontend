@@ -94,9 +94,10 @@ onMounted(async () => {
   }
 })
 
-// 수정 버튼 → 수정 페이지로 이동
 const goToEditPage = () => {
-  router.push(`/companion/write/${route.params.id}`)
+  const postId = route.params.id
+  const country = encodeURIComponent(post.value?.country || '국내')
+  router.push(`/companion/write/${country}/edit/${postId}`)
 }
 
 const openDeleteModal = () => {
