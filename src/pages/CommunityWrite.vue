@@ -1,16 +1,8 @@
 <template>
   <div class="community-write">
-    <div class="top-row">
-      <BaseSelector
-        v-model="selectedBoard"
-        :options="boardOptions"
-        _ph="게시판 선택"
-        _style="borderline"
-        class="board-select"
-      />
+    <div class="submit-btn">
       <BaseButton size="md" @click="submitPost">등록</BaseButton>
     </div>
-
     <BaseText
       tag="h2"
       size="--fs-title"
@@ -19,22 +11,18 @@
       :style="{ opacity: 0.7, marginTop: '2rem' }"
     >
     </BaseText>
-
     <input v-model="title" type="text" class="title-input" placeholder="제목을 입력해주세요" />
-
     <div class="divider" />
-
     <PostEditor v-model="content" class="post-editor" />
   </div>
 </template>
 
 <script setup>
-import BaseSelector from '@/components/Base/BaseSelect.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseText from '@/components/Base/BaseText.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
 
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
@@ -47,58 +35,64 @@ const router = useRouter()
 const auth = useAuthStore()
 const title = ref('')
 const content = ref('')
+// const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
 const country = ref(decodeURIComponent(route.params.country || '국내'))
-const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
+const postId = computed(() => route.params.id) // 존재하지 않으면 undefined
+const isEditMode = computed(() => Number.isInteger(+postId.value))
+const isLoading = ref(false)
 
-const postId = route.params.id
-const isEditMode = !!postId
-
-const boardOptions = [
-  { label: '커뮤니티', value: 'community' },
-  { label: '동행자 모집', value: 'companion' },
-]
-
-watch(selectedBoard, (newVal) => {
-  let currentCountry = '국내'
-
-  if (location.value) {
-    currentCountry = location.value.split(',')[0]?.trim()
-  } else if (
-    route.params.country &&
-    route.params.country !== 'write' &&
-    route.params.country !== 'undefined'
-  ) {
-    currentCountry = route.params.country
-  }
-
-  if (newVal === 'companion') {
-    router.push(`/companion/write/${currentCountry}`)
-  } else if (newVal === 'community') {
-    router.push(`/community/write/${currentCountry}`)
-  }
+onMounted(() => {
+  if (isEditMode.value) fetchPost()
 })
 
-onMounted(async () => {
-  if (route.path.includes('/companion/write')) {
-    selectedBoard.value = 'companion'
-  } else if (route.path.includes('/community/write')) {
-    selectedBoard.value = 'community'
-  }
+watch(
+  () => route.params.id,
+  () => {
+    if (isEditMode.value) fetchPost()
+  },
+)
 
-  //수정 모드일 경우 기존 게시글 불러와서 초기화
-  if (isEditMode) {
+onMounted(async () => {
+  if (isEditMode.value) {
     try {
-      const res = await getPostByPostId(postId)
+      const res = await getPostByPostId(postId.value)
       const data = res.data
       title.value = data.title
       content.value = data.content
-      console.log('불러온 content:', content.value)
-      selectedBoard.value = route.path.includes('/companion') ? 'companion' : 'community'
+      country.value = data.country
     } catch (e) {
       console.error('게시글 불러오기 실패:', e)
     }
   }
 })
+
+async function fetchPost() {
+  isLoading.value = true
+  try {
+    const res = await getPostByPostId(postId.value)
+    const data = res.data
+    title.value = data.title
+    content.value = data.content
+    country.value = data.country
+  } catch (e) {
+    console.error('게시글 불러오기 실패:', e)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  if (isEditMode.value) {
+    fetchPost()
+  }
+})
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) fetchPost()
+  },
+)
 
 async function submitPost() {
   if (!title.value.trim() || !content.value.trim()) {
@@ -106,32 +100,44 @@ async function submitPost() {
     return
   }
 
-  try {
-    const payload = {
+  const payload = isEditMode.value
+  ? {                      // 수정 시
+     title: title.value,
+     content: content.value,
+     country: country.value,
+    }
+  : {                      // 새글 작성 시
       memberId: auth.user.id,
       country: country.value,
       title: title.value,
       content: content.value,
     }
 
-    const fd = new FormData()
-    fd.append('data', JSON.stringify(payload))
-    /* 이미지 파일은 이미 업로드돼 URL 로 본문에 포함됐으므로 fd.append('images', …) 생략 */
+const fd = new FormData()
+const json = new Blob([JSON.stringify(payload)], {
+  type: 'application/json',
+})
 
-    await axios.post('https://journeysite.site/api/community/save', fd, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-
-    alert('게시글이 등록되었습니다')
-    console.log('제출 직전 content:', content.value)
-    router.push(
-      selectedBoard.value === 'companion'
-        ? `/companion-board/${encodeURIComponent(payload.country)}`
-        : `/community-board/${encodeURIComponent(payload.country)}`,
-    )
+fd.append(isEditMode.value ? 'post' : 'data', json)
+  try {
+    if (isEditMode.value) {
+      // 수정 API
+      await axios.put(`https://journeysite.site/api/community/update/${postId.value}`, fd)
+      alert('게시글이 수정되었습니다')
+    } else {
+      // 등록 API
+      await axios.post('https://journeysite.site/api/community/save', fd)
+      alert('게시글이 등록되었습니다')
+    }
+    const encoded = encodeURIComponent(country.value)
+    if (route.path.startsWith('/companion')) {
+      router.replace(`/companion-board/${encoded}`)
+    } else {
+      router.replace(`/community-board/${encoded}`)
+    }
   } catch (e) {
     console.error(e)
-    alert('등록 실패')
+    alert('저장 실패')
   }
 }
 </script>
@@ -142,12 +148,6 @@ async function submitPost() {
   margin: 0 auto;
   padding-top: 4rem;
   background: var(--color-bg);
-}
-
-.top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .board-select {
@@ -177,5 +177,10 @@ async function submitPost() {
 
 .post-editor {
   margin-bottom: 5rem;
+}
+
+.submit-btn {
+  float: right;
+  margin-bottom: 1rem;
 }
 </style>

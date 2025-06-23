@@ -1,13 +1,6 @@
 <template>
   <div class="community-write">
-    <div class="top-row">
-      <BaseSelector
-        v-model="selectedBoard"
-        :options="boardOptions"
-        _ph="게시판 선택"
-        _style="borderline"
-        class="board-select"
-      />
+    <div class="submit-btn">
       <BaseButton size="md" @click="submitPost">등록</BaseButton>
     </div>
 
@@ -110,159 +103,146 @@ import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseText from '@/components/Base/BaseText.vue'
 import BaseDatePicker from '@/components/Base/RangeDatePicker.vue'
 import PostEditor from '@/components/Common/Editor/PostEditor.vue'
-import { useAuthStore } from '@/stores/useAuthStore'
-import axios from 'axios'
-import { ref, watch, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
+import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
 
+import { ref, onMounted, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/useAuthStore'
+
+import axios from 'axios'
 import { getCompanionPostByPostId } from '@/api/companionApi'
 
+/* ───── 상태 ───── */
 const router = useRouter()
-const route = useRoute()
-const title = ref('')
-const content = ref('')
+const route  = useRoute()
+const auth   = useAuthStore()
+
+const title     = ref('')
+const content   = ref('')
 const startDate = ref(null)
-const endDate = ref(null)
-const people = ref('')
-const location = ref('')
-const auth = useAuthStore()
-const coverInput = ref(null)
-const coverFile = ref(null)
-const coverImageUrl = ref('')
+const endDate   = ref(null)
+const people    = ref('')
+const location  = ref('')
 
-const postId = route.params.id
-const isEditMode = !!postId
-
-const selectedBoard = ref(route.path.includes('/companion/write') ? 'companion' : 'community')
-import LocationSearchPopup from '@/components/Common/Popup/LocationSearchPopup.vue'
+const coverInput   = ref(null)
+const coverFile    = ref(null)
+const coverImageUrl= ref('')
 
 const showLocationPopup = ref(false)
 
+/* ───── 수정 모드 판별 ───── */
+const postId      = computed(() => route.params.id)
+const isEditMode  = computed(() => Number.isInteger(+postId.value))
+
+/* ───── 옵션 ───── */
+const peopleOptions = Array.from({ length: 10 }, (_, i) => ({
+  label: `${i + 1}명`, value: `${i + 1}`,
+}))
+
+/* ───── 초기 데이터 로드 (수정 모드) ───── */
+onMounted(async () => {
+  if (!isEditMode.value) return
+  try {
+    const { data } = await getCompanionPostByPostId(postId.value)
+    title.value       = data.title
+    content.value     = data.content
+    startDate.value   = data.start_date
+    endDate.value     = data.end_date
+    people.value      = String(data.max_participants)
+    location.value    = data.destination
+    coverImageUrl.value = data.coverImageUrl || ''
+  } catch (err) {
+    console.error('게시글 불러오기 실패:', err)
+  }
+})
+
+/* ───── 여행지 팝업 선택 ───── */
 const handleLocationSelect = (selected) => {
   location.value = selected
   showLocationPopup.value = false
 }
 
-const boardOptions = [
-  { label: '커뮤니티', value: 'community' },
-  { label: '동행자 모집', value: 'companion' },
-]
-
-const peopleOptions = Array.from({ length: 10 }, (_, i) => ({
-  label: `${i + 1}명`,
-  value: `${i + 1}`,
-}))
-
-onMounted(async () => {
-  if (route.path.includes('/companion/write')) {
-    selectedBoard.value = 'companion'
-  } else if (route.path.includes('/community/write')) {
-    selectedBoard.value = 'community'
+/* ───── 커버 이미지 선택 ───── */
+function onCoverChange (e) {
+  const [file] = e.target.files || []
+  if (file) {
+    coverFile.value     = file
+    coverImageUrl.value = ''
   }
-  //수정 모드일 경우 기존 게시글 불러와서 초기화
-  if (isEditMode) {
-    try {
-      const res = await getCompanionPostByPostId(postId)
-      const data = res.data
-      title.value = data.title
-      content.value = data.content
-      startDate.value = data.start_date
-      endDate.value = data.end_date
-      people.value = String(data.max_participants)
-      location.value = data.destination
-      coverImageUrl.value = data.coverImageUrl || ''
+}
 
-      selectedBoard.value = route.path.includes('/companion') ? 'companion' : 'community'
-    } catch (e) {
-      console.error('게시글 불러오기 실패:', e)
-    }
-  }
-})
-
-watch(selectedBoard, (newVal) => {
-  let currentCountry = '국내'
-
-  if (location.value) {
-    currentCountry = location.value.split(',')[0]?.trim()
-  } else if (
-    route.params.country &&
-    route.params.country !== 'write' &&
-    route.params.country !== 'undefined'
-  ) {
-    currentCountry = route.params.country
-  }
-
-  if (newVal === 'companion') {
-    router.push(`/companion/write/${currentCountry}`)
-  } else if (newVal === 'community') {
-    router.push(`/community/write/${currentCountry}`)
-  }
-})
-
-const submitPost = async () => {
+/* ───── 제출 ───── */
+async function submitPost () {
+  /* 1. 프런트 검증 */
   if (!title.value.trim() || !content.value.trim()) {
     alert('제목과 내용을 입력해 주세요')
     return
   }
-
-  const countryFromLocation = location.value?.split(',')[0].trim() || '국내'
-
-  const common = {
-    memberId: auth.user.id,
-    country: countryFromLocation,
-    title: title.value,
-    content: content.value,
-    startDate: startDate.value,
-    endDate: endDate.value,
+  if (!startDate.value || !endDate.value) {
+    alert('여행 기간을 선택해 주세요')
+    return
   }
-  console.log('📦  to-server =', common)
+  if (!people.value) {
+    alert('희망 인원수를 선택해 주세요')
+    return
+  }
+  if (!location.value) {
+    alert('여행지를 입력/선택해 주세요')
+    return
+  }
+  if (!isEditMode.value && !coverFile.value) {
+    alert('커버 이미지를 선택해 주세요')
+    return
+  }
 
-  const fd = new FormData()
-  let url = ''
+  /* 2. payload 구성 */
+  const countryFromLocation = location.value.split(',')[0]?.trim() || '국내'
 
-  if (selectedBoard.value === 'community') {
-    fd.append('data', JSON.stringify(common))
-    url = 'https://journeysite.site/api/community/save'
+  const basePayload = {
+    country       : countryFromLocation,
+    title         : title.value,
+    content       : content.value,
+    startDate     : startDate.value,
+    endDate       : endDate.value,
+    max_participants  : Number(people.value),
+    destination   : location.value,
+  }
+
+  const fd  = new FormData()
+  let   url = ''
+
+  if (isEditMode.value) {
+    const payload = {
+    ...basePayload,
+    coverImageUrl: coverImageUrl.value || '',
+  }
+    /* ---- 수정 (PUT) ---- */
+    fd.append('post', JSON.stringify(payload))
+    if (coverFile.value) fd.append('newCoverImage', coverFile.value)
+    url = `https://journeysite.site/api/posts/update/${postId.value}`
   } else {
-    fd.append(
-      'post',
-      JSON.stringify({
-        ...common,
-        participants: Number(people.value),
-        destination: location.value,
-      }),
-    )
-
-    if (!coverFile.value) {
-      alert('커버 이미지를 선택해 주세요')
-      return
-    }
+    /* ---- 새 글 (POST) ---- */
+    fd.append('post', JSON.stringify({ ...basePayload, memberId: auth.user.id }))
     fd.append('coverImage', coverFile.value)
     url = 'https://journeysite.site/api/posts/save'
   }
 
+  /* 3. 전송 */
   try {
-    await axios.post(url, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
-    alert('게시글이 등록되었습니다')
-    const countryFromLocation = location.value?.split(',')[0].trim() || '국내'
+    if (isEditMode.value) {
+      await axios.put(url, fd)           // boundary 자동
+      alert('게시글이 수정되었습니다')
+    } else {
+      await axios.post(url, fd)
+      alert('게시글이 등록되었습니다')
+    }
 
-    router.push(
-      selectedBoard.value === 'companion'
-        ? `/companion-board/${countryFromLocation}`
-        : '/community-board',
-    )
-  } catch (e) {
-    console.error(e.response?.data || e)
-    alert('등록 실패: ' + (e.response?.data?.message || '서버 오류'))
+    /* 4. 완료 후 리다이렉트 */
+    router.replace(`/companion-board/${countryFromLocation}`)
+  } catch (err) {
+    console.error(err.response?.data || err)
+    alert('저장 실패: ' + (err.response?.data?.message || '서버 오류'))
   }
-}
-
-function onCoverChange(e) {
-  const file = e.target.files && e.target.files[0]
-  if (!file) return
-  coverFile.value = file
-  coverImageUrl.value = ''
 }
 </script>
 
@@ -435,5 +415,10 @@ function onCoverChange(e) {
   margin-left: 0.75rem;
   color: var(--color-primary);
   white-space: nowrap;
+}
+
+.submit-btn {
+  float: right;
+  margin-bottom: 1rem;
 }
 </style>

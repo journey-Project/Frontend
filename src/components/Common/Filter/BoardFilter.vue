@@ -63,12 +63,19 @@ const options = [
 ]
 
 function handleCreatePost() {
-  const encodedCountry = encodeURIComponent(route.params.country || '국내')
+  const country = route.params.country || '국내'   // 이미 디코딩된 값
 
-  if (route.path.includes('community')) {
-    router.push(`/community/write/${encodedCountry}`)
-  } else if (route.path.includes('companion')) {
-    router.push(`/companion/write/${encodedCountry}`)
+  if (route.path.includes('/community')) {
+    // name을 쓰면 라우터 리팩터링에 안전
+    router.push({
+      name: 'CommunityCreate',       // /community/write
+      query: { country },            // ?country=국내
+    })
+  } else if (route.path.includes('/companion')) {
+    router.push({
+      name: 'CompanionCreate',       // /companion/write
+      query: { country },
+    })
   } else {
     console.warn('등록 버튼 클릭: 알 수 없는 게시판 경로입니다.')
   }

@@ -88,9 +88,10 @@ onMounted(async () => {
 
 // 수정 버튼 → 수정 페이지로 이동
 const goToEditPage = () => {
-  router.push(`/community/write/${route.params.id}`) //추후 작업
+  const postId = route.params.id
+  const country = encodeURIComponent(post.value?.country || '국내') // 혹시 모를 fallback
+  router.push(`/community/write/${country}/edit/${postId}`)
 }
-
 // 삭제 모달 열기/닫기
 const openDeleteModal = () => {
   showDeleteModal.value = true
