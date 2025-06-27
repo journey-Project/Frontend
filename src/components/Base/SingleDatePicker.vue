@@ -159,16 +159,17 @@ input:focus {
 .journey-datepicker ::v-deep(.vc-weekday) {
   text-align: center;
   font-weight: var(--fw-semibold);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--color-primary);
+  width: 46px;  
 }
 .journey-datepicker ::v-deep(.vc-day) {
-  width: 45px;
+  width: 46px;
   height: 40px;
   font-size: 1.125rem;
   color: var(--color-primary);
   line-height: 40px;
-}
+} 
 .journey-datepicker ::v-deep(.vc-day:hover:not(.is-disabled)) {
   background: color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
