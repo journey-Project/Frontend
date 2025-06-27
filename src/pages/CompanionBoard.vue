@@ -219,15 +219,29 @@ watch(
   margin-top: 3rem;
 }
 
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 18rem);
-  gap: 3rem;
-  margin: 3rem auto 0;
-}
-
 .pagination {
   margin-top: 4.5rem;
   margin-bottom: 5rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 기본 3개 */
+  gap: 48px;
+  margin: 3rem auto 0;
+}
+
+/* 2개 카드일 때 */
+@media (max-width: 1023px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 1개 카드일 때 */
+@media (max-width: 639px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
