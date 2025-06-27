@@ -61,18 +61,18 @@ function formatDate(date) {
 console.log(posts)
 </script>
 
-<style scoped>
+<style scope  d>
 .post-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem; /* 14px 정도 */
-  table-layout: fixed; /* colgroup을 쓴다면 주석 해제 */
+  font-size: 0.875rem;
+  table-layout: fixed;
 }
 
 th,
 td {
-  padding: var(--space-md) var(--space-sm); /* 16px 상하 여백, 8px 좌우 여백 */
-  font-size: var(--fs-body); /* 16px (기본 본문 폰트) */
+  padding: var(--space-md) var(--space-sm);
+  font-size: var(--fs-body);
   font-weight: var(--fw-medium);
   color: var(--color-primary);
   text-align: left;
@@ -87,7 +87,7 @@ thead th {
 }
 
 thead tr {
-  border-bottom: 2px solid #4b79c9; /* 파란 구분선 */
+  border-bottom: 2px solid #4b79c9;
 }
 
 tbody .row {
@@ -96,6 +96,7 @@ tbody .row {
   transition: background 0.15s;
   display: table-row;
 }
+
 tbody .row:hover {
   background: #f6f9ff;
 }
@@ -106,30 +107,49 @@ tbody .row:hover {
   color: #888;
 }
 
-/* 칼럼별 정렬 & (선택) 너비 */
+/* 칼럼별 스타일 */
 .num {
   padding-left: 1rem;
   text-align: center;
 }
-
 .title {
   padding-left: 3rem;
   width: 50%;
 }
-
 .author {
   width: 15%;
   text-align: center;
 }
-
 .date {
   width: 20%;
   text-align: center;
 }
-
-.comment-count{
+.comment-count {
   margin-left: .1rem;
   color: var(--color-text);
   font-size: 0.9rem;
 }
+
+@media (max-width: 640px) {
+  .post-table {
+    table-layout: auto;
+  }
+
+  .num,
+  .author,
+  .date {
+    display: none;
+  }
+
+  .title {
+    display: block;
+    width: 100%;
+    padding-left: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
 </style>
