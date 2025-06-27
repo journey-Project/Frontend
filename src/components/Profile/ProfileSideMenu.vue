@@ -34,9 +34,9 @@ watch(
 
 const menus = [
   { path: '/profile', label: '나의 프로필' },
-  { path: '/profile/follow', label: '팔로우/팔로잉 관리' },
+  { path: '/profile/follow', label: '내 게시글 관리' },
   { path: '/profile/story', label: '스토리 관리' },
-  { path: '/profile/setting', label: '기본 설정' },
+  { path: '/profile/setting', label: '비밀번호 수정' },
 ]
 
 const menuRefs = ref([])
