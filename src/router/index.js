@@ -20,6 +20,7 @@ import MyProfile from '@/pages/MyProfile.vue'
 import FollowPage from '@/pages/FollowPage.vue'
 import SettingPage from '@/pages/SettingPage.vue'
 import StoryPage from '@/pages/StoryPage.vue'
+import MyTripsPage from '@/pages/MyTripsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +34,7 @@ const router = createRouter({
       path: '/companion-board/:country',
       name: 'CompanionBoard',
       component: CompanionBoard,
-      props: true,
+      // props: true,
     },
     {
       path: '/community-board/:country',
@@ -72,7 +73,7 @@ const router = createRouter({
       name: 'CommunityCreate',
       component: CommunityWrite,
     },
-    {
+      {
       path: '/community/write/:country/edit/:id',
       name: 'CommunityEdit',
       component: CommunityWrite,
@@ -109,6 +110,11 @@ const router = createRouter({
       name: 'NotFound',
       component: NotFound,
       meta: { hideLayout: true },
+    },
+    {
+      path: '/mytripspage',
+      name: 'MyTripsPage',
+      component: MyTripsPage,
     },
     {
       path: '/profile',

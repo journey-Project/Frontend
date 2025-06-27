@@ -12,7 +12,11 @@
     </div>
     <div class="cards">
       <div v-if="editMode" class="add-schedule" @click="showAddModal = true">
-        <img src="/src/assets/icons/plus_icon_sm.svg" />
+        <img class="add-icon" src="@/assets/icons/mytrips/plusImage.png" />
+        <div class="add-text">
+          <p class="add-title">여행일정 만들기</p>
+          <p class="add-subtitle">새로운 일정을 만들어 보세요</p>
+        </div>
       </div>
       <ScheduleCard
         v-for="item in schedules"
@@ -67,8 +71,8 @@ const deleteSchedule = async () => {
 <style scoped>
 .travel-manager-box {
   background-color: var(--color-surface);
-  width: 22.5rem;
-  height: 23.5rem;
+  width: 584px; /* 수정됨 */
+  height: 376px; /* 수정됨 */
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -77,10 +81,11 @@ const deleteSchedule = async () => {
 
 .travel-header {
   margin-top: 1.5rem;
-  margin-left: 9rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
   display: flex;
   align-items: center;
-  /* gap: 6rem; */
+  justify-content: space-between; /* 👉 아이콘 오른쪽 끝 */
 }
 
 p {
@@ -92,7 +97,7 @@ p {
 .cards {
   margin-top: 1rem;
   margin-left: 2rem;
-  margin-right: 1rem;
+  margin-right: 2rem;
   flex: 1;
   overflow-y: auto;
   display: flex;
@@ -101,13 +106,13 @@ p {
   padding-right: 0.5rem;
 }
 
-/* 각 ScheduleCard의 기본 높이를 고정하고 축소 방지 */
+/* 각 ScheduleCard 및 추가 버튼 고정 크기 */
 .cards > * {
   flex-shrink: 0;
-  height: 5.8rem; /* 원하는 높이로 고정 */
+  width: 504px;
+  height: 96px;
 }
 
-/* 스크롤바 스타일 */
 .cards::-webkit-scrollbar {
   width: 0.5rem;
 }
@@ -123,25 +128,62 @@ p {
 
 .edit-mode-img {
   cursor: pointer;
-  margin-left: 6rem;
 }
 
 .add-schedule {
   background-color: var(--color-bg);
   border-radius: 1rem;
-  width: 18.5rem;
-  height: 5.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 504px;
+  height: 96px;
   cursor: pointer;
 }
 
 .edit-cancel {
   cursor: pointer;
-  margin-left: 5.5rem;
   color: var(--color-text);
   font-size: var(--fs-button-sm);
   font-weight: var(--fw-semibold);
 }
+
+.add-schedule {
+  background-color: var(--color-bg);
+  border-radius: 1rem;
+  width: 504px;
+  height: 96px;
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.add-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.add-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 0.5rem;
+  margin-top: -0.4rem;
+}
+
+.add-title {
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.add-subtitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: #666666;
+}
+
 </style>
