@@ -163,7 +163,7 @@ input:focus {
   color: var(--color-primary);
 }
 .journey-datepicker ::v-deep(.vc-day) {
-  width: 40px;
+  width: 45px;
   height: 40px;
   font-size: 1.125rem;
   color: var(--color-primary);
