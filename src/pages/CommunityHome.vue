@@ -198,17 +198,30 @@ hr {
   cursor: pointer;
 }
 
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 카드 3개를 균등하게 */
-  gap: var(--space-3xl); /* 카드 사이 간격 */
-  width: 100%; /* 전체 컨테이너 너비 차지 */
-  margin: 0 auto;
-  margin-top: var(--space-lg);
-  margin-bottom: var(--space-2xl);
-}
-
 .countrySelectBar {
   margin-bottom: var(--space-2xl);
 }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 기본: 3개 */
+  gap: var(--space-3xl);
+  width: 100%;
+  margin: var(--space-lg) auto var(--space-2xl);
+}
+
+/* 태블릿: 2개 */
+@media (max-width: 1023px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 모바일: 1개 */
+@media (max-width: 639px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
