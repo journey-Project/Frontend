@@ -20,6 +20,7 @@ import MyProfile from '@/pages/MyProfile.vue'
 import FollowPage from '@/pages/FollowPage.vue'
 import SettingPage from '@/pages/SettingPage.vue'
 import StoryPage from '@/pages/StoryPage.vue'
+import MyTripsPage from '@/pages/MyTripsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -109,6 +110,11 @@ const router = createRouter({
       name: 'NotFound',
       component: NotFound,
       meta: { hideLayout: true },
+    },
+    {
+      path: '/mytripspage',
+      name: 'MyTripsPage',
+      component: MyTripsPage,
     },
     {
       path: '/profile',
