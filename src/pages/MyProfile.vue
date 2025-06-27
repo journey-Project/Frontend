@@ -2,10 +2,7 @@
 <template>
   <div class="profile-section">
     <UserCard :profile="profile" @refresh="fetchProfile" />
-    <div class="schedule-row">
-      <ScheduleManager :schedules="schedules" @refresh="fetchSchedules" />
-      <SingleDatePicker :schedules="schedules" />
-    </div>
+    
   </div>
 </template>
 
@@ -48,9 +45,5 @@ onMounted(async () => {
   flex-direction: column; /* 세로 정렬 */
   /* gap: 2rem; /* 위아래 간격 */
   /* align-items: center; /* 가운데 정렬 (선택사항) */
-}
-.schedule-row {
-  display: flex;
-  gap: 1rem;
 }
 </style>
