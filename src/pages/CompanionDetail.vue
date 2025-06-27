@@ -81,6 +81,7 @@ const fetchComments = async () => {
   comments.value = res.data
 }
 
+
 onMounted(async () => {
   const postId = route.params.id
   const country = route.params.country
@@ -111,7 +112,9 @@ const closeDeleteModal = () => {
 const deletePost = async () => {
   try {
     await deletePostById(route.params.id)
-    router.push('/community') // 삭제 후 목록 페이지로 이동 - 추후 작업
+    const country = post.value?.country || 'domestic' // ← fallback도 지정
+    router.push(`/community-board/${country}`)
+    // 삭제 후 목록 페이지로 이동 - 추후 작업
   } catch (error) {
     console.error('게시글 삭제 실패:', error)
   }
