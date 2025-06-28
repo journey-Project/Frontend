@@ -58,6 +58,8 @@ onMounted(async () => {
   font-size: 30px;
   font-weight: bold;
   color: #3f72af;
+  padding-left: 0 !important;
+  width: auto !important;
 }
 
 .description {

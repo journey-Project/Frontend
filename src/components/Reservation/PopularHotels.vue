@@ -1,6 +1,6 @@
 <template>
   <section class="popular-hotels">
-    <h2 class="title">인기 추천 숙소</h2>
+    <h2 class="popular-title">인기 추천 숙소</h2>
     <div class="filter-buttons">
       <button
         v-for="(label, idx) in filters"
@@ -95,7 +95,7 @@ const hotels = [
   margin-top: var(--space-xl);
 }
 
-.title {
+.popular-title {
   font-size: var(--fs-title);
   color: var(--color-dark);
   font-weight: var(--fw-semibold);
