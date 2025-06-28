@@ -20,7 +20,7 @@
       <PopularDestination :banner="banners" />
     </div>
 
-    <div class="box">
+    <div class="box package-section">
       <BaseText bold size="--fs-title" class="title">오늘의 추천 패키지</BaseText>
       <TravelPackageCard :card="cards[0]" />
     </div>
@@ -155,9 +155,13 @@ const cards = [
 }
 .title {
   margin-bottom: var(--space-xl);
+  padding-left: 0 !important;
+  width: auto !important;
 }
+
 .sub_title {
   margin-top: var(--space-md);
+  
 }
 .point {
   color: var(--color-primary);
@@ -181,10 +185,15 @@ const cards = [
   }
 }
 
+@media (max-width: 960px) {
+  .package-section {
+    display: none;
+  }
+}
+
 @media (max-width: 639px) {
   .cards-grid {
     grid-template-columns: 1fr;
   }
 }
-
 </style>
