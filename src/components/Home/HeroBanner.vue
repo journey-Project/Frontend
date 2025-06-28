@@ -27,8 +27,25 @@ import BannerItem from './BannerItem.vue'
 import bannerImage1 from '@/assets/icons/main/bannerImage.svg'
 import bannerImage2 from '@/assets/icons/main/bannerImage2.jpg'
 import bannerImage3 from '@/assets/icons/main/bannerImage3.jpg'
+import mainLogo from '@/assets/main_logo_w.svg'
 
-const banners = [bannerImage1, bannerImage2, bannerImage3].map((image) => ({ image }))
+const banners = [
+  {
+    img: [bannerImage1, mainLogo],
+    text: '여정을 기록하는,\n 여행 커뮤니티',
+    position: 'left',
+  },
+  {
+    img: [bannerImage2, mainLogo],
+    text: '여정을 기록하는,\n 여행 커뮤니티',
+    position: 'right',
+  },
+  {
+    img: [bannerImage3, mainLogo],
+    text: '여정을 기록하는,\n 여행 커뮤니티',
+    position: 'center',
+  },
+]
 const bannersWithClone = computed(() => [...banners, banners[0]]) // 마지막에 첫 번째 배너 복제
 
 const currentIndex = ref(0)
@@ -40,6 +57,7 @@ const trackStyle = computed(() => ({
 }))
 
 function nextSlide() {
+  if (isTransitionDisabled.value) return
   if (currentIndex.value < banners.length) {
     currentIndex.value++
   }
