@@ -158,6 +158,8 @@ const goToSignup = () => {
 
 .title {
   margin-top: 9.5rem;
+  padding-left: 0 !important;
+  width: auto !important;
 }
 
 .logo {
