@@ -70,9 +70,10 @@ const goCommunity = (id) => {
   background-color: var(--color-surface);
   border: none;
   border-radius: var(--card-radius-lg);
-  width: 288px;
+  /* width: 288px; */
   height: 352px;
   transition: transform 0.2s ease;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -114,11 +115,16 @@ const goCommunity = (id) => {
   flex-shrink: 0;
   object-fit: cover;
 }
-.text {
-  line-height: 1.4em;
-  white-space: normal;
-}
 
+.text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: calc(1.4em * 4);
+}
 .clamp-text {
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -131,4 +137,49 @@ const goCommunity = (id) => {
 .full-text {
   max-height: none;
 }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3xl);
+  justify-content: center;
+}
+
+@media (max-width: 960px) {
+  .board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    width: 100%;
+    height: 22rem;
+  }
+
+  .image_list {
+    width: 100%;
+    height: 8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .board {
+    grid-template-columns: 1fr;
+    justify-items: center; 
+  }
+
+  .text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: calc(1.4em * 4);
+}
+
+  .image_list {
+    height: 10rem;
+  }
+}
+
 </style>

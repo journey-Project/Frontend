@@ -48,6 +48,8 @@ const formattedDate = dayjs(props.createdAt).format('YYYY.MM.DD HH:mm')
   font-weight: 700;
   font-size: var(--fs-title);
   margin-bottom: var(--space-lg);
+  padding-left: 0 !important;
+  width: auto !important;
 }
 .infoBox {
   margin-top: var(--space-lg);
