@@ -31,8 +31,8 @@
           text="회원가입"
           @click="goToSignup"
         ></IDPasswordButton>
-        <IDPasswordButton :showDivider="true" text="아이디 찾기"></IDPasswordButton>
-        <IDPasswordButton text="비밀번호 찾기"></IDPasswordButton>
+        <IDPasswordButton :showDivider="true" text="아이디 찾기" @click="findID"></IDPasswordButton>
+        <IDPasswordButton text="비밀번호 찾기" @click="findPassword"></IDPasswordButton>
       </div>
 
       <div class="buttonBox">
@@ -121,6 +121,13 @@ function doNaverLogin() {
 
 const goToSignup = () => {
   router.push('/signup') // 원하는 경로로 변경 가능
+}
+
+const findID = () => {
+  alert('관리자에게 문의해주세요')
+}
+const findPassword = () => {
+  alert('관리자에게 문의해주세요')
 }
 </script>
 
