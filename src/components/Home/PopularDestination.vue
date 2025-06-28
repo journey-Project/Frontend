@@ -26,27 +26,29 @@ defineProps({
 <style scoped>
 .popular-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 카드 3개를 균등하게 */
-  gap: var(--space-3xl); /* 카드 사이 간격 */
-  width: 100%; /* 전체 컨테이너 너비 차지 */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3xl);
+  width: 100%;
   margin: 0 auto;
 }
 
 .banner-item {
-  width: 288px;
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease;
+  width: 100%;
+  max-width: 288px;
+  margin: 0 auto;
 }
 
 .banner-item:hover {
   transform: translateY(-0.25rem);
 }
 
-/* 이미지 채우기 */
 .banner-image img {
-  width: 288px;
-  height: 160px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 288 / 160;
   border-radius: 16px;
   object-fit: cover;
   display: block;
@@ -56,16 +58,10 @@ defineProps({
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin: 0;
   margin-top: 11px;
-  padding: 0;
 }
 
 .icon {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0;
-  padding: 0;
   height: 16px;
   width: auto;
 }
