@@ -33,10 +33,13 @@ onMounted(async () => {
   width: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
+
 img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 </style>
