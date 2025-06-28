@@ -1,5 +1,6 @@
 <template>
   <div class="filter-bar">
+    <div class="filter-elements">
     <div class="date-group">
       <RangeDatePicker
         v-model="local.startDate"
@@ -24,6 +25,7 @@
 
     <div class="search-wrapper">
       <BaseInput v-model="local.search" placeholder="게시물 검색" w="14rem" @enter="handleSearch" />
+    </div>
     </div>
 
     <BaseButton class="post-btn" @click="handleCreatePost">
@@ -108,6 +110,7 @@ function handleSearch() {
   width: 100%;
   max-width: var(--layout-max-width);
   margin-left: auto;
+  flex-wrap: wrap;
 }
 
 .date-group {
@@ -149,4 +152,22 @@ function handleSearch() {
   color: var(--color-on-primary);
   gap: var(--btn-gap);
 }
+
+.filter-elements {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* 화면이 768px 이하로 줄어들면 숨김 처리 */
+@media (max-width: 768px) {
+  .filter-elements {
+    display: none;
+  }
+
+  .post-btn {
+    margin-left: auto;
+  }
+}
+
 </style>

@@ -47,11 +47,11 @@ function goToDetail() {
 </script>
 
 <style scoped>
-
 .card {
   position: relative;
-  width: 18rem;
-  height: 22rem; /* 임의로 수정X 디자인 변경 요청 */
+  width: 100%;
+  height: 22rem;
+  aspect-ratio: 1 / 1; /* 임의로 수정X 디자인 변경 요청 */
   border-radius: 1rem;
   overflow: hidden;
   transition: transform 0.2s ease;
@@ -110,5 +110,20 @@ function goToDetail() {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0.75rem;
+}
+/* 2개일 때 → height 제거 + aspect-ratio 적용 */
+@media (max-width: 1023px) {
+  .card {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* 1개일 때 → 더 시원한 비율 */
+@media (max-width: 639px) {
+  .card {
+    height: auto;
+    aspect-ratio: 5 / 3;
+  }
 }
 </style>

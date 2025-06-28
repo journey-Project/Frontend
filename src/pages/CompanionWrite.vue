@@ -204,7 +204,7 @@ async function submitPost () {
     content       : content.value,
     startDate     : startDate.value,
     endDate       : endDate.value,
-    max_participants  : Number(people.value),
+    participants  : Number(people.value),
     destination   : location.value,
   }
 
