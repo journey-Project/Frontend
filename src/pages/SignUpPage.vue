@@ -15,7 +15,7 @@
         v-model="id"
         _ph="아이디 입력 (6~20자)"
         subtitle="아이디"
-        ok="사용 가능한 아이디입니다."
+        ok=""
         no="한글 제외, 6~20자의 영문 또는 숫자만 사용 가능합니다."
         required="아이디: 필수 정보입니다."
         :validator="validateId"
@@ -130,7 +130,7 @@ const handleSignUp = async () => {
     router.push('/login')
   } catch (error) {
     console.error('회원가입 실패 응답:', error.response?.data)
-    //alert(error.response?.data?.message || '회원가입 중 오류가 발생했습니다.')
+    alert(error.response?.data)
   }
 }
 </script>
