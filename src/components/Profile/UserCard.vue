@@ -4,7 +4,7 @@
     <div class="profile-user-wrapper">
       <div class="profile-user-div">
         <img
-          :src="editMode ? editableProfile.profileImage : profile.profileImage"
+          :src="isDefaultImage ? defaultProfileImage : editableProfile.profileImage"
           class="profile-img"
         />
 
@@ -12,11 +12,7 @@
         <input v-if="editMode" type="file" ref="fileInputRef" @change="onFileChange" />
       </div>
       <!-- X 아이콘 -->
-      <div
-        v-if="editMode && editableProfile.profileImage"
-        class="remove-image-icon"
-        @click="removeProfileImage"
-      >
+      <div v-if="editMode && !isDefaultImage" class="remove-image-icon" @click="removeProfileImage">
         ✕
       </div>
     </div>
@@ -105,11 +101,16 @@
 </template>
 <script setup>
 import { defineProps } from 'vue'
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, computed } from 'vue'
 import { patchProfileById } from '@/api/profileApi'
 import { postProfileImage } from '@/api/profileApi'
 import { useAuthStore } from '@/stores/useAuthStore'
 
+const defaultProfileImage = new URL('@/assets/default_profile.png', import.meta.url).href
+const DEFAULT_S3_IMAGE_URL =
+  'https://journeybucket0.s3.ap-northeast-2.amazonaws.com/USER/5c380987-c103-4ed5-ae55-0baef59574b7.jpeg'
+const emit = defineEmits(['refresh'])
+const defaultImg = '/default_profile.png'
 const auth = useAuthStore()
 
 const props = defineProps({
@@ -129,6 +130,11 @@ function removeProfileImage() {
     fileInputRef.value.value = ''
   }
 }
+
+const isDefaultImage = computed(() => {
+  const clean = (url) => (typeof url === 'string' ? url.split('?')[0] : '')
+  return clean(editableProfile.profileImage) === DEFAULT_S3_IMAGE_URL
+})
 
 // 수정 모드일 때 편집할 데이터를 로컬 상태로 복사
 const editableProfile = reactive({
@@ -181,42 +187,45 @@ function cancelEdit() {
   editableProfile.profileImage = props.profile.profileImage || ''
 }
 
-const emit = defineEmits(['refresh'])
+function cleanUrl(url) {
+  return typeof url === 'string' ? url.split('?')[0] : ''
+}
 
 async function saveProfile() {
   try {
+    let imageUrl = ''
+
     if (editableProfile.profileImageFile) {
-      const { data: urlFromServer } = await postProfileImage(
+      const { data } = await postProfileImage(
         props.profile.memberId,
         editableProfile.profileImageFile,
       )
-      // const res = await postProfileImage(props.profile.memberId, editableProfile.profileImageFile)
-
-      // editableProfile.profileImage = res.data
-      const bustedUrl = `${urlFromServer}?v=${Date.now()}`
-      editableProfile.profileImage = bustedUrl
+      imageUrl = cleanUrl(typeof data === 'string' ? data : data.profileImage)
+      editableProfile.profileImageFile = null
+    } else if (editableProfile.profileImage === '') {
+      imageUrl = '' // 백엔드가 기본 이미지로 치환
+    } else {
+      imageUrl = cleanUrl(props.profile.profileImage)
     }
 
-    const patchData = {
-      ...editableProfile,
+    const payload = {
+      nickname: editableProfile.nickname,
+      age: editableProfile.age,
+      region: editableProfile.region,
+      gender: editableProfile.gender,
+      homepage: editableProfile.homepage,
+      bio: editableProfile.bio,
+      profileImage: imageUrl,
     }
 
-    // const { data: updatedProfile } = await patchProfileById(memberId, editableProfile)
-    const { data: updatedProfile } = await patchProfileById(props.profile.memberId, {
-      ...editableProfile,
-    })
-    auth.updateUserProfile(updatedProfile) // 핀아 스토어 갱신 (1줄)
+    // ★ PATCH 한 번만, 그리고 응답으로 스토어 갱신
+    const { data: updated } = await patchProfileById(props.profile.memberId, payload)
+
+    auth.updateUserProfile(updated)
     editMode.value = false
-
-    // await patchProfileById(props.profile.memberId, patchData)
-
-    // 프로필 수정 완료 후 최신 데이터를 스토어에 반영
-    // auth.updateUserProfile(patchData)
-
-    // editMode.value = false
     emit('refresh')
-  } catch (e) {
-    console.error('프로필 저장 실패', e)
+  } catch (err) {
+    console.error('프로필 저장 실패', err)
   }
 }
 </script>
@@ -243,7 +252,7 @@ async function saveProfile() {
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   position: relative;
 }
 .profile-user-div input[type='file'] {
