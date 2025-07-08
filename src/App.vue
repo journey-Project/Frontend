@@ -2,7 +2,7 @@
 import { onMounted, computed, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from './storesg/useAuthStore'
+import { useAuthStore } from './stores/useAuthStore'
 
 import Footer from './components/Layout/Footer.vue'
 import Header from './components/Layout/Header.vue'
