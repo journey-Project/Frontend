@@ -22,9 +22,12 @@ const route = useRoute()
 const hideLayout = computed(() => route.meta.hideLayout === true)
 
 const auth = useAuthStore()
-// onMounted 시 유저 정보 가져오기
 onMounted(async () => {
-  await auth.fetchUser()
+  const params = new URLSearchParams(window.location.search)
+  if (params.get('socialLogin') === 'true' || !auth.isLoggedIn) {
+    await auth.fetchUser()
+    router.replace(route.path) // ?socialLogin 플래그 제거
+  }
   console.log('🔐 현재 로그인 유저 정보:', auth.user)
 })
 </script>
