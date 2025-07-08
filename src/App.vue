@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, computed, ref, router } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { RouterView } from 'vue-router'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from './storesg/useAuthStore'
 
 import Footer from './components/Layout/Footer.vue'
@@ -18,6 +18,7 @@ import RangeDatePicker from './components/Base/RangeDatePicker.vue'
 
 const activeTab = ref('community')
 
+const router = useRouter()
 const route = useRoute()
 const hideLayout = computed(() => route.meta.hideLayout === true)
 
