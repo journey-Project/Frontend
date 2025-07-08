@@ -191,6 +191,14 @@ function cleanUrl(url) {
   return typeof url === 'string' ? url.split('?')[0] : ''
 }
 
+function sanitizePayload(payload) {
+  const cleanPayload = {}
+  Object.keys(payload).forEach((key) => {
+    cleanPayload[key] = payload[key] === '' ? null : payload[key]
+  })
+  return cleanPayload
+}
+
 async function saveProfile() {
   try {
     let imageUrl = ''
@@ -208,7 +216,7 @@ async function saveProfile() {
       imageUrl = cleanUrl(props.profile.profileImage)
     }
 
-    const payload = {
+    const rawPayload = {
       nickname: editableProfile.nickname,
       age: editableProfile.age,
       region: editableProfile.region,
@@ -218,7 +226,8 @@ async function saveProfile() {
       profileImage: imageUrl,
     }
 
-    // ★ PATCH 한 번만, 그리고 응답으로 스토어 갱신
+    const payload = sanitizePayload(rawPayload)
+
     const { data: updated } = await patchProfileById(props.profile.memberId, payload)
 
     auth.updateUserProfile(updated)
@@ -227,7 +236,7 @@ async function saveProfile() {
   } catch (err) {
     console.error('프로필 저장 실패', err)
   }
-}
+} 
 </script>
 <style scoped>
 .introduce-box {
