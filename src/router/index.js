@@ -1,26 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getActivePinia } from 'pinia'
 import { useAuthStore } from '@/stores/useAuthStore'
-import HomePage from '@/pages/HomePage.vue'
-import CompanionBoard from '@/pages/CompanionBoard.vue'
-import CommunityHome from '@/pages/CommunityHome.vue'
-import LoginPage from '@/pages/LoginPage.vue'
-import SignUpPage from '@/pages/SignUpPage.vue'
-import CommunityBoard from '@/pages/CommunityBoard.vue'
-import CallbacKkakao from '@/components/Auth/CallbacKkakao.vue'
-import CallbacNaver from '@/components/Auth/CallbacNaver.vue'
-import CommunityDetail from '@/pages/CommunityDetail.vue'
-import CompanionWrite from '@/pages/CompanionWrite.vue'
-import CommunityWrite from '@/pages/CommunityWrite.vue'
-import CompanionDetail from '@/pages/CompanionDetail.vue'
-import NotFound from '@/pages/NotFound.vue'
-import HotelReservation from '@/pages/HotelReservation.vue'
-import ProfilePage from '@/pages/ProfilePage.vue'
-import MyProfile from '@/pages/MyProfile.vue'
-import FollowPage from '@/pages/FollowPage.vue'
-import SettingPage from '@/pages/SettingPage.vue'
-import StoryPage from '@/pages/StoryPage.vue'
-import MyTripsPage from '@/pages/MyTripsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,118 +8,117 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomePage,
+      component: () => import('@/pages/HomePage.vue'),
     },
     {
       path: '/companion-board/:country',
       name: 'CompanionBoard',
-      component: CompanionBoard,
-      // props: true,
+      component: () => import('@/pages/CompanionBoard.vue'),
     },
     {
       path: '/community-board/:country',
       name: 'CommmunityBoardPage',
-      component: CommunityBoard,
+      component: () => import('@/pages/CommunityBoard.vue'),
     },
     {
       path: '/community',
       name: 'Community',
-      component: CommunityHome,
+      component: () => import('@/pages/CommunityHome.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginPage,
+      component: () => import('@/pages/LoginPage.vue'),
       meta: { hideLayout: true },
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignUpPage,
+      component: () => import('@/pages/SignUpPage.vue'),
       meta: { hideLayout: true },
     },
     {
       path: '/login/callback/kakao',
       name: 'callbackkakao',
-      component: CallbacKkakao,
+      component: () => import('@/components/Auth/CallbacKkakao.vue'),
     },
     {
       path: '/login/callback/naver',
       name: 'callbacnaver',
-      component: CallbacNaver,
+      component: () => import('@/components/Auth/CallbacNaver.vue'),
     },
     {
-      path: '/community/write',          // 새 글 작성
+      path: '/community/write',
       name: 'CommunityCreate',
-      component: CommunityWrite,
+      component: () => import('@/pages/CommunityWrite.vue'),
     },
-      {
+    {
       path: '/community/write/:country/edit/:id',
       name: 'CommunityEdit',
-      component: CommunityWrite,
+      component: () => import('@/pages/CommunityWrite.vue'),
       props: true,
     },
     {
       path: '/community/:id',
       name: 'CommunityDetail',
-      component: CommunityDetail,
+      component: () => import('@/pages/CommunityDetail.vue'),
       props: true,
     },
     {
       path: '/companion/write',
       name: 'CompanionCreate',
-      component: CompanionWrite,
+      component: () => import('@/pages/CompanionWrite.vue'),
     },
     {
       path: '/companion-board/:country/detail/:id',
       name: 'CompanionDetail',
-      component: CompanionDetail,
+      component: () => import('@/pages/CompanionDetail.vue'),
       props: true,
     },
     {
       path: '/companion/write/:country/edit/:id',
-      component: CompanionWrite,
+      component: () => import('@/pages/CompanionWrite.vue'),
     },
     {
       path: '/hotelreservation',
       name: 'HotelReservation',
-      component: HotelReservation,
+      component: () => import('@/pages/HotelReservation.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: NotFound,
+      component: () => import('@/pages/NotFound.vue'),
       meta: { hideLayout: true },
     },
     {
       path: '/mytripspage',
       name: 'MyTripsPage',
-      component: MyTripsPage,
+      component: () => import('@/pages/MyTripsPage.vue'),
     },
     {
       path: '/profile',
       name: 'ProfilePage',
-      component: ProfilePage,
+      component: () => import('@/pages/ProfilePage.vue'),
       children: [
         {
           path: '',
           name: 'MyProfile',
-          component: MyProfile,
+          component: () => import('@/pages/MyProfile.vue'),
         },
         {
           path: 'follow',
           name: 'FollowPage',
-          component: FollowPage,
+          component: () => import('@/pages/FollowPage.vue'),
         },
         {
           path: 'story',
           name: 'StoryPage',
-          component: StoryPage,
+          component: () => import('@/pages/StoryPage.vue'),
         },
         {
           path: 'setting',
           name: 'SettingPage',
-          component: SettingPage,
+          component: () => import('@/pages/SettingPage.vue'),
         },
       ],
     },
