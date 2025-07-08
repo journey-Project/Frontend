@@ -52,6 +52,7 @@ onMounted(async () => {
 <style scoped>
 .my-trips-page {
   margin-top: 3rem;
+  padding-bottom: 4rem;
 }
 
 .title {

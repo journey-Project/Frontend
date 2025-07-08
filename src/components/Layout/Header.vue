@@ -55,21 +55,21 @@
             >
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click.prevent="goTo('/mytripspage')"
-              @mouseenter="hideSubmenu"
-              >일정</a
-            >
+            <a class="nav-link" href="#" @click.prevent="goToMyTrips" @mouseenter="hideSubmenu">
+              일정
+            </a>
           </li>
+          <BaseModal v-if="showLoginModal" @confirm="goToLogin" @close="showLoginModal = false">
+            로그인이 필요한 서비스입니다.<br />
+            로그인 하시겠습니까?
+          </BaseModal>
         </ul>
       </div>
 
       <!-- 오른쪽 아이콘 + 프로필 -->
 
       <a v-if="auth.user.id" class="nav-link profile-wrapper" href="#" id="notify_icon_a">
-        <img src="@/assets/icons/notify_icon.svg" class="notify_icon" />
+        <!-- <img src="@/assets/icons/notify_icon.svg" class="notify_icon" /> -->
       </a>
       <div v-if="auth.user.id" class="nav-link profile-container" ref="profileContainer">
         <a class="profile-wrapper" href="#" @click.prevent="toggleProfilePopover">
@@ -94,7 +94,9 @@ import { useRoute } from 'vue-router'
 
 import ProfilePopover from '../Profile/ProfilePopover.vue'
 import CountrySubmenu from '../Common/Menu/CountrySubmenu.vue'
+import BaseModal from '../Base/BaseModal.vue'
 
+const showLoginModal = ref(false)
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
@@ -111,6 +113,15 @@ const goToLogin = () => {
 
 function goTo(path) {
   router.push(path)
+}
+
+const goToMyTrips = () => {
+  console.log('일정 클릭', auth.user.id)
+  if (!auth.user.id) {
+    showLoginModal.value = true
+  } else {
+    router.push('/mytripspage')
+  }
 }
 
 const toggleProfilePopover = () => {

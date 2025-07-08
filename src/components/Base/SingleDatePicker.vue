@@ -221,6 +221,7 @@ input:focus {
 /* 월 클릭 했을 때 나오는 부분 스타일 */
 .journey-datepicker ::v-deep(.vc-popover-content) {
   background-color: var(--color-surface);
+  display: none;
 }
 
 .journey-datepicker ::v-deep(.vc-nav-header) {
@@ -280,4 +281,9 @@ input:focus {
   pointer-events: none;
   user-select: none;
 }
+
+.journey-datepicker ::v-deep(.vc-popover-content-wrapper) {
+  display: none;
+}
+
 </style>
