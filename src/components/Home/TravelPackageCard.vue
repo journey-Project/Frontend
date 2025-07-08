@@ -4,7 +4,7 @@
       <img :src="card.image" alt="패키지" />
     </div>
     <div class="text">
-      <div class="title">
+      <div class="package-title">
         <BaseText size="--fs-title" bold>{{ card.title }}</BaseText>
       </div>
 
@@ -80,7 +80,7 @@ function onClick() {
   flex-direction: column;
 }
 
-.title {
+.package-title {
   margin-top: var(--space-md);
 }
 
