@@ -72,10 +72,10 @@ import BaseText from '@/components/Base/BaseText.vue'
 import HeroBanner from '@/components/Home/HeroBanner.vue'
 import DividerImage from '@/components/Home/DividerImage.vue'
 import PopularDestination from '@/components/Home/PopularDestination.vue'
-import JapanImage from '@/assets/icons/main/Japan.svg'
-import VietnamImage from '@/assets/icons/main/Vietnam.svg'
-import FranceImage from '@/assets/icons/main/France.svg'
-import TravelPackageImage from '@/assets/icons/main/TravelPackageImage.svg'
+import JapanImage from '@/assets/icons/main/Japan.png'
+import VietnamImage from '@/assets/icons/main/Vietnam.png'
+import FranceImage from '@/assets/icons/main/France.png'
+import TravelPackageImage from '@/assets/icons/main/TravelPackageImage.png'
 import TravelPackageCard from '@/components/Home/TravelPackageCard.vue'
 import TodayStory from '@/components/Home/TodayStory.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -161,7 +161,6 @@ const cards = [
 
 .sub_title {
   margin-top: var(--space-md);
-  
 }
 .point {
   color: var(--color-primary);
