@@ -7,7 +7,7 @@
       </router-link>
 
       <!-- 메뉴 -->
-      <div class="center">
+      <div class="center desktop-menu">
         <ul class="navbar-nav menu-nav">
           <!-- <li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
           <li class="nav-item" @mouseenter="showSubmenu('community')">
@@ -83,7 +83,20 @@
       <button v-if="!auth.user.id" class="login-button" @click="goToLogin">
         <img src="@/assets/icons/profile_icon.svg" />로그인
       </button>
+
+      <button
+        :class="['hamburger-menu-toggle', { 'is-active': isMobileMenuOpen }]"
+        @click="toggleMobileMenu"
+      >
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </div>
+
+    <MobileMenu :is-open="isMobileMenuOpen" @close="toggleMobileMenu" />
+
+    <div class="overlay" :class="{ 'is-active': isMobileMenuOpen }" @click="toggleMobileMenu"></div>
   </header>
 </template>
 <script setup>
@@ -95,6 +108,7 @@ import { useRoute } from 'vue-router'
 import ProfilePopover from '../Profile/ProfilePopover.vue'
 import CountrySubmenu from '../Common/Menu/CountrySubmenu.vue'
 import BaseModal from '../Base/BaseModal.vue'
+import MobileMenu from '../Common/Menu/MobileMenu.vue'
 
 const showLoginModal = ref(false)
 const auth = useAuthStore()
@@ -159,6 +173,18 @@ const showSubmenu = (menu) => {
 const hideSubmenu = () => {
   activeMenu.value = null
 }
+
+const isMobileMenuOpen = ref(false)
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const handleLogout = () => {
+  auth.logout()
+  router.push('/')
+  toggleMobileMenu()
+}
 </script>
 <style scoped>
 header {
@@ -167,6 +193,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* 모바일 메뉴 오버레이를 위해 필요 */
 }
 
 .header-inner {
@@ -254,16 +281,26 @@ header {
   height: 1.5rem;
   border-radius: 50%;
   overflow: hidden;
-  /* border: 2px solid var(--color-primary); */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.profile-user-div-mobile {
+  width: 2.5rem; /* 모바일 메뉴에서 더 크게 */
+  height: 2.5rem; /* 모바일 메뉴에서 더 크게 */
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--color-primary);
+}
+
 .profile-img {
   width: 100%;
   height: auto;
-  object-position: contain;
+  object-fit: cover; /* 이미지가 잘리지 않고 채워지도록 */
 }
 
 .notify_icon,
@@ -306,7 +343,7 @@ header {
   background-color: rgba(63, 114, 175, 0.3);
 }
 .profile-container {
-  position: relative; /* 팝오버의 기준점 */
+  position: relative;
 }
 .profile-wrapper {
   cursor: pointer;
@@ -316,16 +353,144 @@ header {
 
 .profile-popover {
   position: absolute;
-  top: 100%; /* 프로필 이미지 바로 아래 */
+  top: 100%;
   left: -750%;
   transform: translateX(0%);
   margin-top: 10px;
-  z-index: 1000; /* 다른 요소 위에 표시 */
+  z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 .submenu-item:hover {
   text-decoration: underline;
 }
+
+/* 햄버거 메뉴 아이콘 */
+.hamburger-menu-toggle {
+  display: none; /* 기본적으로 데스크탑에서는 숨김 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001; /* 다른 요소 위에 표시되도록 */
+}
+
+.hamburger-menu-toggle .bar {
+  display: block;
+  width: 1.5rem;
+  height: 0.2rem;
+  background-color: var(--color-primary);
+  margin: 5px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 모바일 메뉴 */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%; /* 초기에는 화면 오른쪽 밖으로 */
+  width: 80%; /* 필요에 따라 조정 */
+  max-width: 300px; /* 큰 화면에서도 최대 너비 제한 */
+  height: 100%;
+  background-color: var(--color-surface);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.mobile-menu.is-active {
+  right: 0; /* 슬라이드인 */
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-nickname {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--color-dark);
+}
+
+.close-mobile-menu {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--color-dark);
+}
+
+.mobile-menu-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* 메뉴 항목이 사용 가능한 공간을 차지하도록 */
+}
+
+.mobile-menu-nav .nav-item {
+  margin-bottom: 1.2rem;
+}
+
+.mobile-menu-nav .nav-link {
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  font-weight: 600;
+  padding: 0.5rem 0;
+  display: block;
+  width: 100%;
+}
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 25px;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-top: auto; /* 버튼을 하단으로 밀어냄 */
+}
+
+.logout-button:hover {
+  background-color: var(--color-secondary);
+}
+
+/* 모바일 메뉴가 열렸을 때 오버레이 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none; /* 기본적으로 숨김 */
+}
+
+.overlay.is-active {
+  display: block;
+}
+
 /* 반응형 설정 */
 @media (max-width: 1024px) {
   .center {
@@ -339,27 +504,41 @@ header {
 }
 
 @media (max-width: 768px) {
-  .menu-nav {
+  .desktop-menu {
+    display: none; /* 데스크탑 메뉴 숨김 */
+  }
+
+  .profile-wrapper {
+    /* 데스크탑 로그인 버튼 숨김 */
     display: none;
   }
 
-  .menu-toggle {
-    display: block;
+  .hamburger-menu-toggle {
+    display: block; /* 햄버거 아이콘 표시 */
+    margin-left: auto; /* 오른쪽으로 정렬 */
+  }
+
+  .login-button {
+    display: none; /* 로그인 버튼 숨김 (모바일 메뉴에서 처리) */
+  }
+
+  /* 일관성을 위해 프로필 아이콘 위치 조정 */
+  .profile-container {
+    margin-left: auto;
+    margin-right: 1rem; /* 간격 조정 */
+  }
+
+  #notify_icon_a {
+    margin-left: 0;
+    margin-right: 0.5rem;
   }
 
   .header-inner {
-    flex-wrap: wrap;
-  }
-
-  .center {
     justify-content: space-between;
   }
 
-  .right {
-    margin-top: 12px;
-    justify-content: flex-end;
-    width: 100%;
-    gap: 20px;
+  header .header-inner:has(~ .overlay.is-active) .hamburger-menu-toggle {
+    display: none;
   }
 }
 
