@@ -57,5 +57,6 @@ onMounted(async () => {
   max-width: 990px;
   width: 100%;
   margin: 0 auto;
+  margin-top: 1.5rem;
 }
 </style>
