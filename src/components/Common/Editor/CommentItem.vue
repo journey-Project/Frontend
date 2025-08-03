@@ -266,6 +266,7 @@ const formattedDate = dayjs(props.comment.createdAt).format('YYYY.MM.DD HH:mm')
   color: var(--color-text);
   margin-top: var(--space-md);
   margin-bottom: var(--space-xl);
+  white-space: pre-line;
 }
 hr {
   color: var(--color-primary);
@@ -303,6 +304,7 @@ hr {
   font-size: var(--fs-body);
   color: var(--color-text);
   opacity: 0.6;
+  white-space: nowrap;
 }
 
 .deleted-comment {

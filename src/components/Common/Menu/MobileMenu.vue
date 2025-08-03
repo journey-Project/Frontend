@@ -13,22 +13,21 @@
     </div>
     <ul class="mobile-menu-nav">
       <li class="nav-item">
+        <a class="nav-link" href="#" @click.prevent="goTo('/community')">대시보드</a>
+      </li>
+      <li class="nav-item">
         <div class="mobile-menu-item-wrapper">
-          <router-link
+          <a
+            href="#"
             class="nav-link"
-            to="/community"
-            @click="
-              () => {
-                toggleMobileSubmenu('community')
-                goTo('/community')
-              }
-            "
+            @click.prevent="toggleMobileSubmenu('community')"
             :class="{
               'router-link-active':
                 currentPath === '/community' || currentPath.startsWith('/community-board'),
             }"
-            >커뮤니티</router-link
           >
+            커뮤니티
+          </a>
           <span
             class="submenu-toggle-arrow"
             @click.stop="toggleMobileSubmenu('community')"
@@ -46,20 +45,16 @@
       </li>
       <li class="nav-item">
         <div class="mobile-menu-item-wrapper">
-          <router-link
+          <a
+            href="#"
             class="nav-link"
-            to="/companion-board/국내"
-            @click="
-              () => {
-                toggleMobileSubmenu('companion')
-                goTo('/companion-board/국내')
-              }
-            "
+            @click.prevent="toggleMobileSubmenu('companion')"
             :class="{
               'router-link-active': currentPath.startsWith('/companion-board'),
             }"
-            >동행자</router-link
           >
+            동행자
+          </a>
           <span
             class="submenu-toggle-arrow"
             @click.stop="toggleMobileSubmenu('companion')"
@@ -70,14 +65,11 @@
         <CountrySubmenu
           v-if="openMobileSubmenu === 'companion'"
           :countries="['국내', '일본', '중국', '독일', '프랑스', '베트남', '미국']"
-          basePath="/companion-board"
           @item-clicked="closeMenu"
           class="mobile-submenu"
         />
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" @click.prevent="goTo('/hotelreservation')">예약</a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#" @click.prevent="goToMyTrips()"> 일정 </a>
       </li>
