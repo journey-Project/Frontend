@@ -10,13 +10,22 @@
       <div class="center desktop-menu">
         <ul class="navbar-nav menu-nav">
           <!-- <li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              to="/community/"
+              :class="{
+                'router-link-active': currentPath.startsWith === '/community',
+              }"
+              >대시보드</router-link
+            >
+          </li>
           <li class="nav-item" @mouseenter="showSubmenu('community')">
             <router-link
               class="nav-link"
-              to="/community"
+              to="/community-board/국내"
               :class="{
-                'router-link-active':
-                  currentPath === '/community' || currentPath.startsWith('/community-board'),
+                'router-link-active': currentPath === currentPath.startsWith('/community-board'),
               }"
               >커뮤니티</router-link
             >
@@ -45,15 +54,7 @@
               basePath="/companion-board"
             />
           </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click.prevent="goTo('/hotelreservation')"
-              @mouseenter="hideSubmenu"
-              >예약</a
-            >
-          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="goToMyTrips" @mouseenter="hideSubmenu">
               일정

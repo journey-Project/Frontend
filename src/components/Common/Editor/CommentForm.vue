@@ -13,7 +13,14 @@
       <span v-if="props.isEditMode" class="cancel-btn" @click="$emit('cancelEdit')">취소</span>
     </div>
     <div class="input-area">
-      <textarea v-model="content" placeholder="여러분의 소중한 댓글을 입력해주세요." />
+      <textarea
+        v-model="content"
+        placeholder="여러분의 소중한 댓글을 입력해주세요."
+        @input="handleInput"
+        maxlength="500"
+      />
+      <div class="char-counter">{{ content.length }} / 500</div>
+      <!-- <div v-if="isOverLimit" class="warning-msg">최대 500자까지 입력할 수 있습니다.</div> -->
       <div class="submit-wrapper">
         <BaseButton type="submit">등록</BaseButton>
       </div>
@@ -57,6 +64,11 @@ const props = defineProps({
 })
 
 const content = ref(props.initialContent)
+const isOverLimit = ref(false)
+
+const handleInput = () => {
+  isOverLimit.value = content.value.length >= 500
+}
 
 // 상위 컴포넌트에서 댓글 새로고침을 위한 emit
 const emit = defineEmits(['submit', 'commentPosted', 'cancelEdit'])
@@ -96,7 +108,7 @@ form {
   align-items: flex-start;
   border-radius: 0.9rem;
   width: 100%;
-  height: 14rem;
+  height: 16.5rem;
 }
 
 textarea {
@@ -136,5 +148,19 @@ textarea {
   color: var(--color-text);
   font-weight: 500;
   opacity: 50%;
+}
+
+.char-counter {
+  font-size: 0.85rem;
+  text-align: right;
+  color: var(--color-text);
+}
+
+.warning-msg {
+  font-size: 0.8rem;
+  color: red;
+  margin-top: -0.5rem;
+  margin-bottom: -0.3rem;
+  text-align: right;
 }
 </style>
